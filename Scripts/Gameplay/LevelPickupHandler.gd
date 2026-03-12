@@ -68,6 +68,7 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 		if (p):
 			p.parent_pickup_handler = self
 			p.position = spawn_pos
+			p.reveal_delay = i * 0.03
 			add_child(p)
 		
 func pellet_pickedup(pickup_effect : String):

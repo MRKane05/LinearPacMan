@@ -89,7 +89,7 @@ func set_game_state(gamestate):
 func _ready():
 	randomize()
 	#do_level_setup();
-	set_game_state(0)
+	set_game_state(1)
 	pass # Replace with function body.
 
 func do_level_setup():
@@ -110,6 +110,7 @@ func do_level_setup():
 	#Ghost has to be not too close to the player, but we're simply prototyping at this stage
 	#startpos = floor(rand_range(1, start_positions.size()))
 	ghost_node.global_position =  Vector2(enemystartpos/7.0 * 1024, 300)
+	ghost_node.reset_ghost()
 	print(enemystartpos)
 	#The last bit (of course) is picking the player start direction based off of where the enemy is and making sure we're not running into the ghost
 	var enemydist = player_node.global_position.x - ghost_node.global_position.x

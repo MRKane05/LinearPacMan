@@ -24,7 +24,12 @@ func _ready():
 	# Get the viewport size
 	screen_size = get_viewport_rect().size
 	# We need to know what our player is
-	
+
+func reset_ghost():
+	bCanBeEaten = false;
+	bGhostFlee = false;
+	bGhostRespawning = false
+	#Might need to reset any animation state here
 
 func _physics_process(delta):
 	if (!visible):
