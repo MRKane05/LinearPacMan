@@ -23,6 +23,8 @@ func _ready():
 	pass
 
 func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPosition : float):
+	self.position.x = 0 #Reset our position just in case we've drifted
+	
 	#we need to clear any pickups we may have had before putting down new ones
 	for child in self.get_children():
 		if child is Node2D:
@@ -71,12 +73,14 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 			p.reveal_delay = i * 0.03
 			add_child(p)
 		
-func pellet_pickedup(pickup_effect : String):
+func pellet_pickedup(pickup_item : Node, pickup_effect : String, add_value: int):
+	if (level_controller.game_state != 2 || level_controller.level_start_time > Time.get_ticks_msec() - 50): #Needs a debounce for components to settle into location
+		return
 	#decrement our pickups, and win the level at 0
 	num_spawned_pickups = num_spawned_pickups -1
 	#might need some clever handling for scores
-	level_controller.add_score(1)
-	if (num_spawned_pickups <= 0):
+	level_controller.add_score(add_value)
+	if (self.get_child_count() == 1): #This was the last pickup
 		print("Pips cleared")
 		level_controller.pips_exhausted()
 	
@@ -84,7 +88,8 @@ func pellet_pickedup(pickup_effect : String):
 	match pickup_effect:
 		"eat_ghost":
 			level_controller.do_powerup_eat_ghost()
-			
+	
+	pickup_item.queue_free()
 
 func _physics_process(delta):
 	#This needs a pause before it begins drifting for the player

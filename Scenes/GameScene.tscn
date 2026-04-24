@@ -1,7 +1,7 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Textures/GameElements/PacManSprite.png" type="Texture" id=2]
 [ext_resource path="res://Textures/ProxyGhost.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Gameplay/GhostMover.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/GameControl/LevelControl.gd" type="Script" id=5]
@@ -11,11 +11,17 @@
 [ext_resource path="res://Textures/Environment/BeamLine.png" type="Texture" id=9]
 [ext_resource path="res://Fonts/JohnnyFever.tres" type="DynamicFont" id=10]
 [ext_resource path="res://Textures/UIElements/ScreenPanel.png" type="Texture" id=11]
-[ext_resource path="res://Textures/UIElements/GenericButton.png" type="Texture" id=12]
+[ext_resource path="res://Textures/GameElements/PortalSprite.png" type="Texture" id=12]
 [ext_resource path="res://Scripts/GameControl/CountdownScreen.gd" type="Script" id=13]
 [ext_resource path="res://Textures/UIElements/CountdownCircle.png" type="Texture" id=14]
+[ext_resource path="res://Scripts/GameControl/ReadyScreen.gd" type="Script" id=15]
+[ext_resource path="res://Scripts/Gameplay/Affectors/PortalAffector.gd" type="Script" id=16]
+[ext_resource path="res://Scripts/Gameplay/Affectors/PortalBase.gd" type="Script" id=17]
+
+[sub_resource type="RectangleShape2D" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 1, 10 )
 
 [sub_resource type="RectangleShape2D" id=2]
 
@@ -34,8 +40,109 @@ countdown_screen_path = NodePath("Camera2D/CountdownScreen")
 levelcomplete_screen_path = NodePath("Camera2D/LevelCompleteScreen")
 score_node_path = NodePath("Camera2D/GameplayElements/GameScore")
 
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Beam_Top" type="Sprite" parent="Background"]
+position = Vector2( 493, 262 )
+scale = Vector2( 2.924, 0.06 )
+texture = ExtResource( 9 )
+
+[node name="Beam_Bottom" type="Sprite" parent="Background"]
+position = Vector2( 489, 339 )
+scale = Vector2( 2.924, 0.06 )
+texture = ExtResource( 9 )
+
+[node name="LineEffectors" type="Node2D" parent="."]
+position = Vector2( 492, 300 )
+
+[node name="PortalBase" type="Node2D" parent="LineEffectors"]
+script = ExtResource( 17 )
+portal_right_node_path = NodePath("Portal_Right")
+portal_left_node_path = NodePath("Portal_Left")
+
+[node name="Portal_Right" type="Area2D" parent="LineEffectors/PortalBase"]
+position = Vector2( 246, -4 )
+collision_layer = 8
+collision_mask = 0
+script = ExtResource( 16 )
+portal_base_node_path = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LineEffectors/PortalBase/Portal_Right"]
+shape = SubResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="LineEffectors/PortalBase/Portal_Right"]
+position = Vector2( 0, 2 )
+scale = Vector2( 0.32, 0.48 )
+texture = ExtResource( 12 )
+
+[node name="Portal_Left" type="Area2D" parent="LineEffectors/PortalBase"]
+position = Vector2( -240, -4 )
+collision_layer = 8
+collision_mask = 0
+script = ExtResource( 16 )
+portal_base_node_path = NodePath("..")
+bportal_right = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LineEffectors/PortalBase/Portal_Left"]
+shape = SubResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="LineEffectors/PortalBase/Portal_Left"]
+position = Vector2( 0, 2 )
+scale = Vector2( 0.32, 0.48 )
+texture = ExtResource( 12 )
+
+[node name="PacMan" type="KinematicBody2D" parent="."]
+position = Vector2( 492, 300 )
+collision_layer = 2
+collision_mask = 3
+script = ExtResource( 1 )
+char_sprite_path = NodePath("Sprite")
+
+[node name="Sprite" type="Sprite" parent="PacMan"]
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+
+[node name="CenterPointTrigger" type="Area2D" parent="PacMan"]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PacMan/CenterPointTrigger"]
+shape = SubResource( 1 )
+
+[node name="PipCollector" type="CollisionShape2D" parent="PacMan"]
+shape = SubResource( 2 )
+
+[node name="Ghost" type="KinematicBody2D" parent="."]
+position = Vector2( 32, 300 )
+collision_layer = 4
+collision_mask = 0
+script = ExtResource( 4 )
+char_sprite_path = NodePath("Sprite")
+player_node_path = NodePath("../PacMan")
+
+[node name="Sprite" type="Sprite" parent="Ghost"]
+texture = ExtResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="Ghost"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ghost/Area2D"]
+shape = SubResource( 3 )
+
+[node name="CollisionShape2D_WorldStopper" type="CollisionShape2D" parent="Ghost"]
+shape = SubResource( 4 )
+
+[node name="LevelPips2" type="KinematicBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource( 7 )
+level_controller_path = NodePath("..")
+pip_scene = ExtResource( 6 )
+special_pips = [ ExtResource( 8 ) ]
+
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 512, 297 )
+position = Vector2( 480, 272 )
 current = true
 
 [node name="GameplayElements" type="Node2D" parent="Camera2D"]
@@ -44,14 +151,17 @@ current = true
 anchor_top = -0.136
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 137.0
-margin_top = -299.0
-margin_right = 508.0
-margin_bottom = -217.0
+margin_left = 218.0
+margin_top = -264.0
+margin_right = 589.0
+margin_bottom = -182.0
 custom_fonts/normal_font = ExtResource( 10 )
 text = "Score: "
 
 [node name="ReadyScreen" type="Node2D" parent="Camera2D"]
+visible = false
+script = ExtResource( 15 )
+target_text_path = NodePath("Sprite/TargetScore")
 
 [node name="Sprite" type="Sprite" parent="Camera2D/ReadyScreen"]
 texture = ExtResource( 11 )
@@ -64,25 +174,17 @@ margin_bottom = -88.0
 custom_fonts/normal_font = ExtResource( 10 )
 text = "Target: "
 
-[node name="ReadyButton" type="TextureButton" parent="Camera2D/ReadyScreen/Sprite"]
-margin_left = -222.0
-margin_top = 38.0
-margin_right = 290.0
-margin_bottom = 294.0
-rect_scale = Vector2( 0.744704, 0.738645 )
-texture_normal = ExtResource( 12 )
-
-[node name="ButtonText" type="RichTextLabel" parent="Camera2D/ReadyScreen/Sprite/ReadyButton"]
-margin_left = 163.823
-margin_top = 97.4758
-margin_right = 534.823
-margin_bottom = 179.476
-rect_scale = Vector2( 1.59084, 1.37907 )
-mouse_filter = 2
+[node name="Prompt" type="RichTextLabel" parent="Camera2D/ReadyScreen/Sprite"]
+margin_left = 288.0
+margin_top = 203.0
+margin_right = 659.0
+margin_bottom = 285.0
 custom_fonts/normal_font = ExtResource( 10 )
-text = "Ready!"
+text = "Press X
+"
 
 [node name="LevelCompleteScreen" type="Node2D" parent="Camera2D"]
+visible = false
 
 [node name="Sprite" type="Sprite" parent="Camera2D/LevelCompleteScreen"]
 texture = ExtResource( 11 )
@@ -95,23 +197,14 @@ margin_bottom = -88.0
 custom_fonts/normal_font = ExtResource( 10 )
 text = "Level Complete!"
 
-[node name="NextLevelButton" type="TextureButton" parent="Camera2D/LevelCompleteScreen/Sprite"]
-margin_left = -222.0
-margin_top = 38.0
-margin_right = 290.0
-margin_bottom = 294.0
-rect_scale = Vector2( 0.744704, 0.738645 )
-texture_normal = ExtResource( 12 )
-
-[node name="ButtonText" type="RichTextLabel" parent="Camera2D/LevelCompleteScreen/Sprite/NextLevelButton"]
-margin_left = 163.823
-margin_top = 97.4758
-margin_right = 534.823
-margin_bottom = 179.476
-rect_scale = Vector2( 1.59084, 1.37907 )
-mouse_filter = 2
+[node name="Prompt" type="RichTextLabel" parent="Camera2D/LevelCompleteScreen/Sprite"]
+margin_left = 288.0
+margin_top = 203.0
+margin_right = 659.0
+margin_bottom = 285.0
 custom_fonts/normal_font = ExtResource( 10 )
-text = "Next!"
+text = "Press X
+"
 
 [node name="CountdownScreen" type="Node2D" parent="Camera2D"]
 visible = false
@@ -140,65 +233,5 @@ rect_scale = Vector2( 3, 3 )
 custom_fonts/normal_font = ExtResource( 10 )
 text = "3"
 
-[node name="Background" type="Node2D" parent="."]
-
-[node name="Beam_Top" type="Sprite" parent="Background"]
-position = Vector2( 493, 262 )
-scale = Vector2( 2.92383, 0.03125 )
-texture = ExtResource( 9 )
-
-[node name="Beam_Bottom" type="Sprite" parent="Background"]
-position = Vector2( 489, 339 )
-scale = Vector2( 2.92383, 0.03125 )
-texture = ExtResource( 9 )
-
-[node name="PacMan" type="KinematicBody2D" parent="."]
-position = Vector2( 492, 300 )
-collision_layer = 2
-collision_mask = 3
-script = ExtResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="PacMan"]
-texture = ExtResource( 2 )
-
-[node name="Area2D" type="Area2D" parent="PacMan"]
-collision_layer = 0
-collision_mask = 3
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PacMan/Area2D"]
-shape = SubResource( 1 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PacMan"]
-shape = SubResource( 2 )
-
-[node name="Ghost" type="KinematicBody2D" parent="."]
-position = Vector2( 32, 300 )
-collision_layer = 0
-collision_mask = 0
-script = ExtResource( 4 )
-player_node_path = NodePath("../PacMan")
-
-[node name="Sprite" type="Sprite" parent="Ghost"]
-texture = ExtResource( 3 )
-
-[node name="Area2D" type="Area2D" parent="Ghost"]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ghost/Area2D"]
-shape = SubResource( 3 )
-
-[node name="CollisionShape2D_WorldStopper" type="CollisionShape2D" parent="Ghost"]
-shape = SubResource( 4 )
-
-[node name="LevelPips2" type="KinematicBody2D" parent="."]
-collision_layer = 0
-collision_mask = 0
-script = ExtResource( 7 )
-level_controller_path = NodePath("..")
-pip_scene = ExtResource( 6 )
-special_pips = [ ExtResource( 8 ) ]
-
-[connection signal="pressed" from="Camera2D/ReadyScreen/Sprite/ReadyButton" to="." method="_on_ReadyButton_pressed"]
-[connection signal="pressed" from="Camera2D/LevelCompleteScreen/Sprite/NextLevelButton" to="." method="_on_NextLevelButton_pressed"]
+[connection signal="area_entered" from="PacMan/CenterPointTrigger" to="PacMan" method="_on_CenterPointTrigger_area_entered"]
 [connection signal="body_entered" from="Ghost/Area2D" to="Ghost" method="_on_Area2D_body_entered"]

@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends MoverBase
 
 var velocity = Vector2.ZERO
 var speed = 220
@@ -88,3 +88,5 @@ func _on_Area2D_body_entered(body):
 		else:
 			print("Ghost killed the player!")
 	pass # Replace with function body.
+
+

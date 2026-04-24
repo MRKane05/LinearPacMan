@@ -34,8 +34,10 @@ var game_state = 0 #0: ready, 1: countdown, 2: playing, 3: level clear screen 4:
 var powerup_time = 0
 var current_powerup = ""	#lets make it so that there's only one powerup at once
 
-var target_score = 10
+var target_score = 100
 var score = 0
+
+var level_start_time = 0
 
 # Score handling functions=======================================================
 func add_score(by_this):
@@ -53,7 +55,7 @@ func _on_ReadyButton_pressed():
 	#Switch to countdown mode
 
 func _on_NextLevelButton_pressed():
-	target_score += 10
+	target_score += 100
 	score = 0
 	set_game_state(0)	#Go back to our ready screen
 
@@ -67,6 +69,9 @@ func set_game_state(gamestate):
 	#disable our actors
 	player_node.visible = (game_state == 2)
 	ghost_node.visible = (game_state == 2)
+	
+	if (game_state == 0): #setup and display our ready screen
+		ready_screen.display_target(target_score)
 	
 	#handle trigger calls
 	if (game_state == 1):
@@ -89,7 +94,7 @@ func set_game_state(gamestate):
 func _ready():
 	randomize()
 	#do_level_setup();
-	set_game_state(1)
+	set_game_state(0)
 	pass # Replace with function body.
 
 func do_level_setup():
@@ -119,8 +124,13 @@ func do_level_setup():
 	if (enemydist > 512):
 		player_sign = player_sign * -1
 		
-	player_node.moveDir = player_sign
+	player_node.set_moveDir(player_sign)
+	
 	pips_node.spawn_pickups(true, true, player_node.global_position.x)
+	
+	#pips_node.position.x = 0;	#reset this just in case it's moved
+	
+	level_start_time = Time.get_ticks_msec()
 	pass
 
 func pips_exhausted():
@@ -135,7 +145,19 @@ func do_powerup_eat_ghost():
 	ghost_node.bCanBeEaten = true
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
+func _process(delta):
+	if Input.is_action_just_pressed("ui_accept"):
+		#Step forward with our screen setup
+		if (game_state != 2):
+			var new_game_state = game_state + 1
+			
+			if (game_state == 3): #Handle our end of level stuff
+				new_game_state = 0;
+				target_score += 100
+				score = 0
+			
+			set_game_state(new_game_state)
+		
 #	pass
 
 
