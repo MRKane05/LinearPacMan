@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/Gameplay/Affectors/PortalBase.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Gameplay/Affectors/PortalAffector.gd" type="Script" id=2]
+[ext_resource path="res://Textures/GameElements/PortalSprite.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=5]
+
+[node name="PortalBase" type="Node2D"]
+script = ExtResource( 1 )
+portal_right_node_path = NodePath("Portal_Right")
+portal_left_node_path = NodePath("Portal_Left")
+
+[node name="Portal_Right" type="Area2D" parent="."]
+position = Vector2( 246, -4 )
+collision_layer = 8
+collision_mask = 0
+script = ExtResource( 2 )
+portal_base_node_path = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portal_Right"]
+shape = SubResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="Portal_Right"]
+position = Vector2( 0, 2 )
+scale = Vector2( 0.32, 0.48 )
+texture = ExtResource( 3 )
+
+[node name="Portal_Left" type="Area2D" parent="."]
+position = Vector2( -240, -4 )
+collision_layer = 8
+collision_mask = 0
+script = ExtResource( 2 )
+portal_base_node_path = NodePath("..")
+bportal_right = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portal_Left"]
+shape = SubResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="Portal_Left"]
+position = Vector2( 0, 2 )
+scale = Vector2( 0.32, 0.48 )
+texture = ExtResource( 3 )

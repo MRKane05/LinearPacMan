@@ -20,6 +20,16 @@ var function_time = 0
 
 var sprite_side_buffer = 24
 
+#===============Powerup Effectors========================
+var freeze_start = 0
+var freeze_duration = 4000
+var freeze_speed_factor = 0.5
+
+var invisible_start = 0
+var invisible_duration = 5000
+var invislbe_dir_change_time = 0
+var invisible_current_dir = 0
+
 func _ready():
 	# Get the viewport size
 	screen_size = get_viewport_rect().size
@@ -39,14 +49,27 @@ func _physics_process(delta):
 	input_vector.x = sign(player_node.global_position.x - position.x); # Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = 0; #Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	
+	if (OS.get_ticks_msec() < invisible_start + invisible_duration):
+		#We need to affect our input_vector.x to give some sort of random movement
+		if (OS.get_ticks_msec() > invislbe_dir_change_time):
+			invislbe_dir_change_time = OS.get_ticks_msec() + rand_range(750, 1500)
+			invisible_current_dir = rand_range(0, 4)
+			invisible_current_dir = floor(invisible_current_dir) - 1
+		input_vector.x = invisible_current_dir
+	
 	if (bCanBeEaten):	#We need to flee our player
 		input_vector.x *= -1
 	
 	var move_speed = speed
 	#Lazy state machine==================================================
-	if (bCanBeEaten):
+	if (bCanBeEaten || OS.get_ticks_msec() < invisible_start + invisible_duration):
 		move_speed = slow_speed
-		
+	
+	#===Powerup affectors========================================
+	if (OS.get_ticks_msec() < freeze_start + freeze_duration):
+		move_speed *= freeze_speed_factor
+	
+	#========State for ghost eaten========================
 	if (bGhostFlee):
 		move_speed = flee_speed
 		input_vector.x = sign(flee_position - position.x) #Change our target position
@@ -89,4 +112,16 @@ func _on_Area2D_body_entered(body):
 			print("Ghost killed the player!")
 	pass # Replace with function body.
 
-
+#=======Powerup stuff=============================
+func apply_powerup(new_powerup:String):
+	match new_powerup:
+		"pup_freeze":
+			#Apply freeze effect to ghost's stats
+			print("Doing Ghost Freeze")
+			freeze_start = OS.get_ticks_msec()
+			#Need to play some sort of freeze effect or animation
+		"pup_invisible":
+			print("Doing player invisible")
+			invisible_start = OS.get_ticks_msec()
+			#Need to display a ? icon over the ghost to indicate that it's searching
+			

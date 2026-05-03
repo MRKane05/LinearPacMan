@@ -2,6 +2,7 @@ extends Area2D
 export (String) var pickup_effect = ""
 export (String) var start_animation = "GenericPip_Start"
 export (int) var pickup_value = 10
+export (Resource) var pickup_resource
 
 onready var animation_player = $AnimationPlayer
 onready var timer = $Timer

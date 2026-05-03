@@ -3,6 +3,9 @@ extends KinematicBody2D
 export(NodePath) var level_controller_path
 onready var level_controller = get_node(level_controller_path)
 
+export(NodePath) var powerup_items_path
+onready var powerup_items = get_node(powerup_items_path)
+
 export (PackedScene) var pip_scene # Assign your pickup scene in inspector
 export(Array, PackedScene) var special_pips = []
 
@@ -89,6 +92,10 @@ func pellet_pickedup(pickup_item : Node, pickup_effect : String, add_value: int)
 		"eat_ghost":
 			level_controller.do_powerup_eat_ghost()
 	
+	if (pickup_item.pickup_resource != null): #This is something to pass through to our other systems
+		print("Collected powerup")
+		powerup_items.addPowerup(pickup_item.pickup_resource)
+		
 	pickup_item.queue_free()
 
 func _physics_process(delta):

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Gameplay/UI/UIPowerupIcon.gd" type="Script" id=1]
+[ext_resource path="res://Textures/UIElements/PowerupUIBox.png" type="Texture" id=2]
+
+[node name="PowerupUIBox" type="TextureRect"]
+margin_right = 128.0
+margin_bottom = 128.0
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
+icon_sprite_path = NodePath("EquippedIcon")
+
+[node name="EquippedIcon" type="Sprite" parent="."]
+position = Vector2( 64, 67 )

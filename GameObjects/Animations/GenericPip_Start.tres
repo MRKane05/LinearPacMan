@@ -27,7 +27,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.729412 ), Color( 1, 1, 1, 0.490196 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Pip:position")
+tracks/2/path = NodePath("Icon:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -39,7 +39,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, -12 ), Vector2( 0, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Pip:modulate")
+tracks/3/path = NodePath("Icon:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false

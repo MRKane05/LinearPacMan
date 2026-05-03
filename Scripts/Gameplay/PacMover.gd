@@ -23,7 +23,7 @@ func _physics_process(delta):
 		return #disable this function
 	# Basic character movement
 	var input_vector = Vector2.ZERO
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("ui_accept"): #This should be the cross button
 		set_moveDir(moveDir * -1)
 	
 	input_vector.x = moveDir; #Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")

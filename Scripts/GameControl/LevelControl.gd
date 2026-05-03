@@ -160,5 +160,15 @@ func _process(delta):
 		
 #	pass
 
-
+#=========Powerup Stuff======================================================
+func select_powerup(selected_powerup: String):
+	print("powerup selected")
+	#This needs to be broadcast through to:
+	#Our player
+	player_node.apply_powerup(selected_powerup);
+	ghost_node.apply_powerup(selected_powerup);
+	
+	#The ghost
+	#Some screen effefts thing
+	pass
 

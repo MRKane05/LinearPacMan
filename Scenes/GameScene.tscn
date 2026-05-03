@@ -1,24 +1,27 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PacManSprite.png" type="Texture" id=2]
 [ext_resource path="res://Textures/ProxyGhost.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Gameplay/GhostMover.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/GameControl/LevelControl.gd" type="Script" id=5]
-[ext_resource path="res://GameObjects/PickupItem.tscn" type="PackedScene" id=6]
+[ext_resource path="res://GameObjects/Pickups/PickupItem.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scripts/Gameplay/LevelPickupHandler.gd" type="Script" id=7]
-[ext_resource path="res://GameObjects/GhostPellet.tscn" type="PackedScene" id=8]
+[ext_resource path="res://GameObjects/Pickups/pup_invisible.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Textures/Environment/BeamLine.png" type="Texture" id=9]
 [ext_resource path="res://Fonts/JohnnyFever.tres" type="DynamicFont" id=10]
 [ext_resource path="res://Textures/UIElements/ScreenPanel.png" type="Texture" id=11]
-[ext_resource path="res://Textures/GameElements/PortalSprite.png" type="Texture" id=12]
+[ext_resource path="res://GameObjects/UI/PowerupUIBox.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scripts/GameControl/CountdownScreen.gd" type="Script" id=13]
 [ext_resource path="res://Textures/UIElements/CountdownCircle.png" type="Texture" id=14]
 [ext_resource path="res://Scripts/GameControl/ReadyScreen.gd" type="Script" id=15]
-[ext_resource path="res://Scripts/Gameplay/Affectors/PortalAffector.gd" type="Script" id=16]
-[ext_resource path="res://Scripts/Gameplay/Affectors/PortalBase.gd" type="Script" id=17]
-
-[sub_resource type="RectangleShape2D" id=5]
+[ext_resource path="res://Scripts/GameControl/PowerupDisplayHandler.gd" type="Script" id=16]
+[ext_resource path="res://GameObjects/PowerupDataResources/pup_freeze.tres" type="Resource" id=17]
+[ext_resource path="res://GameObjects/Pickups/pup_freeze.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Square.png" type="Texture" id=19]
+[ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Circle.png" type="Texture" id=20]
+[ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Triangle.png" type="Texture" id=21]
+[ext_resource path="res://GameObjects/PowerupDataResources/pup_invisible.tres" type="Resource" id=22]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1, 10 )
@@ -34,7 +37,7 @@ extents = Vector2( 18.5, 10 )
 script = ExtResource( 5 )
 player_node_path = NodePath("PacMan")
 ghost_node_path = NodePath("Ghost")
-pips_node_path = NodePath("LevelPips2")
+pips_node_path = NodePath("LevelPips")
 ready_screen_path = NodePath("Camera2D/ReadyScreen")
 countdown_screen_path = NodePath("Camera2D/CountdownScreen")
 levelcomplete_screen_path = NodePath("Camera2D/LevelCompleteScreen")
@@ -55,41 +58,14 @@ texture = ExtResource( 9 )
 [node name="LineEffectors" type="Node2D" parent="."]
 position = Vector2( 492, 300 )
 
-[node name="PortalBase" type="Node2D" parent="LineEffectors"]
-script = ExtResource( 17 )
-portal_right_node_path = NodePath("Portal_Right")
-portal_left_node_path = NodePath("Portal_Left")
-
-[node name="Portal_Right" type="Area2D" parent="LineEffectors/PortalBase"]
-position = Vector2( 246, -4 )
-collision_layer = 8
+[node name="LevelPips" type="KinematicBody2D" parent="."]
+collision_layer = 0
 collision_mask = 0
-script = ExtResource( 16 )
-portal_base_node_path = NodePath("..")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LineEffectors/PortalBase/Portal_Right"]
-shape = SubResource( 5 )
-
-[node name="Sprite" type="Sprite" parent="LineEffectors/PortalBase/Portal_Right"]
-position = Vector2( 0, 2 )
-scale = Vector2( 0.32, 0.48 )
-texture = ExtResource( 12 )
-
-[node name="Portal_Left" type="Area2D" parent="LineEffectors/PortalBase"]
-position = Vector2( -240, -4 )
-collision_layer = 8
-collision_mask = 0
-script = ExtResource( 16 )
-portal_base_node_path = NodePath("..")
-bportal_right = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LineEffectors/PortalBase/Portal_Left"]
-shape = SubResource( 5 )
-
-[node name="Sprite" type="Sprite" parent="LineEffectors/PortalBase/Portal_Left"]
-position = Vector2( 0, 2 )
-scale = Vector2( 0.32, 0.48 )
-texture = ExtResource( 12 )
+script = ExtResource( 7 )
+level_controller_path = NodePath("..")
+powerup_items_path = NodePath("../Camera2D/GameplayElements/PowerupItems")
+pip_scene = ExtResource( 6 )
+special_pips = [ ExtResource( 8 ), ExtResource( 18 ) ]
 
 [node name="PacMan" type="KinematicBody2D" parent="."]
 position = Vector2( 492, 300 )
@@ -133,14 +109,6 @@ shape = SubResource( 3 )
 [node name="CollisionShape2D_WorldStopper" type="CollisionShape2D" parent="Ghost"]
 shape = SubResource( 4 )
 
-[node name="LevelPips2" type="KinematicBody2D" parent="."]
-collision_layer = 0
-collision_mask = 0
-script = ExtResource( 7 )
-level_controller_path = NodePath("..")
-pip_scene = ExtResource( 6 )
-special_pips = [ ExtResource( 8 ) ]
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 480, 272 )
 current = true
@@ -157,6 +125,65 @@ margin_right = 589.0
 margin_bottom = -182.0
 custom_fonts/normal_font = ExtResource( 10 )
 text = "Score: "
+
+[node name="PowerupItems" type="Node2D" parent="Camera2D/GameplayElements"]
+position = Vector2( -457, -250 )
+script = ExtResource( 16 )
+level_controller_path = NodePath("../../..")
+PowerupBoxes = [ NodePath("HBoxContainer/PowerupUIBox"), NodePath("HBoxContainer/PowerupUIBox2"), NodePath("HBoxContainer/PowerupUIBox3") ]
+PowerupItemList = [ ExtResource( 17 ), ExtResource( 22 ) ]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/GameplayElements/PowerupItems"]
+margin_left = -3.0
+margin_top = -4.0
+margin_right = 390.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 200, 100 )
+rect_scale = Vector2( 0.4, 0.4 )
+
+[node name="PowerupUIBox3" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
+
+[node name="PowerupUIBox2" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
+margin_left = 132.0
+margin_right = 260.0
+
+[node name="PowerupUIBox" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
+margin_left = 264.0
+margin_right = 392.0
+
+[node name="ButtonAssignmentContainer" type="HBoxContainer" parent="Camera2D/GameplayElements/PowerupItems"]
+margin_left = -1.0
+margin_top = 51.0
+margin_right = 39.0
+margin_bottom = 91.0
+rect_scale = Vector2( 0.665, 0.665 )
+
+[node name="TextureRect" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
+margin_right = 74.0
+margin_bottom = 75.0
+texture = ExtResource( 19 )
+
+[node name="TextureRect2" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
+margin_left = 78.0
+margin_right = 153.0
+margin_bottom = 75.0
+texture = ExtResource( 21 )
+
+[node name="TextureRect3" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
+margin_left = 157.0
+margin_right = 231.0
+margin_bottom = 75.0
+texture = ExtResource( 20 )
+
+[node name="PowerupName" type="RichTextLabel" parent="Camera2D/GameplayElements/PowerupItems"]
+anchor_top = -0.136
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 167.0
+margin_top = -8.0
+margin_right = 538.0
+margin_bottom = 74.0
+custom_fonts/normal_font = ExtResource( 10 )
 
 [node name="ReadyScreen" type="Node2D" parent="Camera2D"]
 visible = false
