@@ -170,5 +170,5 @@ func select_powerup(selected_powerup: String):
 	
 	#The ghost
 	#Some screen effefts thing
-	pass
+	#pass
 

@@ -30,6 +30,12 @@ var invisible_duration = 5000
 var invislbe_dir_change_time = 0
 var invisible_current_dir = 0
 
+var repulse_action_end = 0
+var repulse_action_duration = 1500
+var repulse_distance_min = 100
+var repulse_distance_max = 300
+var repulse_max_force = 150 #So the player is 200, and the ghost 220, so I guess that this can't be too meaningful?
+
 func _ready():
 	# Get the viewport size
 	screen_size = get_viewport_rect().size
@@ -49,6 +55,7 @@ func _physics_process(delta):
 	input_vector.x = sign(player_node.global_position.x - position.x); # Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = 0; #Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	
+	#=======Hande Powerup Check Functions
 	if (OS.get_ticks_msec() < invisible_start + invisible_duration):
 		#We need to affect our input_vector.x to give some sort of random movement
 		if (OS.get_ticks_msec() > invislbe_dir_change_time):
@@ -57,6 +64,7 @@ func _physics_process(delta):
 			invisible_current_dir = floor(invisible_current_dir) - 1
 		input_vector.x = invisible_current_dir
 	
+		
 	if (bCanBeEaten):	#We need to flee our player
 		input_vector.x *= -1
 	
@@ -88,6 +96,13 @@ func _physics_process(delta):
 			
 	
 	velocity = input_vector.normalized() * move_speed
+	#======Handle repuse Powerup=======================
+	if (OS.get_ticks_msec() < repulse_action_end && abs(player_node.global_position.x - position.x) < repulse_distance_max):
+		#Need to push the ghost back and away from the player, somehow...
+		var repulseDistance = abs(player_node.global_position.x - position.x) - repulse_distance_min;
+		repulseDistance = repulseDistance / (repulse_distance_max - repulse_distance_min);
+		velocity += repulseDistance * input_vector.normalized() * repulse_max_force
+	
 	move_and_slide(velocity)
 	if (position.x < sprite_side_buffer):
 		position.x = sprite_side_buffer
@@ -124,4 +139,7 @@ func apply_powerup(new_powerup:String):
 			print("Doing player invisible")
 			invisible_start = OS.get_ticks_msec()
 			#Need to display a ? icon over the ghost to indicate that it's searching
+		"pup_repulse":
+			print("Doint repulse action")
+			repulse_action_end = OS.get_ticks_msec() + repulse_action_duration
 			

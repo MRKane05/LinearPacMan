@@ -13,6 +13,8 @@ export (int) var num_pickups = 10	#Really this should be a density measure as I'
 export (float) var pickup_density = 72
 export (float) var screen_padding = 50
 
+export(PackedScene) var override_powerup
+
 var screen_size
 
 var num_spawned_pickups = 11
@@ -68,7 +70,10 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 			p = pip_scene.instance()
 		else:
 			var value = randi() % special_pips.size()
-			p = special_pips[value].instance()
+			if (override_powerup==null):
+				p = special_pips[value].instance()
+			else:
+				p = override_powerup.instance()
 		
 		if (p):
 			p.parent_pickup_handler = self

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PacManSprite.png" type="Texture" id=2]
@@ -22,6 +22,8 @@
 [ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Circle.png" type="Texture" id=20]
 [ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Triangle.png" type="Texture" id=21]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_invisible.tres" type="Resource" id=22]
+[ext_resource path="res://GameObjects/Pickups/pup_repulse.tscn" type="PackedScene" id=23]
+[ext_resource path="res://GameObjects/PowerupDataResources/pup_repulse.tres" type="Resource" id=24]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1, 10 )
@@ -65,7 +67,8 @@ script = ExtResource( 7 )
 level_controller_path = NodePath("..")
 powerup_items_path = NodePath("../Camera2D/GameplayElements/PowerupItems")
 pip_scene = ExtResource( 6 )
-special_pips = [ ExtResource( 8 ), ExtResource( 18 ) ]
+special_pips = [ ExtResource( 8 ), ExtResource( 18 ), ExtResource( 23 ) ]
+override_powerup = ExtResource( 23 )
 
 [node name="PacMan" type="KinematicBody2D" parent="."]
 position = Vector2( 492, 300 )
@@ -131,7 +134,7 @@ position = Vector2( -457, -250 )
 script = ExtResource( 16 )
 level_controller_path = NodePath("../../..")
 PowerupBoxes = [ NodePath("HBoxContainer/PowerupUIBox"), NodePath("HBoxContainer/PowerupUIBox2"), NodePath("HBoxContainer/PowerupUIBox3") ]
-PowerupItemList = [ ExtResource( 17 ), ExtResource( 22 ) ]
+PowerupItemList = [ ExtResource( 17 ), ExtResource( 22 ), ExtResource( 24 ) ]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/GameplayElements/PowerupItems"]
 margin_left = -3.0

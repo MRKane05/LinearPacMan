@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/GameControl/PowerupItemResource.gd" type="Script" id=1]
+[ext_resource path="res://Textures/GameIcons/Repulsor.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+powerup_name = "repulse"
+powerup_description = "repulse"
+powerup_effect_tag = "pup_repulse"
+powerup_icon = ExtResource( 2 )
+duration = 4.0
