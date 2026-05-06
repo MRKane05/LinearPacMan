@@ -8,20 +8,98 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "MoverBase",
+"language": "GDScript",
+"path": "res://Scripts/Gameplay/MoverBase.gd"
+}, {
+"base": "MoverBase",
+"class": "PacMover",
+"language": "GDScript",
+"path": "res://Scripts/Gameplay/PacMover.gd"
+}, {
+"base": "Area2D",
+"class": "PointAffectorBase",
+"language": "GDScript",
+"path": "res://Scripts/Gameplay/Affectors/PointAffectorBase.gd"
+}, {
+"base": "PointAffectorBase",
+"class": "PortalAffector",
+"language": "GDScript",
+"path": "res://Scripts/Gameplay/Affectors/PortalAffector.gd"
+}, {
+"base": "Node",
+"class": "PowerupDisplayHandler",
+"language": "GDScript",
+"path": "res://Scripts/GameControl/PowerupDisplayHandler.gd"
+}, {
+"base": "Resource",
+"class": "PowerupItemResource",
+"language": "GDScript",
+"path": "res://Scripts/GameControl/PowerupItemResource.gd"
+}, {
+"base": "TextureRect",
+"class": "UIPowerupIcon",
+"language": "GDScript",
+"path": "res://Scripts/Gameplay/UI/UIPowerupIcon.gd"
+} ]
+_global_script_class_icons={
+"MoverBase": "",
+"PacMover": "",
+"PointAffectorBase": "",
+"PortalAffector": "",
+"PowerupDisplayHandler": "",
+"PowerupItemResource": "",
+"UIPowerupIcon": ""
+}
+
 [application]
 
 config/name="Linear Pac Man"
 run/main_scene="res://Scenes/GameScene.tscn"
+boot_splash/image="res://VitaBuildGraphics/960x544.png"
 config/icon="res://icon.png"
+
+[autoload]
+
+Global="*res://Scripts/GameControl/Global.gd"
+
+[display]
+
+window/size/width=960
+window/size/height=544
 
 [global]
 
 jump=false
 left=false
+window=false
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[input]
+
+ui_select={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":88,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":3,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+ui_cancel={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":67,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+ui_square={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":90,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":2,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
 
 [physics]
 
@@ -29,4 +107,7 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
+quality/driver/fallback_to_gles2=true
+vram_compression/import_etc=true
 environment/default_environment="res://default_env.tres"
