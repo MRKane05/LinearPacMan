@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource( 1 )
-powerup_name = "repulse"
-powerup_description = "repulse"
-powerup_effect_tag = "pup_repulse"
+powerup_name = "tazer"
+powerup_description = "tazer"
+powerup_effect_tag = "pup_tazer"
 powerup_icon = ExtResource( 2 )
 duration = 4.0

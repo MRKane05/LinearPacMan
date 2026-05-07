@@ -21,6 +21,7 @@ var function_time = 0
 var sprite_side_buffer = 24
 
 #===============Powerup Effectors========================
+#values for this need to be global somehow so that they can be universally changed
 var freeze_start = 0
 var freeze_duration = 4000
 var freeze_speed_factor = 0.5
@@ -35,6 +36,12 @@ var repulse_action_duration = 1500
 var repulse_distance_min = 100
 var repulse_distance_max = 300
 var repulse_max_force = 150 #So the player is 200, and the ghost 220, so I guess that this can't be too meaningful?
+
+var tazer_action_end = 0
+var tazer_action_duration = 750	#Very short action time
+var tazer_distance = 250
+var got_tazed_end = 0
+var got_tazed_duration = 2000
 
 func _ready():
 	# Get the viewport size
@@ -63,6 +70,12 @@ func _physics_process(delta):
 			invisible_current_dir = rand_range(0, 4)
 			invisible_current_dir = floor(invisible_current_dir) - 1
 		input_vector.x = invisible_current_dir
+		#PROBLEM: Need to have effects for looking confused
+	
+	if (OS.get_ticks_msec() < tazer_action_end):
+		if (abs(player_node.global_position.x - position.x) < tazer_distance):
+			got_tazed_end = OS.get_ticks_msec() + got_tazed_duration
+			#PROBLEM: Need to play some effect for gettting tazed
 	
 		
 	if (bCanBeEaten):	#We need to flee our player
@@ -103,6 +116,9 @@ func _physics_process(delta):
 		repulseDistance = repulseDistance / (repulse_distance_max - repulse_distance_min);
 		velocity += repulseDistance * input_vector.normalized() * repulse_max_force
 	
+	if (OS.get_ticks_msec() < got_tazed_end): #We've been tazed, so annul our movement
+		velocity.x = 0
+	
 	move_and_slide(velocity)
 	if (position.x < sprite_side_buffer):
 		position.x = sprite_side_buffer
@@ -142,4 +158,6 @@ func apply_powerup(new_powerup:String):
 		"pup_repulse":
 			print("Doint repulse action")
 			repulse_action_end = OS.get_ticks_msec() + repulse_action_duration
-			
+		"pup_tazer":
+			print("Doing tazer action")
+			tazer_action_end = OS.get_ticks_msec() + tazer_action_duration
