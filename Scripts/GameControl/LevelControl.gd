@@ -24,12 +24,15 @@ onready var countdown_screen = get_node(countdown_screen_path)
 export(NodePath) var levelcomplete_screen_path
 onready var levelcomplete_screen = get_node(levelcomplete_screen_path)
 
+export(NodePath) var die_screen_path
+onready var die_screen = get_node(die_screen_path)
+
 #Stuff for displaying our main sections. This should probably be it's own handler and will need refactored
 export(NodePath) var score_node_path
 onready var score_node = get_node(score_node_path)
 
 #A state hangler to keep track of what we're doing
-var game_state = 0 #0: ready, 1: countdown, 2: playing, 3: level clear screen 4: game over screen
+var game_state = 0 #0: ready, 1: countdown, 2: playing, 3: level clear screen 4: game over screen 5: display message screen
 
 var powerup_time = 0
 var current_powerup = ""	#lets make it so that there's only one powerup at once
@@ -66,8 +69,10 @@ func set_game_state(gamestate):
 	ready_screen.visible = (game_state == 0)
 	countdown_screen.visible = (game_state == 1)
 	levelcomplete_screen.visible = (game_state == 3)
+	die_screen.visible = (game_state == 4)
 	#disable our actors
 	player_node.visible = (game_state == 2)
+	player_node.reset_character()
 	ghost_node.visible = (game_state == 2)
 	
 	if (game_state == 0): #setup and display our ready screen
@@ -76,9 +81,15 @@ func set_game_state(gamestate):
 	#handle trigger calls
 	if (game_state == 1):
 		countdown_screen.start_countdown()
-		
+	
 	if (game_state == 2):
 		do_level_setup();
+	
+	if (game_state == 4):
+		#set_game_state(0)
+		#Change music to menu music
+		#display stats on the die screen
+		pass
 
 
 # Main Game Functions ===========================================================
@@ -156,7 +167,14 @@ func _process(delta):
 				target_score += 100
 				score = 0
 			
+			if (game_state == 4):
+				target_score = 100
+				score = 0
+				new_game_state = 0;
+			
 			set_game_state(new_game_state)
+		
+
 		
 #	pass
 
@@ -172,3 +190,28 @@ func select_powerup(selected_powerup: String):
 	#Some screen effefts thing
 	#pass
 
+func display_die_screen():
+	set_game_state(4)
+	pass
+
+func ghost_ate_player():
+	#Our player has died
+	create_callback_timer(2, "display_die_screen")
+	#Wait a set amount of time for the animation to finish
+	#Bring up our hint/discussion screen
+	#Bring up the game over screen
+	pass
+
+
+#This one is in seconds, just to be extra-confusing
+func create_callback_timer(duration: float, callback: String):
+	var timer = get_node_or_null(callback)
+	if timer == null:
+		timer = Timer.new()
+		timer.name = callback
+		add_child(timer)  # Only add if newly created
+		timer.connect("timeout", self, callback)  # Only connect once
+	
+	timer.wait_time = duration
+	timer.one_shot = true
+	timer.start()

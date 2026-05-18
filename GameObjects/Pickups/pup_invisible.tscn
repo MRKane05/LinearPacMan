@@ -4,7 +4,7 @@
 [ext_resource path="res://Scripts/Gameplay/Pickups/PickupItem.gd" type="Script" id=2]
 [ext_resource path="res://Textures/GameElements/Powerup_Bloom.png" type="Texture" id=3]
 [ext_resource path="res://GameObjects/Animations/GenericPip_Start.tres" type="Animation" id=4]
-[ext_resource path="res://GameObjects/PowerupDataResources/pup_freeze.tres" type="Resource" id=5]
+[ext_resource path="res://GameObjects/PowerupDataResources/pup_invisible.tres" type="Resource" id=5]
 
 [sub_resource type="Animation" id=3]
 resource_name = "GenericPip_Ready"
@@ -88,7 +88,7 @@ tracks/3/keys = {
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4, 4 )
 
-[node name="PUp_Freeze" type="Area2D"]
+[node name="PUp_Invisible" type="Area2D"]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource( 2 )

@@ -18,8 +18,9 @@ export(PackedScene) var override_powerup
 var screen_size
 
 var num_spawned_pickups = 11
-var min_child_count = 2 #if we've this number or fewer we should start drifting to one side
-var drift_velocity = 25
+var min_child_count = 5 #if we've this number or fewer we should start drifting to one side
+var drift_velocity_min = 25
+var drift_velocity_max = 100
 
 func _ready():
 	# Get the viewport size
@@ -108,7 +109,8 @@ func _physics_process(delta):
 	if (num_spawned_pickups <= min_child_count):
 		var bounds = get_children_bounds_2d()
 		if (bounds.x > screen_padding):
-			var drift_Vector = Vector2(-drift_velocity, 0)
+			#I'd like to graduate our drift velocity so that it moves faster to shift the pips
+			var drift_Vector = Vector2(-lerp(drift_velocity_max, drift_velocity_min, num_spawned_pickups/min_child_count), 0)
 			move_and_slide(drift_Vector)
 		
 		

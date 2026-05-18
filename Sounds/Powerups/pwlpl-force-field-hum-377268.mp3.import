@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/pwlpl-force-field-hum-377268.mp3-4c4826ac69815779405f5ab3725021cc.mp3str"
+
+[deps]
+
+source_file="res://Sounds/Powerups/pwlpl-force-field-hum-377268.mp3"
+dest_files=[ "res://.import/pwlpl-force-field-hum-377268.mp3-4c4826ac69815779405f5ab3725021cc.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

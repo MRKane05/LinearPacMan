@@ -7,6 +7,7 @@ var flee_position = 0
 var slow_speed = 180
 
 var screen_size
+
 export(NodePath) var player_node_path
 onready var player_node = get_node(player_node_path)
 
@@ -20,28 +21,17 @@ var function_time = 0
 
 var sprite_side_buffer = 24
 
-#===============Powerup Effectors========================
-#values for this need to be global somehow so that they can be universally changed
-var freeze_start = 0
-var freeze_duration = 4000
-var freeze_speed_factor = 0.5
+var taser_action_timer;
+var bIstasered = false
 
-var invisible_start = 0
-var invisible_duration = 5000
-var invislbe_dir_change_time = 0
-var invisible_current_dir = 0
+func _setup_counters():
+	#taser timer
+	taser_action_timer = Timer.new()
+	taser_action_timer.name = "taser_action_timer"
+	add_child(taser_action_timer)  # Only add if newly created
+	pass
+	#This is where we setup the counters for anything that affects us (powerup effects)
 
-var repulse_action_end = 0
-var repulse_action_duration = 1500
-var repulse_distance_min = 100
-var repulse_distance_max = 300
-var repulse_max_force = 150 #So the player is 200, and the ghost 220, so I guess that this can't be too meaningful?
-
-var tazer_action_end = 0
-var tazer_action_duration = 750	#Very short action time
-var tazer_distance = 250
-var got_tazed_end = 0
-var got_tazed_duration = 2000
 
 func _ready():
 	# Get the viewport size
@@ -63,7 +53,7 @@ func _physics_process(delta):
 	input_vector.y = 0; #Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	
 	#=======Hande Powerup Check Functions
-	if (OS.get_ticks_msec() < invisible_start + invisible_duration):
+	if (bInvisibleActive):
 		#We need to affect our input_vector.x to give some sort of random movement
 		if (OS.get_ticks_msec() > invislbe_dir_change_time):
 			invislbe_dir_change_time = OS.get_ticks_msec() + rand_range(750, 1500)
@@ -72,9 +62,9 @@ func _physics_process(delta):
 		input_vector.x = invisible_current_dir
 		#PROBLEM: Need to have effects for looking confused
 	
-	if (OS.get_ticks_msec() < tazer_action_end):
-		if (abs(player_node.global_position.x - position.x) < tazer_distance):
-			got_tazed_end = OS.get_ticks_msec() + got_tazed_duration
+	if (btaserActive):
+		if (abs(player_node.global_position.x - position.x) < taser_distance):
+			got_tazed_end = OS.get_ticks_msec() + Global.got_tazed_duration
 			#PROBLEM: Need to play some effect for gettting tazed
 	
 		
@@ -83,11 +73,11 @@ func _physics_process(delta):
 	
 	var move_speed = speed
 	#Lazy state machine==================================================
-	if (bCanBeEaten || OS.get_ticks_msec() < invisible_start + invisible_duration):
+	if (bCanBeEaten || OS.get_ticks_msec() < invisible_start + Global.invisible_duration):
 		move_speed = slow_speed
 	
 	#===Powerup affectors========================================
-	if (OS.get_ticks_msec() < freeze_start + freeze_duration):
+	if (bFreezeActive):
 		move_speed *= freeze_speed_factor
 	
 	#========State for ghost eaten========================
@@ -110,7 +100,7 @@ func _physics_process(delta):
 	
 	velocity = input_vector.normalized() * move_speed
 	#======Handle repuse Powerup=======================
-	if (OS.get_ticks_msec() < repulse_action_end && abs(player_node.global_position.x - position.x) < repulse_distance_max):
+	if (bRepulseActive && abs(player_node.global_position.x - position.x) < repulse_distance_max):
 		#Need to push the ghost back and away from the player, somehow...
 		var repulseDistance = abs(player_node.global_position.x - position.x) - repulse_distance_min;
 		repulseDistance = repulseDistance / (repulse_distance_max - repulse_distance_min);
@@ -140,24 +130,7 @@ func _on_Area2D_body_entered(body):
 			else:
 				flee_position = screen_size.x * 0.25
 		else:
+			player_node.ghost_ate_player()
 			print("Ghost killed the player!")
 	pass # Replace with function body.
 
-#=======Powerup stuff=============================
-func apply_powerup(new_powerup:String):
-	match new_powerup:
-		"pup_freeze":
-			#Apply freeze effect to ghost's stats
-			print("Doing Ghost Freeze")
-			freeze_start = OS.get_ticks_msec()
-			#Need to play some sort of freeze effect or animation
-		"pup_invisible":
-			print("Doing player invisible")
-			invisible_start = OS.get_ticks_msec()
-			#Need to display a ? icon over the ghost to indicate that it's searching
-		"pup_repulse":
-			print("Doint repulse action")
-			repulse_action_end = OS.get_ticks_msec() + repulse_action_duration
-		"pup_tazer":
-			print("Doing tazer action")
-			tazer_action_end = OS.get_ticks_msec() + tazer_action_duration

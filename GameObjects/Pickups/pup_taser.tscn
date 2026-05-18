@@ -4,7 +4,7 @@
 [ext_resource path="res://Scripts/Gameplay/Pickups/PickupItem.gd" type="Script" id=2]
 [ext_resource path="res://Textures/GameElements/Powerup_Bloom.png" type="Texture" id=3]
 [ext_resource path="res://GameObjects/Animations/GenericPip_Start.tres" type="Animation" id=4]
-[ext_resource path="res://GameObjects/PowerupDataResources/pup_tazer.tres" type="Resource" id=5]
+[ext_resource path="res://GameObjects/PowerupDataResources/pup_taser.tres" type="Resource" id=5]
 
 [sub_resource type="Animation" id=3]
 resource_name = "GenericPip_Ready"

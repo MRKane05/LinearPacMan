@@ -7,15 +7,33 @@ var speed = 200
 var speed_up = 1.5
 var speed_down = 0.9
 
-
 var screen_size
 
-#PROBLEM: We need a function set_move_dir for the starting state that also handles the sprite direction
+var bPlayer_alive = true
+
+export(NodePath) var level_controller_path
+onready var level_controller = get_node(level_controller_path)
+
+const SOUNDS = {
+	"taser"   : preload("res://Sounds/Powerups/electric-zap.wav"),
+}
+
+
+#====Powerup effects================================
+export(NodePath) var repel_effect_path
+onready var repel_effect = get_node(repel_effect_path)
+
+export(NodePath) var taser_effect_path
+onready var taser_effect = get_node(taser_effect_path)
 
 func _ready():
 	# Get the viewport size
 	screen_size = get_viewport_rect().size
+	set_animation("Eat")
 	
+func reset_character():
+	set_animation("Eat")
+	bPlayer_alive = true
 
 func _physics_process(delta):
 	var final_speed = speed
@@ -41,6 +59,9 @@ func _physics_process(delta):
 		3: #Bidirectional
 			final_speed = speed * speed_up
 	
+	if (!bPlayer_alive):	#we've died so don't move anywhere
+		final_speed = 0
+	
 	velocity = input_vector * final_speed
 	move_and_slide(velocity, Vector2.UP)
 	
@@ -61,3 +82,35 @@ func _on_CenterPointTrigger_area_entered(area):
 	if (area.has_method("pac_contacted")):
 		area.pac_contacted(self)
 	pass # Replace with function body.
+	
+	
+func apply_powerup(new_powerup:String):
+	.apply_powerup(new_powerup)
+	
+	match new_powerup:
+		"pup_freeze":
+			pass
+		"pup_invisible":
+			pass
+		"pup_repulse":
+			repel_effect.emitting = true
+			pass
+		"pup_taser":
+			taser_effect.emitting = true
+			play_sound(SOUNDS["taser"])
+			pass
+
+func repulse_callback():
+	.repulse_callback()
+	repel_effect.emitting = false
+
+func taser_callback():
+	.taser_callback()
+	taser_effect.emitting = false
+
+func ghost_ate_player():
+	#Tell our level controller about it
+	bPlayer_alive = false
+	set_animation("Die")
+	level_controller.ghost_ate_player()
+
