@@ -37,11 +37,22 @@ func _ready():
 	# Get the viewport size
 	screen_size = get_viewport_rect().size
 	# We need to know what our player is
+	char_sprite.material.set_shader_param("scroll_speed", 1.0)
+	char_sprite.material.set_shader_param("scroll_direction", 1.0)
+	set_animation("Move")
+
+func set_scroll_speed(speed: float):
+	char_sprite.material.set_shader_param("scroll_speed", speed)
+
+func set_scroll_direction(direction: float):
+	char_sprite.material.set_shader_param("scroll_direction", direction)
+
 
 func reset_ghost():
 	bCanBeEaten = false;
 	bGhostFlee = false;
 	bGhostRespawning = false
+	set_animation("Move")
 	#Might need to reset any animation state here
 
 func _physics_process(delta):
@@ -59,21 +70,31 @@ func _physics_process(delta):
 			invislbe_dir_change_time = OS.get_ticks_msec() + rand_range(750, 1500)
 			invisible_current_dir = rand_range(0, 4)
 			invisible_current_dir = floor(invisible_current_dir) - 1
+			
+			if (invisible_current_dir == 0):
+				set_animation("Search_Still")
+			else:
+				set_animation("Search_Move")
+			
 		input_vector.x = invisible_current_dir
 		#PROBLEM: Need to have effects for looking confused
+		
+	
+	if (!bInvisibleActive && !bGhostRespawning):
+		set_animation("Move")
 	
 	if (btaserActive):
 		if (abs(player_node.global_position.x - position.x) < taser_distance):
 			got_tazed_end = OS.get_ticks_msec() + Global.got_tazed_duration
 			#PROBLEM: Need to play some effect for gettting tazed
 	
-		
+	
 	if (bCanBeEaten):	#We need to flee our player
 		input_vector.x *= -1
 	
 	var move_speed = speed
 	#Lazy state machine==================================================
-	if (bCanBeEaten || OS.get_ticks_msec() < invisible_start + Global.invisible_duration):
+	if (bCanBeEaten || bInvisibleActive):
 		move_speed = slow_speed
 	
 	#===Powerup affectors========================================
@@ -98,6 +119,9 @@ func _physics_process(delta):
 			bCanBeEaten = false
 			
 	
+	#Send information through for our animation systems
+	#set_scroll_direction(input_vector.x) #Scroll direction is sorted by the mirroring
+	set_moveDir(sign(input_vector.x))
 	velocity = input_vector.normalized() * move_speed
 	#======Handle repuse Powerup=======================
 	if (bRepulseActive && abs(player_node.global_position.x - position.x) < repulse_distance_max):
@@ -133,4 +157,19 @@ func _on_Area2D_body_entered(body):
 			player_node.ghost_ate_player()
 			print("Ghost killed the player!")
 	pass # Replace with function body.
+	
 
+func apply_powerup(new_powerup:String):
+	.apply_powerup(new_powerup)
+	match new_powerup:
+		"pup_freeze":
+			pass
+		"pup_invisible":
+			#So that our ghost predictibly looks confused when the player vanishes
+			invislbe_dir_change_time = OS.get_ticks_msec() + rand_range(750, 1500)
+			invisible_current_dir = 0
+			set_animation("Search_Still")
+		"pup_repulse":
+			pass
+		"pup_taser":
+			pass

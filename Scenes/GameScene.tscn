@@ -1,8 +1,8 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
-[ext_resource path="res://Textures/ProxyGhost.png" type="Texture" id=3]
+[ext_resource path="res://Textures/GameElements/GhostAnimationSheet.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Gameplay/GhostMover.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/GameControl/LevelControl.gd" type="Script" id=5]
 [ext_resource path="res://GameObjects/Pickups/PickupItem.tscn" type="PackedScene" id=6]
@@ -33,11 +33,145 @@
 [ext_resource path="res://Textures/GameElements/CircularPip_Bloom.png" type="Texture" id=31]
 [ext_resource path="res://Textures/Environment/PlayAreaBacking.png" type="Texture" id=32]
 [ext_resource path="res://Textures/GameElements/PAC_DieAnim.png" type="Texture" id=33]
+[ext_resource path="res://Textures/GameElements/GhostWavyMask.png" type="Texture" id=34]
+
+[sub_resource type="Shader" id=12]
+code = "shader_type canvas_item;
+
+uniform sampler2D mask_texture : hint_white;
+uniform float scroll_speed = 1.0;
+uniform float scroll_direction = 1.0;
+uniform int frame_columns = 5;
+uniform int frame_rows = 5;
+
+void fragment() {
+    vec4 sprite_color = texture(TEXTURE, UV);
+    
+    // Remap UV from frame-space back to 0-1 space
+    float frame_width = 1.0 / float(frame_columns);
+    float frame_height = 1.0 / float(frame_rows);
+    
+    vec2 normalized_uv = vec2(
+        mod(UV.x, frame_width) / frame_width,
+        mod(UV.y, frame_height) / frame_height
+    );
+    
+    // Apply scroll to the normalized UV
+    vec2 wave_uv = normalized_uv + vec2(TIME * scroll_speed * scroll_direction, 0.0);
+    vec4 mask_color = texture(mask_texture, wave_uv);
+    
+    sprite_color.a *= mask_color.a;
+    COLOR = sprite_color;
+}"
+
+[sub_resource type="ShaderMaterial" id=13]
+shader = SubResource( 12 )
+shader_param/scroll_speed = 0.75
+shader_param/scroll_direction = 1.0
+shader_param/frame_columns = 5
+shader_param/frame_rows = 5
+shader_param/mask_texture = ExtResource( 34 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 18.5, 10 )
 
 [sub_resource type="RectangleShape2D" id=4]
+
+[sub_resource type="Animation" id=18]
+resource_name = "Eaten"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ghost/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 5 ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "Move"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ghost/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=15]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ghost/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 2 ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "Respawn"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ghost/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 5, 10 ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "Search_Move"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ghost/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "Search_Still"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ghost/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 2, 3, 1 ]
+}
 
 [sub_resource type="CanvasItemMaterial" id=5]
 
@@ -199,6 +333,7 @@ level_controller_path = NodePath("..")
 powerup_items_path = NodePath("../Camera2D/GameplayElements/PowerupItems")
 pip_scene = ExtResource( 6 )
 special_pips = [ ExtResource( 8 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 26 ) ]
+override_powerup = ExtResource( 8 )
 
 [node name="Ghost" type="KinematicBody2D" parent="."]
 position = Vector2( 32, 300 )
@@ -206,10 +341,22 @@ collision_layer = 4
 collision_mask = 0
 script = ExtResource( 4 )
 char_sprite_path = NodePath("Sprite")
+_animation_player = NodePath("AnimationPlayer")
 player_node_path = NodePath("../PacMan")
 
+[node name="GlowSprite" type="Sprite" parent="Ghost"]
+self_modulate = Color( 1, 0.615686, 0.615686, 0.509804 )
+scale = Vector2( 0.6, 0.5 )
+texture = ExtResource( 31 )
+
 [node name="Sprite" type="Sprite" parent="Ghost"]
+modulate = Color( 1, 0.384314, 0.384314, 1 )
+material = SubResource( 13 )
+scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 3 )
+hframes = 5
+vframes = 5
+frame = 2
 
 [node name="Area2D" type="Area2D" parent="Ghost"]
 collision_layer = 0
@@ -220,6 +367,15 @@ shape = SubResource( 3 )
 
 [node name="CollisionShape2D_WorldStopper" type="CollisionShape2D" parent="Ghost"]
 shape = SubResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ghost"]
+root_node = NodePath("../..")
+anims/Eaten = SubResource( 18 )
+anims/Move = SubResource( 14 )
+anims/RESET = SubResource( 15 )
+anims/Respawn = SubResource( 19 )
+anims/Search_Move = SubResource( 17 )
+anims/Search_Still = SubResource( 16 )
 
 [node name="PacMan" type="KinematicBody2D" parent="."]
 position = Vector2( 492, 300 )

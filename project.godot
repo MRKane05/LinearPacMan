@@ -58,7 +58,7 @@ _global_script_class_icons={
 
 config/name="Linear Pac Man"
 run/main_scene="res://Scenes/GameScene.tscn"
-boot_splash/image="res://VitaBuildGraphics/960x544.png"
+boot_splash/show_image=false
 config/icon="res://icon.png"
 
 [autoload]
@@ -110,4 +110,5 @@ common/enable_pause_aware_picking=true
 quality/driver/driver_name="GLES2"
 quality/driver/fallback_to_gles2=true
 vram_compression/import_etc=true
+environment/default_clear_color=Color( 0.188235, 0.188235, 0.188235, 1 )
 environment/default_environment="res://default_env.tres"

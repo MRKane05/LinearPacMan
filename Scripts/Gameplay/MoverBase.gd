@@ -67,6 +67,8 @@ func set_boostzone(new_boost_type):
 	pass
 
 func set_moveDir(new_moveDir: float):
+	if (new_moveDir == 0):	#Quick catch for stationary objects
+		new_moveDir = 1
 	moveDir = new_moveDir
 	char_sprite.scale.x = moveDir * 0.25 #PROBLEM: This is terrible coding for handling temp sprites
 
