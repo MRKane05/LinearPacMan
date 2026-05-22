@@ -83,7 +83,7 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 			add_child(p)
 		
 func pellet_pickedup(pickup_item : Node, pickup_effect : String, add_value: int):
-	if (level_controller.game_state != 2 || level_controller.level_start_time > Time.get_ticks_msec() - 50): #Needs a debounce for components to settle into location
+	if (Global.game_state != 2 || level_controller.level_start_time > Time.get_ticks_msec() - 50): #Needs a debounce for components to settle into location
 		return
 	#decrement our pickups, and win the level at 0
 	num_spawned_pickups = num_spawned_pickups -1
@@ -100,7 +100,7 @@ func pellet_pickedup(pickup_item : Node, pickup_effect : String, add_value: int)
 	
 	if (pickup_item.pickup_resource != null): #This is something to pass through to our other systems
 		print("Collected powerup")
-		powerup_items.addPowerup(pickup_item.pickup_resource)
+		powerup_items.addPowerup(pickup_item.pickup_resource, pickup_item.global_position)
 		
 	pickup_item.queue_free()
 

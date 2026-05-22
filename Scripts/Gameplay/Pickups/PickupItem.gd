@@ -33,6 +33,15 @@ func _on_GenericPip_body_entered(body):
 	# need to call through to the level controller to say we've collected
 	if (parent_pickup_handler != null):
 		parent_pickup_handler.pellet_pickedup(self, pickup_effect, pickup_value)
+		
+		if (pickup_resource):
+			var pickup_name = pickup_resource.get("powerup_name")
+			var pickup_color = pickup_resource.get("powerup_color")
+			PointIndicatorManager.show_indicator(global_position, pickup_name, pickup_color)
+		else:
+			PointIndicatorManager.show_indicator(global_position, str(pickup_value))
+		
+			
 	# do our collect animation
 	# Remove the item from the scene
 	#queue_free()

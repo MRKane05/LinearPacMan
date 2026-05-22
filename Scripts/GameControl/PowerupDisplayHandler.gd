@@ -23,7 +23,7 @@ func _ready():
 #Remove from allotment and repopulate icons accordingly
 
 #This is being called twice?
-func addPowerup(powerup_resource: Resource):
+func addPowerup(powerup_resource: Resource, startPosition: Vector2):
 	for item in PowerupItemList:
 		if (item == powerup_resource):
 			#Go through our avaliable collectedPowerups to find an open box
@@ -35,7 +35,7 @@ func addPowerup(powerup_resource: Resource):
 					var powerup_box = get_node(PowerupBoxes[i]); #We need tog et an object reference here to display this
 					#var player_node = get_node(player_node_path)
 					#see about setting this amongst our powerups, but for the moment...
-					powerup_box.set_icon_sprite(item.powerup_icon)
+					powerup_box.set_icon_sprite(item.powerup_icon, startPosition)
 					#We need to have some animation showing that this has been collected
 					break
 	#This needs some sort of failstate if we don't have a gap
@@ -46,7 +46,7 @@ func use_powerup(index: int):
 		level_controller.select_powerup(CollectedPowerupEffectTags[index])
 		CollectedPowerupEffectTags[index] = null
 		var powerup_box = get_node(PowerupBoxes[index]) #We need tog et an object reference here to display this
-		powerup_box.set_icon_sprite(null)
+		powerup_box.set_icon_sprite(null, Vector2.ZERO)
 		
 	pass
 

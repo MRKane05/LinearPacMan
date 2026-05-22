@@ -9,4 +9,5 @@ powerup_name = "tazer"
 powerup_description = "tazer"
 powerup_effect_tag = "pup_taser"
 powerup_icon = ExtResource( 2 )
+powerup_color = Color( 0.92549, 1, 0.282353, 1 )
 duration = 4.0
