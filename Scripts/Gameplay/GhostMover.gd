@@ -90,6 +90,7 @@ func _physics_process(delta):
 	
 	
 	if (bCanBeEaten):	#We need to flee our player
+		set_animation("Flee")
 		input_vector.x *= -1
 	
 	var move_speed = speed
@@ -103,16 +104,19 @@ func _physics_process(delta):
 	
 	#========State for ghost eaten========================
 	if (bGhostFlee):
+		set_animation("Eaten")
 		move_speed = flee_speed
 		input_vector.x = sign(flee_position - position.x) #Change our target position
 		#Need to check if we're within our position and then do a respawn action
 		if (abs(flee_position - position.x) < 5):
 			bGhostFlee = false
 			bGhostRespawning = true
+			set_animation("Respawn")
 			function_time = Time.get_ticks_msec() + respawn_pause	#When will we finish respawning?
 			print(function_time)
 			
 	if (bGhostRespawning):
+		
 		move_speed = 0 #Stay where we are for the respawn
 		if (Time.get_ticks_msec() > function_time):
 			bGhostRespawning = false
@@ -144,7 +148,7 @@ func _on_Area2D_body_entered(body):
 	#notify the game system that we've touched the player
 	#do the player die sequence
 	if body.name == "PacMan":
-		if bCanBeEaten && !bGhostFlee:
+		if bCanBeEaten && !bGhostFlee && !bGhostRespawning && Global.game_state == 2:
 			print("Player ate the ghost!")
 			bGhostFlee = true
 			bCanBeEaten = false
@@ -154,8 +158,9 @@ func _on_Area2D_body_entered(body):
 			else:
 				flee_position = screen_size.x * 0.25
 		else:
-			player_node.ghost_ate_player()
-			print("Ghost killed the player!")
+			if (!bGhostFlee && !bGhostRespawning && Global.game_state == 2):
+				player_node.ghost_ate_player()
+				print("Ghost killed the player!")
 	pass # Replace with function body.
 	
 

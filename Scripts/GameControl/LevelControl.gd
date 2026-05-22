@@ -32,7 +32,7 @@ export(NodePath) var score_node_path
 onready var score_node = get_node(score_node_path)
 
 #A state hangler to keep track of what we're doing
-var game_state = 0 #0: ready, 1: countdown, 2: playing, 3: level clear screen 4: game over screen 5: display message screen
+#var game_state = 0 #0: ready, 1: countdown, 2: playing, 3: level clear screen 4: game over screen 5: display message screen
 
 var powerup_time = 0
 var current_powerup = ""	#lets make it so that there's only one powerup at once
@@ -64,28 +64,29 @@ func _on_NextLevelButton_pressed():
 
 func set_game_state(gamestate):
 	#there'll be things we need to turn on/off
-	game_state = gamestate
+	Global.game_state = gamestate
 	#Handle visibility states
-	ready_screen.visible = (game_state == 0)
-	countdown_screen.visible = (game_state == 1)
-	levelcomplete_screen.visible = (game_state == 3)
-	die_screen.visible = (game_state == 4)
+	ready_screen.visible = (Global.game_state == 0)
+	countdown_screen.visible = (Global.game_state == 1)
+	levelcomplete_screen.visible = (Global.game_state == 3)
+	die_screen.visible = (Global.game_state == 4)
 	#disable our actors
-	player_node.visible = (game_state == 2)
+	player_node.visible = (Global.game_state == 2)
 	player_node.reset_character()
-	ghost_node.visible = (game_state == 2)
+	ghost_node.visible = (Global.game_state == 2)
 	
-	if (game_state == 0): #setup and display our ready screen
+	if (Global.game_state == 0): #setup and display our ready screen
 		ready_screen.display_target(target_score)
 	
 	#handle trigger calls
-	if (game_state == 1):
+	if (Global.game_state == 1):
 		countdown_screen.start_countdown()
 	
-	if (game_state == 2):
-		do_level_setup();
+	if (Global.game_state == 2):
+		do_level_setup()
 	
-	if (game_state == 4):
+	
+	if (Global.game_state == 4):
 		#set_game_state(0)
 		#Change music to menu music
 		#display stats on the die screen
@@ -159,15 +160,15 @@ func do_powerup_eat_ghost():
 func _process(delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		#Step forward with our screen setup
-		if (game_state != 2):
-			var new_game_state = game_state + 1
+		if (Global.game_state != 2):
+			var new_game_state = Global.game_state + 1
 			
-			if (game_state == 3): #Handle our end of level stuff
+			if (Global.game_state == 3): #Handle our end of level stuff
 				new_game_state = 0;
 				target_score += 100
 				score = 0
 			
-			if (game_state == 4):
+			if (Global.game_state == 4):
 				target_score = 100
 				score = 0
 				new_game_state = 0;

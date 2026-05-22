@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -34,6 +34,8 @@
 [ext_resource path="res://Textures/Environment/PlayAreaBacking.png" type="Texture" id=32]
 [ext_resource path="res://Textures/GameElements/PAC_DieAnim.png" type="Texture" id=33]
 [ext_resource path="res://Textures/GameElements/GhostWavyMask.png" type="Texture" id=34]
+[ext_resource path="res://GameObjects/Pickups/GhostPellet.tscn" type="PackedScene" id=35]
+[ext_resource path="res://Scripts/Gameplay/UI/CollectScoreDisplayer.gd" type="Script" id=37]
 
 [sub_resource type="Shader" id=12]
 code = "shader_type canvas_item;
@@ -80,6 +82,7 @@ extents = Vector2( 18.5, 10 )
 [sub_resource type="Animation" id=18]
 resource_name = "Eaten"
 length = 0.5
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Ghost/Sprite:frame")
 tracks/0/interp = 1
@@ -91,6 +94,23 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 5 ]
+}
+
+[sub_resource type="Animation" id=20]
+resource_name = "Flee"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ghost/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 12 ]
 }
 
 [sub_resource type="Animation" id=14]
@@ -134,16 +154,15 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 5, 10 ]
+"values": [ 5, 10, 10 ]
 }
 
 [sub_resource type="Animation" id=17]
 resource_name = "Search_Move"
 length = 0.5
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Ghost/Sprite:frame")
 tracks/0/interp = 1
@@ -332,8 +351,7 @@ script = ExtResource( 7 )
 level_controller_path = NodePath("..")
 powerup_items_path = NodePath("../Camera2D/GameplayElements/PowerupItems")
 pip_scene = ExtResource( 6 )
-special_pips = [ ExtResource( 8 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 26 ) ]
-override_powerup = ExtResource( 8 )
+special_pips = [ ExtResource( 8 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 26 ), ExtResource( 35 ) ]
 
 [node name="Ghost" type="KinematicBody2D" parent="."]
 position = Vector2( 32, 300 )
@@ -371,6 +389,7 @@ shape = SubResource( 4 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Ghost"]
 root_node = NodePath("../..")
 anims/Eaten = SubResource( 18 )
+anims/Flee = SubResource( 20 )
 anims/Move = SubResource( 14 )
 anims/RESET = SubResource( 15 )
 anims/Respawn = SubResource( 19 )
@@ -562,6 +581,7 @@ text = "Press X
 "
 
 [node name="DieScreen" type="Node2D" parent="Camera2D"]
+visible = false
 
 [node name="Sprite" type="Sprite" parent="Camera2D/DieScreen"]
 texture = ExtResource( 11 )
@@ -610,6 +630,9 @@ margin_bottom = -164.0
 rect_scale = Vector2( 3, 3 )
 custom_fonts/normal_font = ExtResource( 10 )
 text = "3"
+
+[node name="CollectDisplayInformation" type="Node2D" parent="Camera2D"]
+script = ExtResource( 37 )
 
 [connection signal="body_entered" from="Ghost/Area2D" to="Ghost" method="_on_Area2D_body_entered"]
 [connection signal="area_entered" from="PacMan/CenterPointTrigger" to="PacMan" method="_on_CenterPointTrigger_area_entered"]
