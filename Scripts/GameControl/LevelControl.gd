@@ -5,6 +5,8 @@ extends Node
 #get a callback when all pips have been completed and consider the level closed
 #get a callback when the player dies and do a reset on the system
 
+export(Array, NodePath) var UI_Menus = []
+
 export(NodePath) var player_node_path
 onready var player_node = get_node(player_node_path)
 
@@ -27,9 +29,14 @@ onready var levelcomplete_screen = get_node(levelcomplete_screen_path)
 export(NodePath) var die_screen_path
 onready var die_screen = get_node(die_screen_path)
 
+export(NodePath) var dialogue_node_path
+onready var dialogue_node = get_node(dialogue_node_path)
+
 #Stuff for displaying our main sections. This should probably be it's own handler and will need refactored
 export(NodePath) var score_node_path
 onready var score_node = get_node(score_node_path)
+
+
 
 #A state hangler to keep track of what we're doing
 #var game_state = 0 #0: ready, 1: countdown, 2: playing, 3: level clear screen 4: game over screen 5: display message screen
@@ -63,18 +70,19 @@ func _on_NextLevelButton_pressed():
 	set_game_state(0)	#Go back to our ready screen
 
 func set_game_state(gamestate):
-	#there'll be things we need to turn on/off
 	Global.game_state = gamestate
-	#Handle visibility states
-	ready_screen.visible = (Global.game_state == 0)
-	countdown_screen.visible = (Global.game_state == 1)
-	levelcomplete_screen.visible = (Global.game_state == 3)
-	die_screen.visible = (Global.game_state == 4)
+	#POBLEM: Handle menu visibility states (this is going to break as this expands I think)
+	for i in range(UI_Menus.size()):
+		if (UI_Menus[i]):
+			get_node(UI_Menus[i]).visible = (gamestate == i)
+	
+	
 	#disable our actors
 	player_node.visible = (Global.game_state == 2)
 	player_node.reset_character()
 	ghost_node.visible = (Global.game_state == 2)
 	
+	#Specific per-case screen things
 	if (Global.game_state == 0): #setup and display our ready screen
 		ready_screen.display_target(target_score)
 	
@@ -85,8 +93,24 @@ func set_game_state(gamestate):
 	if (Global.game_state == 2):
 		do_level_setup()
 	
-	
+	#This is where we need to keep an eye out to see if we've got to display
+	#a message (or similar)
+	#Otherwise tally up our games played since the last event
+	#die_screen.visible = (Global.game_state == 4)
 	if (Global.game_state == 4):
+		var games_played = int(SaveManager.get_value("total_games"))
+		var story_games = int(SaveManager.get_value("story_games"))
+		games_played = games_played + 1
+		story_games = story_games + 1
+		
+		SaveManager.set_value("total_games", games_played)
+		SaveManager.set_value("story_games", story_games)
+		
+		var line = StoryManager.get_dialogue(0) #PROBLEM: Haven't got the story line advancing automatically
+		if (line.trigger == "deaths"):
+			if (story_games >= line.triggernum):
+				print("Got Story Trigger!") 
+		
 		#set_game_state(0)
 		#Change music to menu music
 		#display stats on the die screen
@@ -161,8 +185,11 @@ func _process(delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		#Step forward with our screen setup
 		if (Global.game_state != 2):
-			var new_game_state = Global.game_state + 1
-			
+			var new_game_state = Global.game_state # + 1
+			if (UI_Menus[new_game_state]):
+				if (get_node(UI_Menus[new_game_state]).has_method("handle_inputaction")):
+					new_game_state = get_node(UI_Menus[new_game_state]).handle_inputaction(new_game_state)
+				
 			if (Global.game_state == 3): #Handle our end of level stuff
 				new_game_state = 0;
 				target_score += 100

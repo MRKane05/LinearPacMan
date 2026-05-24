@@ -1,4 +1,4 @@
-extends Node
+extends UI_Menu
 
 export(NodePath) var target_text_path
 onready var target_text = get_node(target_text_path)

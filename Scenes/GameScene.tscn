@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -14,7 +14,7 @@
 [ext_resource path="res://GameObjects/UI/PowerupUIBox.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scripts/GameControl/CountdownScreen.gd" type="Script" id=13]
 [ext_resource path="res://Textures/UIElements/CountdownCircle.png" type="Texture" id=14]
-[ext_resource path="res://Scripts/GameControl/ReadyScreen.gd" type="Script" id=15]
+[ext_resource path="res://Scripts/Gameplay/UI/UI_Menu.gd" type="Script" id=15]
 [ext_resource path="res://Scripts/GameControl/PowerupDisplayHandler.gd" type="Script" id=16]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_freeze.tres" type="Resource" id=17]
 [ext_resource path="res://GameObjects/Pickups/pup_freeze.tscn" type="PackedScene" id=18]
@@ -35,7 +35,9 @@
 [ext_resource path="res://Textures/GameElements/PAC_DieAnim.png" type="Texture" id=33]
 [ext_resource path="res://Textures/GameElements/GhostWavyMask.png" type="Texture" id=34]
 [ext_resource path="res://GameObjects/Pickups/GhostPellet.tscn" type="PackedScene" id=35]
+[ext_resource path="res://Scripts/Story/DialogueScreen.gd" type="Script" id=36]
 [ext_resource path="res://Scripts/Gameplay/UI/CollectScoreDisplayer.gd" type="Script" id=37]
+[ext_resource path="res://Scripts/GameControl/ReadyScreen.gd" type="Script" id=38]
 
 [sub_resource type="Shader" id=12]
 code = "shader_type canvas_item;
@@ -297,6 +299,7 @@ tracks/1/keys = {
 
 [node name="SceneBase" type="Node2D"]
 script = ExtResource( 5 )
+UI_Menus = [ NodePath("Camera2D/ReadyScreen"), NodePath("Camera2D/CountdownScreen"), NodePath(""), NodePath("Camera2D/LevelCompleteScreen"), NodePath("Camera2D/DieScreen"), NodePath("Camera2D/DialogueScreen") ]
 player_node_path = NodePath("PacMan")
 ghost_node_path = NodePath("Ghost")
 pips_node_path = NodePath("LevelPips")
@@ -304,6 +307,7 @@ ready_screen_path = NodePath("Camera2D/ReadyScreen")
 countdown_screen_path = NodePath("Camera2D/CountdownScreen")
 levelcomplete_screen_path = NodePath("Camera2D/LevelCompleteScreen")
 die_screen_path = NodePath("Camera2D/DieScreen")
+dialogue_node_path = NodePath("Camera2D/DialogueScreen")
 score_node_path = NodePath("Camera2D/GameplayElements/GameScore")
 
 [node name="Background" type="Node2D" parent="."]
@@ -534,7 +538,7 @@ custom_fonts/normal_font = ExtResource( 10 )
 
 [node name="ReadyScreen" type="Node2D" parent="Camera2D"]
 visible = false
-script = ExtResource( 15 )
+script = ExtResource( 38 )
 target_text_path = NodePath("Sprite/TargetScore")
 
 [node name="Sprite" type="Sprite" parent="Camera2D/ReadyScreen"]
@@ -559,6 +563,7 @@ text = "Press X
 
 [node name="LevelCompleteScreen" type="Node2D" parent="Camera2D"]
 visible = false
+script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="Camera2D/LevelCompleteScreen"]
 texture = ExtResource( 11 )
@@ -581,7 +586,7 @@ text = "Press X
 "
 
 [node name="DieScreen" type="Node2D" parent="Camera2D"]
-visible = false
+script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="Camera2D/DieScreen"]
 texture = ExtResource( 11 )
@@ -633,6 +638,35 @@ text = "3"
 
 [node name="CollectDisplayInformation" type="Node2D" parent="Camera2D"]
 script = ExtResource( 37 )
+
+[node name="DialogueScreen" type="Node2D" parent="Camera2D"]
+visible = false
+script = ExtResource( 36 )
+dialogue_text_path = NodePath("Node2D/DialogueContent")
+
+[node name="Sprite" type="Sprite" parent="Camera2D/DialogueScreen"]
+position = Vector2( 8.50002, 0 )
+scale = Vector2( 1.90039, 1 )
+texture = ExtResource( 11 )
+
+[node name="Node2D" type="Node2D" parent="Camera2D/DialogueScreen"]
+
+[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/DialogueScreen/Node2D"]
+margin_left = -377.0
+margin_top = -170.0
+margin_right = 356.0
+margin_bottom = 163.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Dialogue content goes here and hopefully everything displays correctly!"
+
+[node name="Prompt" type="RichTextLabel" parent="Camera2D/DialogueScreen/Node2D"]
+margin_left = 109.0
+margin_top = 138.0
+margin_right = 480.0
+margin_bottom = 220.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Press X
+"
 
 [connection signal="body_entered" from="Ghost/Area2D" to="Ghost" method="_on_Area2D_body_entered"]
 [connection signal="area_entered" from="PacMan/CenterPointTrigger" to="PacMan" method="_on_CenterPointTrigger_area_entered"]
