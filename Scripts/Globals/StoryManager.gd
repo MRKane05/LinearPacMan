@@ -37,3 +37,6 @@ func get_dialogue(record: int) -> Dictionary:
 	#		return chapter
 	push_warning("StoryManager: chapter not found - " + str(record))
 	return {}
+	
+func get_node_number():
+	return story_data.dialogue.size()

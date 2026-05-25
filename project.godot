@@ -43,6 +43,11 @@ _global_script_classes=[ {
 "class": "UIPowerupIcon",
 "language": "GDScript",
 "path": "res://Scripts/Gameplay/UI/UIPowerupIcon.gd"
+}, {
+"base": "Node",
+"class": "UI_Menu",
+"language": "GDScript",
+"path": "res://Scripts/Gameplay/UI/UI_Menu.gd"
 } ]
 _global_script_class_icons={
 "MoverBase": "",
@@ -51,7 +56,8 @@ _global_script_class_icons={
 "PortalAffector": "",
 "PowerupDisplayHandler": "",
 "PowerupItemResource": "",
-"UIPowerupIcon": ""
+"UIPowerupIcon": "",
+"UI_Menu": ""
 }
 
 [application]
@@ -63,8 +69,10 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Global="*res://Scripts/Globals/Global.gd"
+SaveManager="*res://Scripts/Globals/SaveManager.gd"
 PointIndicatorManager="*res://Scripts/Globals/PointIndicatorManager.gd"
+StoryManager="*res://Scripts/Globals/StoryManager.gd"
+Global="*res://Scripts/Globals/Global.gd"
 
 [display]
 

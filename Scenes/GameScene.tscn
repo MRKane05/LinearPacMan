@@ -586,6 +586,7 @@ text = "Press X
 "
 
 [node name="DieScreen" type="Node2D" parent="Camera2D"]
+visible = false
 script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="Camera2D/DieScreen"]
@@ -642,6 +643,7 @@ script = ExtResource( 37 )
 [node name="DialogueScreen" type="Node2D" parent="Camera2D"]
 visible = false
 script = ExtResource( 36 )
+return_var = 0
 dialogue_text_path = NodePath("Node2D/DialogueContent")
 
 [node name="Sprite" type="Sprite" parent="Camera2D/DialogueScreen"]

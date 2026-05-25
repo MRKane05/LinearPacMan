@@ -59,7 +59,7 @@ func add_score(by_this):
 # Stage present goal=============================================================
 func _on_ReadyButton_pressed():
 	#Ideally we'll play a resolve animation of some description
-	ready_screen.visible = false
+	#ready_screen.visible = false
 	#We need to hide our UI elements
 	set_game_state(1)
 	#Switch to countdown mode
@@ -86,12 +86,17 @@ func set_game_state(gamestate):
 	if (Global.game_state == 0): #setup and display our ready screen
 		ready_screen.display_target(target_score)
 	
+	
 	#handle trigger calls
 	if (Global.game_state == 1):
 		countdown_screen.start_countdown()
 	
 	if (Global.game_state == 2):
 		do_level_setup()
+	
+	#if (Global.game_state == 5):
+		#We need to set our conversation screen displaying text
+		#get_node(UI_Menus[5]).do_display_dilogue()
 	
 	#This is where we need to keep an eye out to see if we've got to display
 	#a message (or similar)
@@ -109,7 +114,11 @@ func set_game_state(gamestate):
 		var line = StoryManager.get_dialogue(0) #PROBLEM: Haven't got the story line advancing automatically
 		if (line.trigger == "deaths"):
 			if (story_games >= line.triggernum):
-				print("Got Story Trigger!") 
+				print("Got Story Trigger!")
+				get_node(UI_Menus[5]).do_display_dilogue()
+				#Global.game_state = 5	#This is our conversation screen window
+				#In theory I suppose we could just re-call this function...
+				set_game_state(5)
 		
 		#set_game_state(0)
 		#Change music to menu music
