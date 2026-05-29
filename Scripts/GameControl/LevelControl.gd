@@ -32,6 +32,10 @@ onready var die_screen = get_node(die_screen_path)
 export(NodePath) var dialogue_node_path
 onready var dialogue_node = get_node(dialogue_node_path)
 
+#Screens for our ingame prompts=======================================
+export(NodePath) var ingame_dialogue_handler_path
+onready var ingame_dialogue_handler = get_node(ingame_dialogue_handler_path)
+
 #Stuff for displaying our main sections. This should probably be it's own handler and will need refactored
 export(NodePath) var score_node_path
 onready var score_node = get_node(score_node_path)
@@ -48,6 +52,8 @@ var target_score = 100
 var score = 0
 
 var level_start_time = 0
+
+var ingame_dialogue_active = false
 
 # Score handling functions=======================================================
 func add_score(by_this):
@@ -110,8 +116,8 @@ func set_game_state(gamestate):
 		
 		SaveManager.set_value("total_games", games_played)
 		SaveManager.set_value("story_games", story_games)
-		
-		var line = StoryManager.get_dialogue(0) #PROBLEM: Haven't got the story line advancing automatically
+		var story_index = SaveManager.get_value("story_index")
+		var line = StoryManager.get_dialogue(story_index) 
 		if (line.trigger == "deaths"):
 			if (story_games >= line.triggernum):
 				print("Got Story Trigger!")
@@ -171,12 +177,36 @@ func do_level_setup():
 		
 	player_node.set_moveDir(player_sign)
 	
-	pips_node.spawn_pickups(true, true, player_node.global_position.x)
+	#Grab some details from our story manager to see if we should be doing an unlock
+	var story_index = SaveManager.get_value("story_index")
+	var line = StoryManager.get_dialogue(story_index)
+	var necessary_pickup = -1
+	
+	if (line != null && line != {} && line.size() != 0):
+		if (line.trigger == "powerup"):
+			necessary_pickup = line.powerup_reveal
+			#Make sure we update our save manager so that this'll be unlocked from this point forward
+			SaveManager.set_value("powerup_unlock", max(int(SaveManager.get_value("powerup_unlock")), necessary_pickup))
+		
+	var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x, necessary_pickup)
+	
 	
 	#pips_node.position.x = 0;	#reset this just in case it's moved
 	
 	level_start_time = Time.get_ticks_msec()
-	pass
+	
+	#This needs to get populated after everything has been revealed
+	if (pickup_spawned && necessary_pickup !=-1):
+		#Need to bring up the dialogue screen and pause
+		#set_game_state(6) #This enables our ingame dialogue in our state machine
+		create_callback_timer(0.75, "display_ingame_dialogue")
+
+func display_ingame_dialogue():
+	ingame_dialogue_active = true
+	ingame_dialogue_handler.visible = true
+	ingame_dialogue_handler.display_dialogue_powerup() #This'll need some arguments
+	get_tree().paused = true #Not totally sure how we'll unpause given the current setup...
+
 
 func pips_exhausted():
 	#Have some clever stuff here that'll sort out what our rewards might be
@@ -212,8 +242,9 @@ func _process(delta):
 			set_game_state(new_game_state)
 		
 
-		
-#	pass
+func return_from_paused():
+	#In theory our paused menu (ingame dialogue or settings) will hide itself, so we only need to do sundry stuff
+	pass
 
 #=========Powerup Stuff======================================================
 func select_powerup(selected_powerup: String):

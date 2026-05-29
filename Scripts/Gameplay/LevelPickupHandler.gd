@@ -28,9 +28,8 @@ func _ready():
 	#spawn_pickups(true, false)
 	pass
 
-func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPosition : float):
+func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPosition : float, pickup_reveal = -1):
 	self.position.x = 0 #Reset our position just in case we've drifted
-	
 	#we need to clear any pickups we may have had before putting down new ones
 	for child in self.get_children():
 		if child is Node2D:
@@ -45,7 +44,8 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 	var start_pos = Vector2(screen_padding, 300)
 	var end_pos = Vector2(screen_size.x - screen_padding, 300)
 	
-	
+	var special_pickup = -1
+
 	var special_placed = false
 	
 	for i in range(num_pickups):
@@ -70,7 +70,11 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 		if (!place_special):
 			p = pip_scene.instance()
 		else:
+			#Need to override this with the unlock
 			var value = randi() % special_pips.size()
+			if (pickup_reveal != -1): #Make sure our pickup is the one we're supposed to show
+				#PROBLEM: Need to setup to pause game and deliver message
+				value = pickup_reveal
 			if (override_powerup==null):
 				p = special_pips[value].instance()
 			else:
@@ -82,6 +86,8 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 			p.reveal_delay = i * 0.03
 			add_child(p)
 		
+	return special_placed
+
 func pellet_pickedup(pickup_item : Node, pickup_effect : String, add_value: int):
 	if (Global.game_state != 2 || level_controller.level_start_time > Time.get_ticks_msec() - 50): #Needs a debounce for components to settle into location
 		return

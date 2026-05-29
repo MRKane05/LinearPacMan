@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name UI_Menu
 
 export var return_var = -1 #This is hard-coded to return something when the player presses action

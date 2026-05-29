@@ -1,5 +1,7 @@
 extends UI_Menu
 
+class_name DialogueScreen
+
 export(NodePath) var dialogue_text_path
 onready var dialogue_text = get_node(dialogue_text_path)
 
@@ -16,12 +18,22 @@ func handle_inputaction(gamestate: int):
 			#Need to increment our current story record by one
 			var story_index = SaveManager.get_value("story_index")
 			story_index = story_index + 1
+			
+			var games_played = int(SaveManager.get_value("total_games"))
+			games_played = games_played - 1	#because we're going to spit everything back through our system
+		
+			SaveManager.set_value("total_games", games_played)
+			
 			if (story_index > StoryManager.get_node_number()):
 				story_index = StoryManager.get_node_number()
 			SaveManager.set_value("story_index", story_index)
-			SaveManager.set_value("story_games", 0)
+			SaveManager.set_value("story_games", -1)
 			if (return_var == -1):
 				return gamestate + 1 #base behaviour is to increment this by one
+			
+			#There's a possibility that our game could be paused at this point
+			#so we might need to unpause it to continue with normal function (if it's a ingame dialogue)
+			get_tree().paused = false
 			return return_var
 	else:
 		do_display_dilogue()

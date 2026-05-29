@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -38,6 +38,8 @@
 [ext_resource path="res://Scripts/Story/DialogueScreen.gd" type="Script" id=36]
 [ext_resource path="res://Scripts/Gameplay/UI/CollectScoreDisplayer.gd" type="Script" id=37]
 [ext_resource path="res://Scripts/GameControl/ReadyScreen.gd" type="Script" id=38]
+[ext_resource path="res://Scripts/Gameplay/UI/IngameDialogueBoxes.gd" type="Script" id=39]
+[ext_resource path="res://Fonts/johnny-fever/Johnny Fever.otf" type="DynamicFontData" id=40]
 
 [sub_resource type="Shader" id=12]
 code = "shader_type canvas_item;
@@ -297,6 +299,25 @@ tracks/1/keys = {
 "values": [ 15 ]
 }
 
+[sub_resource type="DynamicFontData" id=21]
+font_path = "res://Fonts/johnny-fever/Johnny Fever.otf"
+
+[sub_resource type="DynamicFont" id=22]
+size = 32
+font_data = SubResource( 21 )
+
+[sub_resource type="DynamicFont" id=23]
+size = 42
+font_data = ExtResource( 40 )
+
+[sub_resource type="DynamicFont" id=24]
+size = 32
+font_data = ExtResource( 40 )
+
+[sub_resource type="DynamicFont" id=25]
+size = 22
+font_data = ExtResource( 40 )
+
 [node name="SceneBase" type="Node2D"]
 script = ExtResource( 5 )
 UI_Menus = [ NodePath("Camera2D/ReadyScreen"), NodePath("Camera2D/CountdownScreen"), NodePath(""), NodePath("Camera2D/LevelCompleteScreen"), NodePath("Camera2D/DieScreen"), NodePath("Camera2D/DialogueScreen") ]
@@ -308,6 +329,7 @@ countdown_screen_path = NodePath("Camera2D/CountdownScreen")
 levelcomplete_screen_path = NodePath("Camera2D/LevelCompleteScreen")
 die_screen_path = NodePath("Camera2D/DieScreen")
 dialogue_node_path = NodePath("Camera2D/DialogueScreen")
+ingame_dialogue_handler_path = NodePath("Camera2D/ingameDialogueBoxes")
 score_node_path = NodePath("Camera2D/GameplayElements/GameScore")
 
 [node name="Background" type="Node2D" parent="."]
@@ -355,7 +377,7 @@ script = ExtResource( 7 )
 level_controller_path = NodePath("..")
 powerup_items_path = NodePath("../Camera2D/GameplayElements/PowerupItems")
 pip_scene = ExtResource( 6 )
-special_pips = [ ExtResource( 8 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 26 ), ExtResource( 35 ) ]
+special_pips = [ ExtResource( 35 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 8 ), ExtResource( 26 ) ]
 
 [node name="Ghost" type="KinematicBody2D" parent="."]
 position = Vector2( 32, 300 )
@@ -474,7 +496,7 @@ margin_left = 218.0
 margin_top = -264.0
 margin_right = 589.0
 margin_bottom = -182.0
-custom_fonts/normal_font = ExtResource( 10 )
+custom_fonts/normal_font = SubResource( 22 )
 text = "Score: "
 
 [node name="PowerupItems" type="Node2D" parent="Camera2D/GameplayElements"]
@@ -549,8 +571,8 @@ margin_left = -203.0
 margin_top = -170.0
 margin_right = 168.0
 margin_bottom = -88.0
-custom_fonts/normal_font = ExtResource( 10 )
-text = "Target: "
+custom_fonts/normal_font = SubResource( 23 )
+text = "Target:"
 
 [node name="Prompt" type="RichTextLabel" parent="Camera2D/ReadyScreen/Sprite"]
 margin_left = 288.0
@@ -568,12 +590,21 @@ script = ExtResource( 15 )
 [node name="Sprite" type="Sprite" parent="Camera2D/LevelCompleteScreen"]
 texture = ExtResource( 11 )
 
+[node name="Label" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite"]
+margin_left = -203.0
+margin_top = -173.0
+margin_right = 174.0
+margin_bottom = -96.0
+custom_fonts/font = SubResource( 24 )
+text = "Level Cleared!"
+align = 1
+
 [node name="TargetScore" type="RichTextLabel" parent="Camera2D/LevelCompleteScreen/Sprite"]
+visible = false
 margin_left = -203.0
 margin_top = -170.0
 margin_right = 168.0
 margin_bottom = -88.0
-custom_fonts/normal_font = ExtResource( 10 )
 text = "Level Complete!"
 
 [node name="Prompt" type="RichTextLabel" parent="Camera2D/LevelCompleteScreen/Sprite"]
@@ -592,14 +623,15 @@ script = ExtResource( 15 )
 [node name="Sprite" type="Sprite" parent="Camera2D/DieScreen"]
 texture = ExtResource( 11 )
 
-[node name="TargetScore" type="RichTextLabel" parent="Camera2D/DieScreen/Sprite"]
+[node name="Label" type="Label" parent="Camera2D/DieScreen/Sprite"]
 margin_left = -203.0
-margin_top = -170.0
-margin_right = 168.0
-margin_bottom = -36.0
-custom_fonts/normal_font = ExtResource( 10 )
-text = "You died 
+margin_top = -173.0
+margin_right = 174.0
+margin_bottom = -96.0
+custom_fonts/font = SubResource( 24 )
+text = "You Died
 try again!"
+align = 1
 
 [node name="Prompt" type="RichTextLabel" parent="Camera2D/DieScreen/Sprite"]
 margin_left = 288.0
@@ -643,7 +675,7 @@ script = ExtResource( 37 )
 [node name="DialogueScreen" type="Node2D" parent="Camera2D"]
 visible = false
 script = ExtResource( 36 )
-return_var = 0
+return_var = 4
 dialogue_text_path = NodePath("Node2D/DialogueContent")
 
 [node name="Sprite" type="Sprite" parent="Camera2D/DialogueScreen"]
@@ -666,6 +698,98 @@ margin_left = 109.0
 margin_top = 138.0
 margin_right = 480.0
 margin_bottom = 220.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Press X
+"
+
+[node name="ingameDialogueBoxes" type="Node2D" parent="Camera2D"]
+pause_mode = 2
+visible = false
+script = ExtResource( 39 )
+return_var = 2
+dialogue_text_path = NodePath("IngameDialogueScreen/Node2D/DialogueContent")
+dialogue_box_path = NodePath("IngameDialogueScreen")
+powerup_hint_path = NodePath("IngameDialoguePowerupHint")
+
+[node name="IngameDialogueScreen" type="Node2D" parent="Camera2D/ingameDialogueBoxes"]
+position = Vector2( 0, 200 )
+script = ExtResource( 36 )
+return_var = 4
+dialogue_text_path = NodePath("Node2D/Label")
+
+[node name="Sprite" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
+position = Vector2( 8.50002, -28.5 )
+scale = Vector2( 1.90039, 0.369141 )
+texture = ExtResource( 11 )
+
+[node name="Node2D" type="Node2D" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
+
+[node name="Label" type="Label" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen/Node2D"]
+margin_left = -398.0
+margin_top = -93.0
+margin_right = 359.0
+margin_bottom = 52.0
+custom_fonts/font = SubResource( 24 )
+text = "In game message to player goes here. Hopefully it's useful!"
+align = 3
+autowrap = true
+
+[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen/Node2D"]
+visible = false
+margin_left = -377.0
+margin_top = -91.0
+margin_right = 356.0
+margin_bottom = 44.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "This is a powerup or note!"
+
+[node name="Prompt" type="RichTextLabel" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen/Node2D"]
+margin_left = 348.0
+margin_top = 30.0
+margin_right = 719.0
+margin_bottom = 112.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Press X
+"
+
+[node name="IngameDialoguePowerupHint" type="Node2D" parent="Camera2D/ingameDialogueBoxes"]
+position = Vector2( -183, -145 )
+script = ExtResource( 36 )
+return_var = 4
+dialogue_text_path = NodePath("Node2D/Label")
+
+[node name="Sprite" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint"]
+position = Vector2( 89.5, -28.5 )
+scale = Vector2( 0.810547, 0.369141 )
+texture = ExtResource( 11 )
+
+[node name="Node2D" type="Node2D" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint"]
+
+[node name="Label" type="Label" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint/Node2D"]
+margin_left = -82.0
+margin_top = -93.0
+margin_right = 241.0
+margin_bottom = 52.0
+custom_fonts/font = SubResource( 25 )
+text = "Collected powerups are stored here. Press the associated button to use one. You can only hold three"
+align = 3
+autowrap = true
+
+[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint/Node2D"]
+visible = false
+margin_left = -68.0
+margin_top = -91.0
+margin_right = 228.0
+margin_bottom = 44.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Powerups are stored here. Press the associated button to use them. You can only store 3"
+
+[node name="Prompt" type="RichTextLabel" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint/Node2D"]
+visible = false
+margin_left = 348.0
+margin_top = 30.0
+margin_right = 719.0
+margin_bottom = 112.0
 custom_fonts/normal_font = ExtResource( 10 )
 text = "Press X
 "
