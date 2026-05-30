@@ -183,15 +183,12 @@ func do_level_setup():
 	var necessary_pickup = -1
 	
 	if (line != null && line != {} && line.size() != 0):
-		if (line.trigger == "powerup"):
+		if (line.trigger == "powerup" && int(SaveManager.get_value("story_games")) > line.triggernum):
 			necessary_pickup = line.powerup_reveal
 			#Make sure we update our save manager so that this'll be unlocked from this point forward
 			SaveManager.set_value("powerup_unlock", max(int(SaveManager.get_value("powerup_unlock")), necessary_pickup))
 		
 	var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x, necessary_pickup)
-	
-	
-	#pips_node.position.x = 0;	#reset this just in case it's moved
 	
 	level_start_time = Time.get_ticks_msec()
 	

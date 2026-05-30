@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Fonts/JohnnyFever.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Fonts/JohnnyFever_32.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Scripts/Gameplay/UI/CollectDisplayItem.gd" type="Script" id=2]
 
 [sub_resource type="Animation" id=21]

@@ -1,0 +1,26 @@
+{
+  "dialogue": [
+    {
+      "speaker": "pac",
+      "trigger": "powerup",
+      "triggernum": 2,
+      "trigger_liklihood": 1,
+      "powerup_reveal": 1,
+      "lines": [
+        "This is a freeze powerup, it will slow down the ghost",
+        "Use it to give yourself more time to grab pips!"
+      ]
+    },
+    {
+      "speaker": "pac",
+      "trigger": "deaths",
+      "triggernum": 2,
+      "trigger_liklihood": 1,
+      "powerup_reveal": -1,
+      "lines": [
+        "Can you see me yet? Things are a little tricky",
+        "Just a couple more rounds and I'll find the pattern!'"
+      ]
+    }
+  ]
+}
