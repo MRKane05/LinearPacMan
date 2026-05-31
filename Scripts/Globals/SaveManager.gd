@@ -1,9 +1,7 @@
 # SaveManager.gd - add to AutoLoad
 extends Node
 
-const PC_SAVE_PATH = "C://Users//kano//Documents//Projects//VitaGames//LinearPacMan//savegame.json"
-
-var target_save_path = "ux0:data//LPAC//savegame.json" #Default to Vita unless otherwise specified
+var target_save_path = "" #Default to Vita unless otherwise specified
 
 enum Platform { VITA, WINDOWS, LINUX, MAC, UNKNOWN }
 
@@ -35,20 +33,7 @@ var save_data = {
 }
 
 func _ready():
-	match OS.get_name():
-		"PSVita":   current_platform = Platform.VITA
-		"Windows":  current_platform = Platform.WINDOWS
-		"X11":      current_platform = Platform.LINUX
-		"OSX":      current_platform = Platform.MAC
-		_:          current_platform = Platform.UNKNOWN
-	print("Platform detected: " + get_platform_name())
-	
-	if (!is_vita()):
-		target_save_path = PC_SAVE_PATH;
-	else:
-		var dir = Directory.new()
-		if (!dir.dir_exists("ux0:data//LPAC")):
-			dir.make_dir("ux0:data//LPAC")
+	target_save_path = OS.get_user_data_dir() + "/savegame.json"
 	
 	load_game()
 

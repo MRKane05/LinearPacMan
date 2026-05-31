@@ -1,20 +1,22 @@
 # StoryManager.gd - recommended as AutoLoad
 extends Node
 
+export(String, FILE, "*.json") var story_file_path = "res://Data/story.json"
+
 var story_data = {}
 
 func _ready():
-	load_story("res://data/story.json")
+	load_story()
 
-func load_story(path: String):
+func load_story():
 	var file = File.new()
 	
 	# Check the file exists before trying to open it
-	if not file.file_exists(path):
-		push_error("StoryManager: file not found at " + path)
+	if not file.file_exists(story_file_path):
+		push_error("StoryManager: file not found at " + story_file_path)
 		return
 	
-	file.open(path, File.READ)
+	file.open(story_file_path, File.READ)
 	var content = file.get_as_text()
 	file.close()
 	

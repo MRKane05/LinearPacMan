@@ -118,13 +118,14 @@ func set_game_state(gamestate):
 		SaveManager.set_value("story_games", story_games)
 		var story_index = SaveManager.get_value("story_index")
 		var line = StoryManager.get_dialogue(story_index) 
-		if (line.trigger == "deaths"):
-			if (story_games >= line.triggernum):
-				print("Got Story Trigger!")
-				get_node(UI_Menus[5]).do_display_dilogue()
-				#Global.game_state = 5	#This is our conversation screen window
-				#In theory I suppose we could just re-call this function...
-				set_game_state(5)
+		if (line != null && line != {} && line.size() != 0):
+			if (line.trigger == "deaths"):
+				if (story_games >= line.triggernum):
+					print("Got Story Trigger!")
+					get_node(UI_Menus[5]).do_display_dilogue()
+					#Global.game_state = 5	#This is our conversation screen window
+					#In theory I suppose we could just re-call this function...
+					set_game_state(5)
 		
 		#set_game_state(0)
 		#Change music to menu music
@@ -159,7 +160,7 @@ func do_level_setup():
 	#Based off of our start pos we can now look at positioning our enemy
 	var direction = [-1, 1][randi() % 2]
 	var dirstartpos = direction * floor(rand_range(3, 7))
-	print (dirstartpos)
+	#print (dirstartpos)
 	var enemystartpos = startpos + dirstartpos
 	
 	enemystartpos = fposmod(enemystartpos, 8.0)	#Will need to make sure that this isn't zero
@@ -167,7 +168,7 @@ func do_level_setup():
 	#startpos = floor(rand_range(1, start_positions.size()))
 	ghost_node.global_position =  Vector2(enemystartpos/7.0 * 1024, 300)
 	ghost_node.reset_ghost()
-	print(enemystartpos)
+	#print(enemystartpos)
 	#The last bit (of course) is picking the player start direction based off of where the enemy is and making sure we're not running into the ghost
 	var enemydist = player_node.global_position.x - ghost_node.global_position.x
 	
@@ -187,16 +188,18 @@ func do_level_setup():
 			necessary_pickup = line.powerup_reveal
 			#Make sure we update our save manager so that this'll be unlocked from this point forward
 			SaveManager.set_value("powerup_unlock", max(int(SaveManager.get_value("powerup_unlock")), necessary_pickup))
-		
-	var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x, necessary_pickup)
 	
+	var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x, necessary_pickup)
+
+#
+	#var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x)
 	level_start_time = Time.get_ticks_msec()
 	
 	#This needs to get populated after everything has been revealed
-	if (pickup_spawned && necessary_pickup !=-1):
+	#if (pickup_spawned && necessary_pickup !=-1):
 		#Need to bring up the dialogue screen and pause
 		#set_game_state(6) #This enables our ingame dialogue in our state machine
-		create_callback_timer(0.75, "display_ingame_dialogue")
+		#create_callback_timer(0.75, "display_ingame_dialogue")
 
 func display_ingame_dialogue():
 	ingame_dialogue_active = true

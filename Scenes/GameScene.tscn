@@ -735,6 +735,7 @@ position = Vector2( 0, 200 )
 script = ExtResource( 36 )
 return_var = 4
 dialogue_text_path = NodePath("Node2D/Label")
+speaker_name_path = NodePath("Node2D/SpeakerName")
 
 [node name="Sprite" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
 position = Vector2( 8.50002, -28.5 )
@@ -784,9 +785,6 @@ text = "Press X
 
 [node name="IngameDialoguePowerupHint" type="Node2D" parent="Camera2D/ingameDialogueBoxes"]
 position = Vector2( -183, -145 )
-script = ExtResource( 36 )
-return_var = 4
-dialogue_text_path = NodePath("Node2D/Label")
 
 [node name="Sprite" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint"]
 position = Vector2( 89.5, -28.5 )
