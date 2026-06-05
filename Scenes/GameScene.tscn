@@ -777,7 +777,8 @@ text = "Press X
 
 [node name="LevelCompleteScreen" type="Node2D" parent="Camera2D"]
 visible = false
-script = ExtResource( 15 )
+script = ExtResource( 38 )
+target_text_path = NodePath("Sprite/TargetScore")
 
 [node name="Sprite" type="Sprite" parent="Camera2D/LevelCompleteScreen"]
 texture = ExtResource( 11 )
@@ -964,7 +965,9 @@ pause_mode = 2
 visible = false
 script = ExtResource( 39 )
 return_var = 2
-dialogue_text_path = NodePath("IngameDialogueScreen/Node2D/DialogueContent")
+speaker_icon_path = NodePath("IngameDialogueScreen/SpeakerIcon")
+speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
+dialogue_text_path = NodePath("IngameDialogueScreen/Node2D/DialogueText")
 speaker_name_path = NodePath("IngameDialogueScreen/Node2D/SpeakerName")
 dialogue_box_path = NodePath("IngameDialogueScreen")
 powerup_hint_path = NodePath("IngameDialoguePowerupHint")
@@ -973,7 +976,9 @@ powerup_hint_path = NodePath("IngameDialoguePowerupHint")
 position = Vector2( 0, 200 )
 script = ExtResource( 36 )
 return_var = 4
-dialogue_text_path = NodePath("Node2D/Label")
+speaker_icon_path = NodePath("SpeakerIcon")
+speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
+dialogue_text_path = NodePath("Node2D/DialogueText")
 speaker_name_path = NodePath("Node2D/SpeakerName")
 
 [node name="SpeakerIcon" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
@@ -994,42 +999,26 @@ margin_top = -110.0
 margin_right = -112.0
 margin_bottom = -29.0
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_as_outline = 8
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
 custom_fonts/font = SubResource( 24 )
 text = "Speaker
 "
 align = 3
 autowrap = true
 
-[node name="Label" type="Label" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen/Node2D"]
+[node name="DialogueText" type="Label" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen/Node2D"]
 margin_left = -344.0
 margin_top = -66.0
 margin_right = 359.0
 margin_bottom = 52.0
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_as_outline = 8
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
 custom_fonts/font = SubResource( 26 )
 text = "In game message to player goes here. Hopefully it's useful!"
 align = 3
 autowrap = true
-
-[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen/Node2D"]
-visible = false
-margin_left = -377.0
-margin_top = -91.0
-margin_right = 356.0
-margin_bottom = 44.0
-custom_fonts/normal_font = ExtResource( 10 )
-text = "This is a powerup or note!"
-
-[node name="Prompt" type="RichTextLabel" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen/Node2D"]
-margin_left = 348.0
-margin_top = 30.0
-margin_right = 719.0
-margin_bottom = 112.0
-custom_fonts/normal_font = ExtResource( 10 )
-text = "Press X
-"
 
 [node name="IngameDialoguePowerupHint" type="Node2D" parent="Camera2D/ingameDialogueBoxes"]
 position = Vector2( -183, -145 )
@@ -1046,6 +1035,9 @@ margin_left = -82.0
 margin_top = -93.0
 margin_right = 241.0
 margin_bottom = 52.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
 custom_fonts/font = SubResource( 25 )
 text = "Collected powerups are stored here. Press the associated button to use one. You can only hold three"
 align = 3

@@ -71,7 +71,11 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 			p = pip_scene.instance()
 		else:
 			#Need to override this with the unlock
-			var value = randi() % special_pips.size()
+			var max_powerup = 1;
+			max_powerup = max(max_powerup, int(SaveManager.get_value("powerup_unlock")))
+			max_powerup = min(max_powerup, special_pips.size())
+			
+			var value = randi() % max_powerup
 			if (pickup_reveal != -1): #Make sure our pickup is the one we're supposed to show
 				#PROBLEM: Need to setup to pause game and deliver message
 				value = pickup_reveal
