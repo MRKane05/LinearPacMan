@@ -37,10 +37,25 @@ export(NodePath) var ingame_dialogue_handler_path
 onready var ingame_dialogue_handler = get_node(ingame_dialogue_handler_path)
 
 #Stuff for displaying our main sections. This should probably be it's own handler and will need refactored
+export(NodePath) var high_score_node_path
+onready var high_score_node = get_node(high_score_node_path)
+
+export(NodePath) var current_score_node_path
+onready var current_score_node = get_node(current_score_node_path)
+
 export(NodePath) var score_node_path
 onready var score_node = get_node(score_node_path)
 
+export(NodePath) var target_score_node_path
+onready var target_score_node = get_node(target_score_node_path)
 
+#Bits and pieces for our support quote screen
+export(NodePath) var support_quote_path
+onready var support_quote = get_node(support_quote_path)
+
+#Prompt to press X to change direction======================================
+export(NodePath) var x_prompt_path
+onready var x_prompt = get_node(x_prompt_path)
 
 #A state hangler to keep track of what we're doing
 #var game_state = 0 #0: ready, 1: countdown, 2: playing, 3: level clear screen 4: game over screen 5: display message screen
@@ -48,19 +63,35 @@ onready var score_node = get_node(score_node_path)
 var powerup_time = 0
 var current_powerup = ""	#lets make it so that there's only one powerup at once
 
+var current_round = 0
 var target_score = 100
 var score = 0
+var aggregate_score = 0
 
 var level_start_time = 0
 
 var ingame_dialogue_active = false
 
+var max_score = 0
+
+#End Dialogue features================================
+var bHighscoreSet = false
+
 # Score handling functions=======================================================
 func add_score(by_this):
 	score += by_this
-	score_node.text = "Score: " + str(score)
-	if (score > target_score):
+	score_node.text = str(score)
+	
+	aggregate_score += by_this
+	current_score_node.text = str(aggregate_score)
+	
+	if (score >= target_score):
 		set_game_state(3)
+	
+	if (aggregate_score > max_score):
+		max_score = aggregate_score
+		high_score_node.text = str(max_score)
+		bHighscoreSet = true
 
 # Stage present goal=============================================================
 func _on_ReadyButton_pressed():
@@ -71,7 +102,9 @@ func _on_ReadyButton_pressed():
 	#Switch to countdown mode
 
 func _on_NextLevelButton_pressed():
-	target_score += 100
+	current_round += 1
+	target_score = 100 + current_round * 100
+	target_score_node.text = str(target_score)
 	score = 0
 	set_game_state(0)	#Go back to our ready screen
 
@@ -91,6 +124,9 @@ func set_game_state(gamestate):
 	#Specific per-case screen things
 	if (Global.game_state == 0): #setup and display our ready screen
 		ready_screen.display_target(target_score)
+		if (current_round == 0):
+			bHighscoreSet = false
+			aggregate_score = 0	#Reset our aggregate score as this is a game start thing (this might need another stage)
 	
 	
 	#handle trigger calls
@@ -100,15 +136,20 @@ func set_game_state(gamestate):
 	if (Global.game_state == 2):
 		do_level_setup()
 	
-	#if (Global.game_state == 5):
-		#We need to set our conversation screen displaying text
-		#get_node(UI_Menus[5]).do_display_dilogue()
+	#Do stuff if player has died
+	if (Global.game_state == 4 || Global.game_state == 3 || Global.game_state == 5):
+		var saved_max_score = SaveManager.get_value("max_score")
+		if (max_score > saved_max_score):
+			#PROBLEM: Need to note that we've set a highscore and the feedback should reflect that!
+			SaveManager.set_value("max_score", max_score)
 	
+
 	#This is where we need to keep an eye out to see if we've got to display
 	#a message (or similar)
 	#Otherwise tally up our games played since the last event
 	#die_screen.visible = (Global.game_state == 4)
 	if (Global.game_state == 4):
+		select_support_statement()
 		var games_played = int(SaveManager.get_value("total_games"))
 		var story_games = int(SaveManager.get_value("story_games"))
 		games_played = games_played + 1
@@ -117,20 +158,81 @@ func set_game_state(gamestate):
 		SaveManager.set_value("total_games", games_played)
 		SaveManager.set_value("story_games", story_games)
 		var story_index = SaveManager.get_value("story_index")
-		var line = StoryManager.get_dialogue(story_index) 
-		if (line != null && line != {} && line.size() != 0):
-			if (line.trigger == "deaths"):
-				if (story_games >= line.triggernum):
-					print("Got Story Trigger!")
-					get_node(UI_Menus[5]).do_display_dilogue()
-					#Global.game_state = 5	#This is our conversation screen window
-					#In theory I suppose we could just re-call this function...
-					set_game_state(5)
+		if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
+			var line = StoryManager.get_dialogue(story_index) 
+			if (line != null && line != {} && line.size() != 0):
+				if (line.trigger == "deaths"):
+					if (story_games >= line.triggernum):
+						print("Got Story Trigger!")
+						get_node(UI_Menus[5]).do_display_dilogue()
+						#Global.game_state = 5	#This is our conversation screen window
+						#In theory I suppose we could just re-call this function...
+						set_game_state(5)
 		
 		#set_game_state(0)
 		#Change music to menu music
 		#display stats on the die screen
 		pass
+
+var high_score_support = ["You set a new high score! That's fantastic! Keep trying to see how high you can get!",
+"A new high score! There's no stopping you now!", "Don't skip this screen too quickly, because you set a new high score!",
+"Any time you get a new high score it's worth phoning home about!"]
+
+var close_to_high_score = ["So close to a new highscore! Just do that again, except with more points!", 
+"That must have been frustrating to come so close to a highscore, breathe, collect yourself, try again!", 
+"Nearly a highschore! I hope you're not planning on making a habit of this!",
+"You were robbed! That run should have ended with a new highscore!"]
+
+var lower_quartile = ["You were only just getting warmed up!", "Don't let that run get you down, you need to prepare for a good one!",
+"Whoops! Lets just keep going and forget that run", "Perhaps you need a little more sleep before trying again"]
+
+var half_quartile = ["Over half way to a new highscore, practice makes perfect!", 
+"I call that a ditto-run, it's what gets the work done without being pompus",
+"Get back into the swing of it!", "Go on! The next run is going to be a winner!"]
+
+var top_quartile = ["You were really rolling with that run!", "You were raking in the points during that run!",
+"Deep breath, compose yoursef, because that run was awesome!", "Gets quick when you're at higher levels!", "You were robbed! That run was going so well!"]
+
+var hidden_message = ["AGIªUHŠH˜H© ©HIGHM¥SCORE%Gð¦N†OæK¥HÐ Ðîh", " 33'!'  3  !	 ›Æ³Æ¾ÆÉÆÔÆÞÆêÆóÆýÆÇ æCHARACTER ;  NICKNAMEÿ!H:PAKMANÿ",
+"©ÿ…©KEEPÂ¥ŠðG .ÉÆŠðLPÂTRYINGí--------ÿ-/24Ç ÿÇÿ¢", "ÀLM©ST…¥)Ð¥PÅQð…QæÌæÌLDÔü™9Ø… ±ä¥ÉÿÐ©Ð¥ÉÿÐ¥•¹` ",
+"00 38 e5 05 c9 20 b0 31 a5 4b 85 05 a9 05 85 06 c6 06 d0 04 a9 02 d0 1c e6 05 a5 05 29 03 a8 b1"]
+
+func get_random_item(arr: Array):
+	if arr.empty():
+		return null # Return null or handle the empty array safety check
+		
+	var random_index = randi() % arr.size()
+	return arr[random_index]
+
+#This could really be a class within itself...
+func select_support_statement():
+	var pac_image = int(SaveManager.get_value("pac_reveal"))
+	var display_name = "PAC"
+	if (pac_image == 0):
+		display_name = "??"	
+		
+	die_screen.set_speaker_icon_name(pac_image, display_name)
+	
+	if (pac_image == 0):	#Set our quote after having set our speaker details. Don't know why I did it this way
+		support_quote.text = get_random_item(hidden_message)
+		return
+	
+	if (bHighscoreSet):
+		support_quote.text = get_random_item(high_score_support)
+		return
+	
+	#At this point we need to do an evaluation of the score as to what we're going to say
+	if (aggregate_score > max_score - 70): #Just short of a new highscore
+		support_quote.text = get_random_item(close_to_high_score)
+		return;
+	elif (aggregate_score < max_score * 0.25):
+		support_quote.text = get_random_item(lower_quartile)
+		return;
+	elif (aggregate_score < max_score * 0.5):
+		support_quote.text = get_random_item(half_quartile)
+		return;
+	
+	support_quote.text = get_random_item(top_quartile)
 
 
 # Main Game Functions ===========================================================
@@ -149,7 +251,14 @@ func _ready():
 	set_game_state(0)
 	pass # Replace with function body.
 
+var change_direction_presses = 0
+
 func do_level_setup():
+	change_direction_presses = 0
+	x_prompt.modulate = Color.white	#Turn our prompt panel back on again
+	
+	max_score = int(SaveManager.get_value("max_score"))
+	high_score_node.text = str(max_score)
 	#Idea: break the screen up into sections and then use that logic for the placement of the character
 	#This seems like a good idea, but it's not as it can start the player in situations where they cannot survive
 	#var start_positions = [1, 2, 3, 4, 5, 6, 7]
@@ -190,16 +299,10 @@ func do_level_setup():
 			SaveManager.set_value("powerup_unlock", max(int(SaveManager.get_value("powerup_unlock")), necessary_pickup))
 	
 	var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x, necessary_pickup)
-
-#
+	
+	
 	#var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x)
 	level_start_time = Time.get_ticks_msec()
-	
-	#This needs to get populated after everything has been revealed
-	#if (pickup_spawned && necessary_pickup !=-1):
-		#Need to bring up the dialogue screen and pause
-		#set_game_state(6) #This enables our ingame dialogue in our state machine
-		#create_callback_timer(0.75, "display_ingame_dialogue")
 
 func display_ingame_dialogue():
 	ingame_dialogue_active = true
@@ -222,6 +325,13 @@ func do_powerup_eat_ghost():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_just_pressed("ui_accept"):
+		#Keep a ticker on our control prompt
+		change_direction_presses = change_direction_presses + 1
+		if (change_direction_presses == 3):
+			#Modulate off our change direction prompt
+			var tween = create_tween()
+			tween.tween_property(x_prompt, "modulate:a", 0.0, 1.0)
+		
 		#Step forward with our screen setup
 		if (Global.game_state != 2):
 			var new_game_state = Global.game_state # + 1
@@ -231,13 +341,17 @@ func _process(delta):
 				
 			if (Global.game_state == 3): #Handle our end of level stuff
 				new_game_state = 0;
-				target_score += 100
+				current_round += 1
+				target_score = 100 + current_round * 100
+				target_score_node.text = str(target_score)
 				score = 0
 			
 			if (Global.game_state == 4):
 				target_score = 100
+				target_score_node.text = "100"
 				score = 0
 				new_game_state = 0;
+				
 			
 			set_game_state(new_game_state)
 		

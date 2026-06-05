@@ -1,6 +1,17 @@
 {
   "dialogue": [
     {
+      "speaker": "?",
+      "trigger": "deaths",
+      "triggernum": 2,
+      "trigger_liklihood": 1,
+      "powerup_reveal": -1,
+      "lines": [
+        "Human, are you reading this?",
+        "Play some more rounds, I'll get through to you yet!'"
+      ]
+    },
+    {
       "speaker": "pac",
       "trigger": "powerup",
       "triggernum": 2,

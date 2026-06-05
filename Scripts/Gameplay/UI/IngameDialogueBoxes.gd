@@ -24,7 +24,7 @@ func display_dialogue_character():
 	pass
 
 func _process(delta):
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("ui_accept") && self.visible:
 		#Step forward with our screen setup
 		#This will cycle our dialogue box more than anything else
 		var handle_input = handle_inputaction(0)

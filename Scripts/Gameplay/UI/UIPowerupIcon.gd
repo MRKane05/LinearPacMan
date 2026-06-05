@@ -4,23 +4,33 @@ class_name UIPowerupIcon
 export(NodePath) var icon_sprite_path
 onready var icon_sprite = get_node(icon_sprite_path)
 
+export(NodePath) var button_icon_path
+onready var button_icon = get_node(button_icon_path)
+
 var base_position = Vector2.ZERO
 
 
 func _ready():
 	base_position = icon_sprite.global_position
+	modulate = Color(1,1,1,0.5)
+	button_icon.modulate = Color(1,1,1,0.5)
 	
 #This is also used to clear the sprite, so perhaps we could have something
 #to animate it :)
 func set_icon_sprite(newSprite: Texture, startPosition: Vector2):
-	print("Sprite call set")
-	icon_sprite.texture = newSprite
-	#var tween = create_tween()
-	icon_sprite.global_position = startPosition
-	play_collect_arc(startPosition, base_position, 0.5)
+	if (newSprite != null):
+		modulate = Color.white
+		button_icon.modulate = Color.white
+		icon_sprite.texture = newSprite
+		#var tween = create_tween()
+		icon_sprite.global_position = startPosition
+		play_collect_arc(startPosition, base_position, 0.5)
+	else:
+		icon_sprite.texture = newSprite
+		modulate = Color(1,1,1,0.5)
+		button_icon.modulate = Color(1,1,1,0.5)
 
-
-func play_collect_arc(start_pos: Vector2, end_pos: Vector2, duration: float = 0.6):
+func play_collect_arc(start_pos: Vector2, end_pos: Vector2, duration: float = 1.2):
 	var tween_x = create_tween()
 	tween_x.tween_property(
 		icon_sprite, "global_position:x",

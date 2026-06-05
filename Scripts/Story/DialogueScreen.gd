@@ -2,12 +2,6 @@ extends UI_Menu
 
 class_name DialogueScreen
 
-export(NodePath) var dialogue_text_path
-onready var dialogue_text = get_node(dialogue_text_path)
-
-export(NodePath) var speaker_name_path
-onready var speaker_name = get_node(speaker_name_path)
-
 var current_line = 0
 var story_node;
 
@@ -57,5 +51,11 @@ func display_dialogue():
 	#var line = StoryManager.get_dialogue(record)
 	if (story_node):
 		dialogue_text.text = story_node.lines[current_line]
-		speaker_name.text = story_node.speaker;
+		var speaker_name = story_node.speaker
+		var graphic_entry = 1
+		if ("?" in speaker_name):
+			graphic_entry = 0
+		#speaker_name.text = story_node.speaker;
+		set_speaker_icon_name(graphic_entry, speaker_name)
+		
 	#print(line.text)

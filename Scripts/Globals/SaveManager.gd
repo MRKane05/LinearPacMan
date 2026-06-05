@@ -30,6 +30,7 @@ var save_data = {
 	"playtime":        0.0,
 	"powerup_unlock":	1,
 	"gamemod_unlock":	0,
+	"pac_reveal":		0,
 }
 
 func _ready():
@@ -84,6 +85,7 @@ func delete_save():
 			"playtime":        0.0,
 			"powerup_unlock":	1,
 			"gamemod_unlock":	0,
+			"pac_reveal":		0,
 		}
 		print("Save deleted")
 
