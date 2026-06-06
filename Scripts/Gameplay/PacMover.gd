@@ -14,8 +14,13 @@ var bPlayer_alive = true
 export(NodePath) var level_controller_path
 onready var level_controller = get_node(level_controller_path)
 
+export(Color) var color_normal
+export(Color) var color_invisible
+
 const SOUNDS = {
 	"taser"   : preload("res://Sounds/Powerups/electric-zap.wav"),
+	"freeze_start"	: preload("res://Sounds//Powerups/Freeze_Start.wav"),
+	"freeze_end" : preload("res://Sounds//Powerups/Freeze_Stop.wav")
 }
 
 
@@ -82,15 +87,21 @@ func _on_CenterPointTrigger_area_entered(area):
 	if (area.has_method("pac_contacted")):
 		area.pac_contacted(self)
 	pass # Replace with function body.
-	
-	
+
+func play_freeze_end_sound():
+	play_sound(SOUNDS["freeze_end"])
+
 func apply_powerup(new_powerup:String):
 	.apply_powerup(new_powerup)
 	
 	match new_powerup:
 		"pup_freeze":
-			pass
+			play_sound(SOUNDS["freeze_start"])
+			var freeze_end_call_time = Global.freeze_duration - 1.4;
+			create_callback_timer(freeze_end_call_time, "play_freeze_end_sound")
 		"pup_invisible":
+			var tween = create_tween()
+			tween.tween_property(char_sprite, "modulate", color_invisible, 0.5)
 			pass
 		"pup_repulse":
 			repel_effect.emitting = true
@@ -107,6 +118,11 @@ func repulse_callback():
 func taser_callback():
 	.taser_callback()
 	taser_effect.emitting = false
+
+func invisible_callback():
+	.invisible_callback()
+	var tween = create_tween()
+	tween.tween_property(char_sprite, "modulate", color_normal, 0.5)
 
 func ghost_ate_player():
 	#Tell our level controller about it

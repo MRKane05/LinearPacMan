@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=2]
+[gd_scene load_steps=80 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -49,6 +49,7 @@
 [ext_resource path="res://Fonts/JohnnyFever_32.tres" type="DynamicFont" id=47]
 [ext_resource path="res://Textures/Particles/SquareParticle.png" type="Texture" id=48]
 [ext_resource path="res://Textures/UIElements/CharacterIcons/CorruptedImage.png" type="Texture" id=49]
+[ext_resource path="res://Textures/UIElements/ScreenEffects/Frost_Effect_5.png" type="Texture" id=50]
 
 [sub_resource type="CanvasItemMaterial" id=28]
 blend_mode = 1
@@ -318,6 +319,9 @@ tracks/1/keys = {
 "values": [ 15 ]
 }
 
+[sub_resource type="CanvasItemMaterial" id=31]
+blend_mode = 1
+
 [sub_resource type="Theme" id=27]
 
 [sub_resource type="DynamicFont" id=24]
@@ -354,6 +358,7 @@ score_node_path = NodePath("Camera2D/GameplayElements/LevelScoreContainer/LevelS
 target_score_node_path = NodePath("Camera2D/GameplayElements/TargetScoreContainer/TargetScore")
 support_quote_path = NodePath("Camera2D/DieScreen/PromotionalStub/DialogueContent")
 x_prompt_path = NodePath("Camera2D/ChangeDirectionsPrompt")
+effect_freeze_path = NodePath("Camera2D/PowerupOverlays/Effect_Freeze")
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -430,6 +435,8 @@ script = ExtResource( 4 )
 char_sprite_path = NodePath("Sprite")
 _animation_player = NodePath("AnimationPlayer")
 player_node_path = NodePath("../PacMan")
+color_normal = Color( 1, 0.384314, 0.384314, 1 )
+color_frozen = Color( 0.384314, 1, 0.870588, 1 )
 
 [node name="GlowSprite" type="Sprite" parent="Ghost"]
 self_modulate = Color( 1, 0.615686, 0.615686, 0.509804 )
@@ -473,6 +480,8 @@ script = ExtResource( 1 )
 char_sprite_path = NodePath("Sprite")
 _animation_player = NodePath("AnimationPlayer")
 level_controller_path = NodePath("..")
+color_normal = Color( 1, 1, 1, 1 )
+color_invisible = Color( 1, 1, 1, 0.215686 )
 repel_effect_path = NodePath("RepelParticleEffect")
 taser_effect_path = NodePath("TaserParticleEffect")
 
@@ -528,6 +537,15 @@ anims/RESET = SubResource( 10 )
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 480, 272 )
 current = true
+
+[node name="PowerupOverlays" type="Node2D" parent="Camera2D"]
+
+[node name="Effect_Freeze" type="Sprite" parent="Camera2D/PowerupOverlays"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+material = SubResource( 31 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 50 )
 
 [node name="ChangeDirectionsPrompt" type="Node2D" parent="Camera2D"]
 position = Vector2( -115, 112 )

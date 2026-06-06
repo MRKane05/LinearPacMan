@@ -11,6 +11,9 @@ var screen_size
 export(NodePath) var player_node_path
 onready var player_node = get_node(player_node_path)
 
+export(Color) var color_normal
+export(Color) var color_frozen
+
 var bCanBeEaten = false
 var bGhostFlee = false
 var bGhostRespawning = false
@@ -53,6 +56,7 @@ func reset_ghost():
 	bGhostFlee = false;
 	bGhostRespawning = false
 	set_animation("Move")
+	char_sprite.modulate = color_normal
 	#Might need to reset any animation state here
 
 func _physics_process(delta):
@@ -168,6 +172,8 @@ func apply_powerup(new_powerup:String):
 	.apply_powerup(new_powerup)
 	match new_powerup:
 		"pup_freeze":
+			var tween = create_tween()
+			tween.tween_property(char_sprite, "modulate", color_frozen, 0.5)
 			pass
 		"pup_invisible":
 			#So that our ghost predictibly looks confused when the player vanishes
@@ -178,3 +184,8 @@ func apply_powerup(new_powerup:String):
 			pass
 		"pup_taser":
 			pass
+			
+func freeze_callback():
+	.freeze_callback()
+	var tween = create_tween()
+	tween.tween_property(char_sprite, "modulate", color_normal, 0.5)

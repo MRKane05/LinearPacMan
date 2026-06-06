@@ -129,6 +129,6 @@ func create_callback_timer(duration: float, callback: String):
 		add_child(timer)  # Only add if newly created
 		timer.connect("timeout", self, callback)  # Only connect once
 	
-	timer.wait_time = duration/1000.0
+	timer.wait_time = duration
 	timer.one_shot = true
 	timer.start()

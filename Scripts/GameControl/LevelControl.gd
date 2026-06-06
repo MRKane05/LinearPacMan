@@ -57,6 +57,11 @@ onready var support_quote = get_node(support_quote_path)
 export(NodePath) var x_prompt_path
 onready var x_prompt = get_node(x_prompt_path)
 
+#Screen overlay effects because everything is in one gigantic class========
+export(NodePath) var effect_freeze_path
+onready var effect_freeze = get_node(effect_freeze_path)
+
+
 #A state hangler to keep track of what we're doing
 #var game_state = 0 #0: ready, 1: countdown, 2: playing, 3: level clear screen 4: game over screen 5: display message screen
 
@@ -109,6 +114,10 @@ func _on_NextLevelButton_pressed():
 	set_game_state(0)	#Go back to our ready screen
 
 func set_game_state(gamestate):
+	#Quickly tidy up any left over effectors
+	effect_freeze.visible = false
+	
+	
 	Global.game_state = gamestate
 	#POBLEM: Handle menu visibility states (this is going to break as this expands I think)
 	for i in range(UI_Menus.size()):
@@ -369,9 +378,46 @@ func select_powerup(selected_powerup: String):
 	player_node.apply_powerup(selected_powerup);
 	ghost_node.apply_powerup(selected_powerup);
 	
+	apply_powerup(selected_powerup)	#Apply the powerup at level standard
 	#The ghost
 	#Some screen effefts thing
 	#pass
+
+func apply_powerup(new_powerup:String):
+	match new_powerup:
+		"pup_freeze":
+			#Apply freeze effect to ghost's stats
+			#print("Doing Ghost Freeze")
+			#freeze_start = OS.get_ticks_msec()
+			#bFreezeActive = true
+			var tween = create_tween()
+			effect_freeze.visible = true
+			tween.tween_property(effect_freeze, "modulate:a", 0.75, 0.5)
+			create_callback_timer(Global.freeze_duration, "freeze_callback")
+			#Need to play some sort of freeze effect or animation
+		"pup_invisible":
+			#print("Doing player invisible")
+			#invisible_start = OS.get_ticks_msec()
+			#bInvisibleActive = true
+			#Need to display a ? icon over the ghost to indicate that it's searching
+			create_callback_timer(Global.invisible_duration, "invisible_callback")
+		"pup_repulse":
+			#print("Doint repulse action")
+			#repulse_action_end = OS.get_ticks_msec() + Global.repulse_action_duration
+			#bRepulseActive = true
+			create_callback_timer(Global.repulse_action_duration, "repulse_callback")
+		"pup_taser":
+			#print("Doing taser action")
+			#taser_action_end = OS.get_ticks_msec() + Global.taser_action_duration
+			#btaserActive = true
+			create_callback_timer(Global.taser_action_duration, "taser_callback")
+
+
+func freeze_callback():
+	var tween = create_tween()
+	effect_freeze.visible = true
+	tween.tween_property(effect_freeze, "modulate:a", 0.0, 0.5)
+	tween.tween_callback(effect_freeze, "hide")
 
 func display_die_screen():
 	set_game_state(4)

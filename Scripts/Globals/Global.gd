@@ -4,11 +4,11 @@ extends Node
 var game_state = 0
 
 
-var freeze_duration = 4000
-var invisible_duration = 5000
-var repulse_action_duration = 1500
-var taser_action_duration = 750	#Very short action time
-var got_tazed_duration = 2000
+var freeze_duration = 4.0
+var invisible_duration = 5.0
+var repulse_action_duration = 1.5
+var taser_action_duration = 0.750	#Very short action time
+var got_tazed_duration = 2.0
 
 
 #I do wonder if I need a global handler with the powerup stuff that sends
