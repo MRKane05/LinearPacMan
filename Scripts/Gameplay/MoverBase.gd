@@ -10,6 +10,7 @@ onready var animation_player:AnimationPlayer = get_node(_animation_player)
 
 #onready var audio_players = [$AudioPlayer1, $AudioPlayer2, $AudioPlayer3]
 var current_player = 0
+var speed_multiplier = 1.0
 
 #What powerups are affecting us?
 export(Array, Resource) var AffectedPowerups = []
@@ -26,6 +27,9 @@ func set_animation(anim_name: String):
 			pass
 	else:
 		pass
+
+func set_speed_multiplier(new_multiplier: float):
+	speed_multiplier = new_multiplier
 
 #===============Powerup Effectors========================
 #values for this need to be global somehow so that they can be universally changed
@@ -50,6 +54,7 @@ var bFreezeActive = false
 var bRepulseActive = false
 var btaserActive = false
 var bInvisibleActive = false
+var bBoostActive = false
 
 #Handle our audio source playing
 func play_sound(stream):
@@ -101,6 +106,13 @@ func apply_powerup(new_powerup:String):
 			taser_action_end = OS.get_ticks_msec() + Global.taser_action_duration
 			btaserActive = true
 			create_callback_timer(Global.taser_action_duration, "taser_callback")
+		"pup_boost":
+			bBoostActive = true
+			create_callback_timer(Global.boost_action_druation, "boost_callback")
+			
+func boost_callback():
+	bBoostActive = false
+	pass
 
 func freeze_callback():
 	bFreezeActive = false

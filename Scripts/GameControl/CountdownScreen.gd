@@ -3,15 +3,25 @@ extends Node
 export(NodePath) var levelcontrol_node_path
 onready var levelcontrol_node = get_node(levelcontrol_node_path)
 
+export(NodePath) var target_score_path
+onready var target_score = get_node(target_score_path)
+
+export(NodePath) var round_node_path
+onready var round_node = get_node(round_node_path)
+
+
 var finish_time = 0
 var countdown_time = 3000
 var bCountdownActive = false
 
 # Called when the node enters the scene tree for the first time.
-func start_countdown():
+func start_countdown(level: int, target: int):
 	bCountdownActive = true
+	round_node.text = "Level: " + str(level + 1)	#Because our game starts at 0 but that doesn't reat well
+	target_score.text = "Target: " + str(target)
 	finish_time = Time.get_ticks_msec() + countdown_time
-
+	$AnimationPlayer.stop()
+	$AnimationPlayer.play("LevelOpening")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

@@ -37,8 +37,10 @@ func addPowerup(powerup_resource: Resource, startPosition: Vector2):
 					#see about setting this amongst our powerups, but for the moment...
 					powerup_box.set_icon_sprite(item.powerup_icon, startPosition)
 					#We need to have some animation showing that this has been collected
+					return true
 					break
 	#This needs some sort of failstate if we don't have a gap
+	return false
 
 func use_powerup(index: int):
 	if (CollectedPowerupEffectTags[index] != null):

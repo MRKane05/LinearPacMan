@@ -20,7 +20,9 @@ export(Color) var color_invisible
 const SOUNDS = {
 	"taser"   : preload("res://Sounds/Powerups/electric-zap.wav"),
 	"freeze_start"	: preload("res://Sounds//Powerups/Freeze_Start.wav"),
-	"freeze_end" : preload("res://Sounds//Powerups/Freeze_Stop.wav")
+	"freeze_end" : preload("res://Sounds//Powerups/Freeze_Stop.wav"),
+	"invisible_start" : preload("res://Sounds//Powerups/Invisible_Start.wav"),
+	"invisible_end" : preload("res://Sounds//Powerups/Invisible_Stop.wav")
 }
 
 
@@ -67,7 +69,12 @@ func _physics_process(delta):
 	if (!bPlayer_alive):	#we've died so don't move anywhere
 		final_speed = 0
 	
-	velocity = input_vector * final_speed
+	#Handle the boost powerup
+	if (bBoostActive):
+		final_speed = final_speed * 1.2
+	
+	#Apply speed modifier and move
+	velocity = input_vector * final_speed * speed_multiplier
 	move_and_slide(velocity, Vector2.UP)
 	
 	# Wrap using a temporary variable
@@ -90,6 +97,9 @@ func _on_CenterPointTrigger_area_entered(area):
 
 func play_freeze_end_sound():
 	play_sound(SOUNDS["freeze_end"])
+	
+func play_invisible_end_sound():
+	play_sound(SOUNDS["invisible_end"])
 
 func apply_powerup(new_powerup:String):
 	.apply_powerup(new_powerup)
@@ -102,6 +112,8 @@ func apply_powerup(new_powerup:String):
 		"pup_invisible":
 			var tween = create_tween()
 			tween.tween_property(char_sprite, "modulate", color_invisible, 0.5)
+			play_sound(SOUNDS["invisible_start"])
+			create_callback_timer(Global.invisible_duration - 1.3, "play_invisible_end_sound")
 			pass
 		"pup_repulse":
 			repel_effect.emitting = true

@@ -75,6 +75,9 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 			max_powerup = max(max_powerup, int(SaveManager.get_value("powerup_unlock")))
 			max_powerup = min(max_powerup, special_pips.size())
 			
+			#PROBLEM: Hack for testing
+			max_powerup = special_pips.size()
+			
 			var value = randi() % max_powerup
 			if (pickup_reveal != -1): #Make sure our pickup is the one we're supposed to show
 				#PROBLEM: Need to setup to pause game and deliver message
@@ -110,8 +113,11 @@ func pellet_pickedup(pickup_item : Node, pickup_effect : String, add_value: int)
 	
 	if (pickup_item.pickup_resource != null): #This is something to pass through to our other systems
 		print("Collected powerup")
-		powerup_items.addPowerup(pickup_item.pickup_resource, pickup_item.global_position)
-		
+		#PROBLEM: if the powerups are full we need to apply the effect of this powerup immediately
+		var pickup_added = powerup_items.addPowerup(pickup_item.pickup_resource, pickup_item.global_position)
+		if (!pickup_added):
+			level_controller.select_powerup(pickup_item.pickup_resource.get("powerup_effect_tag"))
+			
 	pickup_item.queue_free()
 
 func _physics_process(delta):

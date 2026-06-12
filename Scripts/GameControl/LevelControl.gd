@@ -7,6 +7,9 @@ extends Node
 
 export(Array, NodePath) var UI_Menus = []
 
+#export(NodePath) var level_pickuphandler_path
+#onready var level_pickuphandler_ = get_node(level_pickuphandler_path)
+
 export(NodePath) var player_node_path
 onready var player_node = get_node(player_node_path)
 
@@ -82,6 +85,13 @@ var max_score = 0
 #End Dialogue features================================
 var bHighscoreSet = false
 
+export(Array, Resource) var start_powerups = []
+
+
+func add_start_powerup(thisPowerup: Resource):
+	if (!start_powerups.has(thisPowerup)):
+		start_powerups.append(thisPowerup)
+
 # Score handling functions=======================================================
 func add_score(by_this):
 	score += by_this
@@ -140,7 +150,7 @@ func set_game_state(gamestate):
 	
 	#handle trigger calls
 	if (Global.game_state == 1):
-		countdown_screen.start_countdown()
+		countdown_screen.start_countdown(current_round, target_score)
 	
 	if (Global.game_state == 2):
 		do_level_setup()
@@ -152,7 +162,10 @@ func set_game_state(gamestate):
 			#PROBLEM: Need to note that we've set a highscore and the feedback should reflect that!
 			SaveManager.set_value("max_score", max_score)
 	
-
+	#Do the level complete stuff
+	if (Global.game_state == 3):
+		levelcomplete_screen.update_prize_boxes(target_score)
+	
 	#This is where we need to keep an eye out to see if we've got to display
 	#a message (or similar)
 	#Otherwise tally up our games played since the last event
@@ -163,6 +176,7 @@ func set_game_state(gamestate):
 		var story_games = int(SaveManager.get_value("story_games"))
 		games_played = games_played + 1
 		story_games = story_games + 1
+		current_round = 0 #Clear our current round because we died
 		
 		SaveManager.set_value("total_games", games_played)
 		SaveManager.set_value("story_games", story_games)
@@ -273,7 +287,11 @@ func do_level_setup():
 	#var start_positions = [1, 2, 3, 4, 5, 6, 7]
 	var startpos = floor(rand_range(1, 7))
 	print (startpos)
+	#PROBLEM: Speed_multiplier probably shouldn't be linear
+	var speed_multiplier = lerp(1.0, 1.75, float(current_round)/20.0)
+	
 	player_node.global_position = Vector2(startpos/7.0 * 1024, 300)
+	player_node.set_speed_multiplier(speed_multiplier)
 	
 	#Based off of our start pos we can now look at positioning our enemy
 	var direction = [-1, 1][randi() % 2]
@@ -284,6 +302,7 @@ func do_level_setup():
 	enemystartpos = fposmod(enemystartpos, 8.0)	#Will need to make sure that this isn't zero
 	#Ghost has to be not too close to the player, but we're simply prototyping at this stage
 	#startpos = floor(rand_range(1, start_positions.size()))
+	ghost_node.set_speed_multiplier(speed_multiplier)
 	ghost_node.global_position =  Vector2(enemystartpos/7.0 * 1024, 300)
 	ghost_node.reset_ghost()
 	#print(enemystartpos)
@@ -309,10 +328,21 @@ func do_level_setup():
 			create_callback_timer(0.75, "display_ingame_dialogue") # Remember to pull up our ingame dialogue
 			
 	var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x, necessary_pickup)
-	
+	#really we need a pause while the game presents the powerups that we might have unlocked
+	if (start_powerups.size() > 0):
+		apply_start_pickups()
 	
 	#var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x)
 	level_start_time = Time.get_ticks_msec()
+
+func apply_start_pickups():
+	#We need to present the powerups that the player has. This'll need some sort of extra screen. Yay
+	
+	for powerup in start_powerups:
+		#Actually this should either go to our powerups boxes or be applied at start - that's more reasonable
+		select_powerup(powerup.get("powerup_effect_tag"))
+	
+	start_powerups.clear() #reset our array 
 
 func display_ingame_dialogue():
 	ingame_dialogue_active = true
@@ -350,11 +380,20 @@ func _process(delta):
 					new_game_state = get_node(UI_Menus[new_game_state]).handle_inputaction(new_game_state)
 				
 			if (Global.game_state == 3): #Handle our end of level stuff
-				new_game_state = 0;
+				#I want this to launch straight into the game now, so we're doing to subdivert this function
+				if (current_round == 0):
+					bHighscoreSet = false
+					aggregate_score = 0	#Reset our aggregate score as this is a game start thing (this might need another stage)
+				
+				#new_game_state = 0;
+				set_game_state(1)
 				current_round += 1
 				target_score = 100 + current_round * 100
 				target_score_node.text = str(target_score)
 				score = 0
+				
+				levelcomplete_screen.display_target(target_score)
+				
 			
 			if (Global.game_state == 4):
 				target_score = 100

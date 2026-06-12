@@ -5,12 +5,18 @@ export var return_var = -1 #This is hard-coded to return something when the play
 
 export(NodePath) var target_text_path
 onready var target_text = get_node(target_text_path)
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+
+export(Array, NodePath) var PrizeBoxes = []
 
 func display_target(target):
 	target_text.text = "Target: " + str(target);
+
+func update_prize_boxes(additive_score: int):
+	for i in PrizeBoxes.size():
+		var powerup_box = get_node(PrizeBoxes[i]);
+		if (powerup_box.visible):
+			powerup_box.do_score_add(additive_score)
+
 
 func handle_inputaction(gamestate: int):
 	if (return_var == -1):

@@ -127,10 +127,13 @@ func _physics_process(delta):
 			bCanBeEaten = false
 			
 	
+	#Apply speed modifier
+	#move_speed = move_speed * speed_multiplier
+	
 	#Send information through for our animation systems
 	#set_scroll_direction(input_vector.x) #Scroll direction is sorted by the mirroring
 	set_moveDir(sign(input_vector.x))
-	velocity = input_vector.normalized() * move_speed
+	velocity = input_vector.normalized() * move_speed * speed_multiplier
 	#======Handle repuse Powerup=======================
 	if (bRepulseActive && abs(player_node.global_position.x - position.x) < repulse_distance_max):
 		#Need to push the ghost back and away from the player, somehow...
