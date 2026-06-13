@@ -26,6 +26,7 @@ var save_data = {
 	"max_score":       0,
 	"total_games":     0,
 	"story_games":     0, #Because games played is used as a trigger :)
+	"level_count":     0,
 	"story_index":     0,
 	"playtime":        0.0,
 	"powerup_unlock":	1,
@@ -81,6 +82,7 @@ func delete_save():
 			"max_score":       0,
 			"total_games":     0,
 			"story_games":     0, #Because games played is used as a trigger :)
+			"level_count":     0,
 			"story_index":     0,
 			"playtime":        0.0,
 			"powerup_unlock":	1,

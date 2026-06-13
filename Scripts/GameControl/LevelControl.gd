@@ -72,7 +72,7 @@ var powerup_time = 0
 var current_powerup = ""	#lets make it so that there's only one powerup at once
 
 var current_round = 0
-var target_score = 100
+var target_score = 200
 var score = 0
 var aggregate_score = 0
 
@@ -84,6 +84,8 @@ var max_score = 0
 
 #End Dialogue features================================
 var bHighscoreSet = false
+var bAllowInput = true
+var debounce = 0.8	#A button debounce for screens that end gameplay screens to cover accidental presses
 
 export(Array, Resource) var start_powerups = []
 
@@ -102,6 +104,25 @@ func add_score(by_this):
 	
 	if (score >= target_score):
 		set_game_state(3)
+		#We've got a level complete, so should also increment our level counter and check against our json
+		var level_count = int(SaveManager.get_value("level_count"))
+		level_count = level_count + 1
+		SaveManager.set_value("level_count", level_count)
+		
+		var story_index = SaveManager.get_value("story_index")
+		if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
+			var line = StoryManager.get_dialogue(story_index) 
+			if (line != null && line != {} && line.size() != 0):
+				if (line.trigger == "deaths" && line.leveltriggers > 0):
+					if (level_count > line.leveltriggers):
+						#Display a dialogue for the player to read. Somehow
+						get_node(UI_Menus[5]).do_display_dilogue()
+						dialogue_node.return_var = 3
+						#debounce
+						bAllowInput = false
+						create_callback_timer(debounce, "enable_control_input")
+						set_game_state(5)
+						pass
 	
 	if (aggregate_score > max_score):
 		max_score = aggregate_score
@@ -118,10 +139,13 @@ func _on_ReadyButton_pressed():
 
 func _on_NextLevelButton_pressed():
 	current_round += 1
-	target_score = 100 + current_round * 100
+	target_score = 200 + current_round * 70
 	target_score_node.text = str(target_score)
 	score = 0
 	set_game_state(0)	#Go back to our ready screen
+
+func enable_control_input():
+	bAllowInput = true
 
 func set_game_state(gamestate):
 	#Quickly tidy up any left over effectors
@@ -165,6 +189,9 @@ func set_game_state(gamestate):
 	#Do the level complete stuff
 	if (Global.game_state == 3):
 		levelcomplete_screen.update_prize_boxes(target_score)
+		#PROBLEM: Need a debounce on this screen just in case the player was trying to change direction
+		bAllowInput = false
+		create_callback_timer(debounce, "enable_control_input")
 	
 	#This is where we need to keep an eye out to see if we've got to display
 	#a message (or similar)
@@ -190,6 +217,9 @@ func set_game_state(gamestate):
 						get_node(UI_Menus[5]).do_display_dilogue()
 						#Global.game_state = 5	#This is our conversation screen window
 						#In theory I suppose we could just re-call this function...
+						bAllowInput = false
+						create_callback_timer(debounce, "enable_control_input")
+						dialogue_node.return_var = 4
 						set_game_state(5)
 		
 		#set_game_state(0)
@@ -373,7 +403,7 @@ func _process(delta):
 			tween.tween_property(x_prompt, "modulate:a", 0.0, 1.0)
 		
 		#Step forward with our screen setup
-		if (Global.game_state != 2):
+		if (Global.game_state != 2 && Global.game_state != 1 && bAllowInput):
 			var new_game_state = Global.game_state # + 1
 			if (UI_Menus[new_game_state]):
 				if (get_node(UI_Menus[new_game_state]).has_method("handle_inputaction")):
