@@ -1,10 +1,19 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/Affectors/PortalBase.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Gameplay/Affectors/PortalAffector.gd" type="Script" id=2]
 [ext_resource path="res://Textures/GameElements/PortalSprite.png" type="Texture" id=3]
+[ext_resource path="res://Textures/GameElements/GenericPip_Small_Scaled.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=5]
+
+[sub_resource type="CanvasItemMaterial" id=6]
+blend_mode = 1
+
+[sub_resource type="Gradient" id=7]
+interpolation_mode = 2
+offsets = PoolRealArray( 0, 0.0950226, 0.88009, 1 )
+colors = PoolColorArray( 0.0222387, 0.00531197, 0.271973, 0, 0, 0, 0.109804, 1, 0.125776, 0.543959, 0.631348, 1, 0.226562, 0.226562, 0.226562, 0 )
 
 [node name="PortalBase" type="Node2D"]
 script = ExtResource( 1 )
@@ -22,9 +31,24 @@ portal_base_node_path = NodePath("..")
 shape = SubResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="Portal_Right"]
+visible = false
+modulate = Color( 1, 1, 1, 0.494118 )
 position = Vector2( 0, 2 )
 scale = Vector2( 0.32, 0.48 )
 texture = ExtResource( 3 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Portal_Right"]
+material = SubResource( 6 )
+scale = Vector2( 0.3, 1 )
+amount = 16
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 22.15
+gravity = Vector2( 0, 0 )
+orbit_velocity = -0.5
+tangential_accel = -30.83
+scale_amount = 0.25
+color_ramp = SubResource( 7 )
 
 [node name="Portal_Left" type="Area2D" parent="."]
 position = Vector2( -240, -4 )
@@ -34,10 +58,23 @@ script = ExtResource( 2 )
 portal_base_node_path = NodePath("..")
 bportal_right = false
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Portal_Left"]
+material = SubResource( 6 )
+scale = Vector2( 0.3, 1 )
+amount = 16
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 22.15
+gravity = Vector2( 0, 0 )
+orbit_velocity = 0.25
+scale_amount = 0.25
+color_ramp = SubResource( 7 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Portal_Left"]
 shape = SubResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="Portal_Left"]
+visible = false
 position = Vector2( 0, 2 )
 scale = Vector2( 0.32, 0.48 )
 texture = ExtResource( 3 )

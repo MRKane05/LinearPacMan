@@ -6,8 +6,6 @@ var flee_speed = 250
 var flee_position = 0
 var slow_speed = 180
 
-var screen_size
-
 export(NodePath) var player_node_path
 onready var player_node = get_node(player_node_path)
 
@@ -17,6 +15,7 @@ export(Color) var color_frozen
 var bCanBeEaten = false
 var bGhostFlee = false
 var bGhostRespawning = false
+var bGhost_Confused = false
 
 var respawn_pause = 3000
 
@@ -38,7 +37,7 @@ func _setup_counters():
 
 func _ready():
 	# Get the viewport size
-	screen_size = get_viewport_rect().size
+	#screen_size = get_viewport_rect().size
 	# We need to know what our player is
 	char_sprite.material.set_shader_param("scroll_speed", 1.0)
 	char_sprite.material.set_shader_param("scroll_direction", 1.0)
@@ -68,7 +67,7 @@ func _physics_process(delta):
 	input_vector.y = 0; #Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	
 	#=======Hande Powerup Check Functions
-	if (bInvisibleActive):
+	if (bInvisibleActive || bGhost_Confused):
 		#We need to affect our input_vector.x to give some sort of random movement
 		if (OS.get_ticks_msec() > invislbe_dir_change_time):
 			invislbe_dir_change_time = OS.get_ticks_msec() + rand_range(750, 1500)
@@ -84,7 +83,7 @@ func _physics_process(delta):
 		#PROBLEM: Need to have effects for looking confused
 		
 	
-	if (!bInvisibleActive && !bGhostRespawning):
+	if (!bInvisibleActive && !bGhostRespawning && !bGhost_Confused):
 		set_animation("Move")
 	
 	if (btaserActive):
@@ -99,7 +98,7 @@ func _physics_process(delta):
 	
 	var move_speed = speed
 	#Lazy state machine==================================================
-	if (bCanBeEaten || bInvisibleActive):
+	if (bCanBeEaten || bInvisibleActive || bGhost_Confused):
 		move_speed = slow_speed
 	
 	#===Powerup affectors========================================
@@ -147,8 +146,8 @@ func _physics_process(delta):
 	move_and_slide(velocity)
 	if (position.x < sprite_side_buffer):
 		position.x = sprite_side_buffer
-	if (position.x > screen_size.x - sprite_side_buffer):
-		position.x = screen_size.x - sprite_side_buffer
+	if (position.x > screen_size - sprite_side_buffer):
+		position.x = screen_size - sprite_side_buffer
 
 func _on_Area2D_body_entered(body):
 	#in theory this'll only be the player that we can contact with
@@ -160,10 +159,10 @@ func _on_Area2D_body_entered(body):
 			bGhostFlee = true
 			bCanBeEaten = false
 			#Set our ghost flee position to the other quarter point on the screen from where we were caught as we'll logically be in a corner
-			if (position.x < screen_size.x/2):
-				flee_position = screen_size.x * 0.75
+			if (position.x < screen_size/2):
+				flee_position = screen_size * 0.75
 			else:
-				flee_position = screen_size.x * 0.25
+				flee_position = screen_size * 0.25
 		else:
 			if (!bGhostFlee && !bGhostRespawning && Global.game_state == 2):
 				player_node.ghost_ate_player()
@@ -192,3 +191,14 @@ func freeze_callback():
 	.freeze_callback()
 	var tween = create_tween()
 	tween.tween_property(char_sprite, "modulate", color_normal, 0.5)
+
+func ghost_confused():
+	bGhost_Confused = false
+
+func set_confused(duration: float):
+	set_animation("Search_Still")
+	bGhost_Confused = true
+	create_callback_timer(duration, "ghost_confused")
+	invislbe_dir_change_time = OS.get_ticks_msec() + rand_range(750, 1500)
+	invisible_current_dir = 0
+	pass

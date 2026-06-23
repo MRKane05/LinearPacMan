@@ -1,5 +1,10 @@
 extends Node
 
+class LineSection:
+	var start: int = 0
+	var end: int = 100
+	var offset: Vector2 = Vector2(0,0)
+
 #This script needs to handle level timing and title displays
 #setup level before the game starts
 #get a callback when all pips have been completed and consider the level closed
@@ -64,6 +69,9 @@ onready var x_prompt = get_node(x_prompt_path)
 export(NodePath) var effect_freeze_path
 onready var effect_freeze = get_node(effect_freeze_path)
 
+#for the moment lets setup our sections manually
+#export(Array, LineSection) var line_sections = []
+export(Array, Vector3) var line_sections = [] #x,y is the offset, and z is the bracket. Step up the brackets to find the offset
 
 #A state hangler to keep track of what we're doing
 #var game_state = 0 #0: ready, 1: countdown, 2: playing, 3: level clear screen 4: game over screen 5: display message screen
@@ -114,7 +122,9 @@ func add_score(by_this):
 			var line = StoryManager.get_dialogue(story_index) 
 			if (line != null && line != {} && line.size() != 0):
 				if (line.trigger == "deaths" && line.leveltriggers > 0):
-					if (level_count > line.leveltriggers):
+					if (level_count >= line.leveltriggers):
+						level_count = 0 #Reset this
+						SaveManager.set_value("level_count", level_count)
 						#Display a dialogue for the player to read. Somehow
 						get_node(UI_Menus[5]).do_display_dilogue()
 						dialogue_node.return_var = 3
@@ -310,6 +320,8 @@ func do_level_setup():
 	change_direction_presses = 0
 	x_prompt.modulate = Color.white	#Turn our prompt panel back on again
 	
+	var line_size = get_viewport().get_visible_rect().size.x
+	
 	max_score = int(SaveManager.get_value("max_score"))
 	high_score_node.text = str(max_score)
 	#Idea: break the screen up into sections and then use that logic for the placement of the character
@@ -322,6 +334,7 @@ func do_level_setup():
 	
 	player_node.global_position = Vector2(startpos/7.0 * 1024, 300)
 	player_node.set_speed_multiplier(speed_multiplier)
+	player_node.set_line_size(line_size)
 	
 	#Based off of our start pos we can now look at positioning our enemy
 	var direction = [-1, 1][randi() % 2]
@@ -335,6 +348,7 @@ func do_level_setup():
 	ghost_node.set_speed_multiplier(speed_multiplier)
 	ghost_node.global_position =  Vector2(enemystartpos/7.0 * 1024, 300)
 	ghost_node.reset_ghost()
+	ghost_node.set_line_size(line_size)
 	#print(enemystartpos)
 	#The last bit (of course) is picking the player start direction based off of where the enemy is and making sure we're not running into the ghost
 	var enemydist = player_node.global_position.x - ghost_node.global_position.x
@@ -499,6 +513,9 @@ func ghost_ate_player():
 	#Bring up our hint/discussion screen
 	#Bring up the game over screen
 	pass
+
+func player_teleported():
+	ghost_node.set_confused(1.0)
 
 
 #This one is in seconds, just to be extra-confusing

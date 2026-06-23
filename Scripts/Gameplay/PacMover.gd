@@ -7,12 +7,7 @@ var speed = 200
 var speed_up = 1.5
 var speed_down = 0.9
 
-var screen_size
-
 var bPlayer_alive = true
-
-export(NodePath) var level_controller_path
-onready var level_controller = get_node(level_controller_path)
 
 export(Color) var color_normal
 export(Color) var color_invisible
@@ -35,7 +30,7 @@ onready var taser_effect = get_node(taser_effect_path)
 
 func _ready():
 	# Get the viewport size
-	screen_size = get_viewport_rect().size
+	#screen_size = get_viewport_rect().size
 	set_animation("Eat")
 	
 func reset_character():
@@ -79,9 +74,9 @@ func _physics_process(delta):
 	
 	# Wrap using a temporary variable
 	var new_pos = position
-	if (new_pos.x > screen_size.x || new_pos.x < 0):
-		new_pos.x = fposmod(new_pos.x, screen_size.x)
-		new_pos.y = fposmod(new_pos.y, screen_size.y)
+	if (new_pos.x > screen_size || new_pos.x < 0):
+		new_pos.x = fposmod(new_pos.x, screen_size)
+		#new_pos.y = fposmod(new_pos.y, screen_size.y)
 		position = new_pos
 	
 	# Need to have a duplicate sprite here too

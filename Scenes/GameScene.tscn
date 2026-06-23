@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=2]
+[gd_scene load_steps=90 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -57,6 +57,7 @@
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_boost.tres" type="Resource" id=55]
 [ext_resource path="res://GameObjects/UI/SurpriseBoxElement.tscn" type="PackedScene" id=56]
 [ext_resource path="res://Textures/GameIcons/Boost.png" type="Texture" id=57]
+[ext_resource path="res://GameObjects/PortalBase.tscn" type="PackedScene" id=58]
 
 [sub_resource type="CanvasItemMaterial" id=28]
 blend_mode = 1
@@ -701,11 +702,16 @@ powerup_items_path = NodePath("../Camera2D/GameplayElements/PowerupItems")
 pip_scene = ExtResource( 6 )
 special_pips = [ ExtResource( 35 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 8 ), ExtResource( 54 ), ExtResource( 26 ) ]
 
+[node name="PortalBase" parent="." instance=ExtResource( 58 )]
+position = Vector2( 472, 301 )
+level_controller_node_path = NodePath("..")
+
 [node name="Ghost" type="KinematicBody2D" parent="."]
 position = Vector2( 32, 300 )
 collision_layer = 4
 collision_mask = 0
 script = ExtResource( 4 )
+level_controller_path = NodePath("..")
 char_sprite_path = NodePath("Sprite")
 _animation_player = NodePath("AnimationPlayer")
 player_node_path = NodePath("../PacMan")
@@ -751,9 +757,9 @@ position = Vector2( 492, 300 )
 collision_layer = 2
 collision_mask = 3
 script = ExtResource( 1 )
+level_controller_path = NodePath("..")
 char_sprite_path = NodePath("Sprite")
 _animation_player = NodePath("AnimationPlayer")
-level_controller_path = NodePath("..")
 color_normal = Color( 1, 1, 1, 1 )
 color_invisible = Color( 1, 1, 1, 0.215686 )
 repel_effect_path = NodePath("RepelParticleEffect")

@@ -1,6 +1,10 @@
 extends KinematicBody2D
 class_name MoverBase
 
+#I wanted to avoid having a reference to this here
+export(NodePath) var level_controller_path
+onready var level_controller = get_node(level_controller_path)
+
 export(NodePath) var char_sprite_path
 onready var char_sprite = get_node(char_sprite_path)
 
@@ -55,6 +59,11 @@ var bRepulseActive = false
 var btaserActive = false
 var bInvisibleActive = false
 var bBoostActive = false
+
+var screen_size = 1024
+
+func set_line_size(new_line_size: int):
+	screen_size = new_line_size
 
 #Handle our audio source playing
 func play_sound(stream):
@@ -144,3 +153,19 @@ func create_callback_timer(duration: float, callback: String):
 	timer.wait_time = duration
 	timer.one_shot = true
 	timer.start()
+	
+func get_screen_position(position: Vector2):
+	#Compare this linear position against the array of offsets
+	#Return a corrected position for fragmented lines
+	var current_section = 0
+	if (level_controller.line_sections != null):
+		if (level_controller.line_seconds.size() > 0):
+			for i in level_controller.line_sections.size():
+				if (position > level_controller.line_sections[i].z):
+					current_section = i
+		else:
+			return position
+	else:
+		return position
+	#Finally apply and return our offset
+	return position - Vector2(level_controller.line_sections[current_section].x, level_controller.line_sections[current_section].y)
