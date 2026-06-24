@@ -143,11 +143,15 @@ func _physics_process(delta):
 	if (OS.get_ticks_msec() < got_tazed_end): #We've been tazed, so annul our movement
 		velocity.x = 0
 	
-	move_and_slide(velocity)
-	if (position.x < sprite_side_buffer):
-		position.x = sprite_side_buffer
-	if (position.x > screen_size - sprite_side_buffer):
-		position.x = screen_size - sprite_side_buffer
+	#move_and_slide(velocity)
+	do_position_move(velocity, delta) #Move our character on the line position
+	
+	if (line_position < sprite_side_buffer):
+		line_position = sprite_side_buffer
+	if (line_position > screen_size - sprite_side_buffer):
+		line_position = screen_size - sprite_side_buffer
+	
+	position = get_screen_position(Vector2(line_position, 300))
 
 func _on_Area2D_body_entered(body):
 	#in theory this'll only be the player that we can contact with

@@ -18,9 +18,9 @@ func do_pac_contacted(pac_node : Node2D, bwas_right: bool):
 	var moveDir = pac_node.moveDir * -1
 	var step_threshold = 10;
 	if (bwas_right):
-		pac_node.global_position.x = portal_left.global_position.x + moveDir * step_threshold
+		pac_node.set_line_position(portal_left.global_position.x + moveDir * step_threshold)
 	else:
-		pac_node.global_position.x = portal_right.global_position.x + moveDir * step_threshold
+		pac_node.set_line_position(portal_right.global_position.x + moveDir * step_threshold)
 	pac_node.set_moveDir(moveDir)
 	
 	#I want to have this send a message through to the ghost to make the ghost confused for a moment

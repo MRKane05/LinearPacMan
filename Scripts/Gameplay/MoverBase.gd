@@ -62,8 +62,16 @@ var bBoostActive = false
 
 var screen_size = 1024
 
+var line_position = 0
+
 func set_line_size(new_line_size: int):
 	screen_size = new_line_size
+
+func set_line_position(new_line_position: float):
+	line_position = new_line_position
+
+func do_position_move(velocity: Vector2, delta: float):
+	line_position += velocity.x * delta
 
 #Handle our audio source playing
 func play_sound(stream):
@@ -158,7 +166,7 @@ func get_screen_position(position: Vector2):
 	#Compare this linear position against the array of offsets
 	#Return a corrected position for fragmented lines
 	var current_section = 0
-	if (level_controller.line_sections != null):
+	if (level_controller.line_sections != null && level_controller.line_sections != []):
 		if (level_controller.line_seconds.size() > 0):
 			for i in level_controller.line_sections.size():
 				if (position > level_controller.line_sections[i].z):

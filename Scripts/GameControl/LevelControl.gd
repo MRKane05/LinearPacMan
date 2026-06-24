@@ -332,7 +332,8 @@ func do_level_setup():
 	#PROBLEM: Speed_multiplier probably shouldn't be linear
 	var speed_multiplier = lerp(1.0, 1.75, float(current_round)/20.0)
 	
-	player_node.global_position = Vector2(startpos/7.0 * 1024, 300)
+	#player_node.global_position = Vector2(startpos/7.0 * 1024, 300)
+	player_node.set_line_position(startpos/7.0 * line_size)
 	player_node.set_speed_multiplier(speed_multiplier)
 	player_node.set_line_size(line_size)
 	

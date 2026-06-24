@@ -70,14 +70,18 @@ func _physics_process(delta):
 	
 	#Apply speed modifier and move
 	velocity = input_vector * final_speed * speed_multiplier
-	move_and_slide(velocity, Vector2.UP)
+	#move_and_slide(velocity, Vector2.UP)
+	#position += velocity * delta
+	do_position_move(velocity, delta) #Move our character on the line position
 	
 	# Wrap using a temporary variable
-	var new_pos = position
-	if (new_pos.x > screen_size || new_pos.x < 0):
-		new_pos.x = fposmod(new_pos.x, screen_size)
+	#var new_pos = position
+	if (line_position > screen_size ||line_position < 0):
+		line_position = fposmod(line_position, screen_size)
 		#new_pos.y = fposmod(new_pos.y, screen_size.y)
-		position = new_pos
+	
+	#And NOW get our screen position given offsets :)
+	position = get_screen_position(Vector2(line_position, 300))
 	
 	# Need to have a duplicate sprite here too
 
