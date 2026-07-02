@@ -8,6 +8,7 @@ var speed_up = 1.5
 var speed_down = 0.9
 
 var bPlayer_alive = true
+var bInvincible = false
 
 export(Color) var color_normal
 export(Color) var color_invisible
@@ -82,7 +83,7 @@ func _physics_process(delta):
 	
 	#And NOW get our screen position given offsets :)
 	position = get_screen_position(Vector2(line_position, 300))
-	
+	#print(position)
 	# Need to have a duplicate sprite here too
 
 #So with this we've gone over something that can affect us in some way
@@ -136,8 +137,16 @@ func invisible_callback():
 	tween.tween_property(char_sprite, "modulate", color_normal, 0.5)
 
 func ghost_ate_player():
+	if (bInvincible):
+		return #Can't kill the player right now
 	#Tell our level controller about it
 	bPlayer_alive = false
 	set_animation("Die")
 	level_controller.ghost_ate_player()
-
+	
+func end_start_invincible():
+	bInvincible = false
+#because there are some things I just can't seem to fix the easy way...
+func set_start_invincible():
+	bInvincible = true
+	create_callback_timer(1.0, "end_start_invincible")

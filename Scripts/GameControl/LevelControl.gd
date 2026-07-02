@@ -71,7 +71,7 @@ onready var effect_freeze = get_node(effect_freeze_path)
 
 #for the moment lets setup our sections manually
 #export(Array, LineSection) var line_sections = []
-export(Array, Vector3) var line_sections = [] #x,y is the offset, and z is the bracket. Step up the brackets to find the offset
+var line_sections = [] #x,y is the offset, and z is the bracket. Step up the brackets to find the offset
 
 #A state hangler to keep track of what we're doing
 #var game_state = 0 #0: ready, 1: countdown, 2: playing, 3: level clear screen 4: game over screen 5: display message screen
@@ -316,11 +316,104 @@ func _ready():
 
 var change_direction_presses = 0
 
+var fragment_line_scene = load("res://GameObjects/UI/FragmentLine.tscn")
+
+func setup_line_fragment(line_size: float):
+	#Lets see about having breaks and offsets :)
+	#line_size = line_size * 1.4
+	var long_line_size = line_size * 1.4
+	#..123456
+	#012..56789
+	line_sections.append(Vector3(0, 300, 0))
+	line_sections.append(Vector3(-line_size * 0.1, 220, line_size*0.3))
+	line_sections.append(Vector3(-line_size * 0.4, 300, line_size * 0.9))
+	
+	
+	
+	
+	#So the way that these systems work is: if our player is past point z then
+	#index our position, and apply the last indexed offset to the player
+	#So what we really need to know is
+	#where our first break is
+	#where we want our return break to be
+	#How long we want our intermediate section to be
+	
+	#from that we can calculate the line section sizes and assemble our fragment
+	#Do these as: line length, and on screen entry point based off of line size
+	#var line_blocks = []
+	
+	#line_blocks.append(Vector3(line_size * 0.3, 0, 0))
+	#line_blocks.append(Vector3(line_size * 0.6, line_size * 0.2, 0))
+	#line_blocks.append(Vector3(line_size * 0.5, line_size * 0.5, 0))
+	
+	#Calculate our total line size
+	#var total_line = 0
+	#for vec in line_blocks:
+	#	total_line += vec.x
+	
+	#var cumulative_distance = 0
+	#for i in range(line_blocks.size()):
+	#	cumulative_distance += line_blocks[i].x
+		#Calculating our entry point is going to be tricky
+	#	var target_start = line_blocks[i].x - cumulative_distance 	#Need to subtract from the cumulative to get to this point
+		#Of course our offset...
+	#	var vertical_offset = 300
+		#fuckit
+	#	if (i==1):
+	#		vertical_offset = 220
+			
+	#	line_sections.append(Vector3(target_start, vertical_offset, cumulative_distance))
+
+	
+	
+	#line_size = cumulative_distance
+	#This isn't working at all.
+	#line_sections.append(Vector3(0, 300, 0))
+	#line_sections.append(Vector3(-300, 220, line_size * 0.4))
+	#line_sections.append(Vector3(-200, 300, line_size * 0.7))
+	
+	#I think we'll be better if we minify this issue and say:
+	#There are two case: 1 fragment or 2 fragments
+	
+	#Lets just make a basic segment to begin with
+	#So there's going to be two cut points on this line
+	#And then a random length of fragment which needs an offset
+	#var frag_first_point = new_line_size * rand_range(0.25, 0.4)
+	#var frag_exit_point = new_line_size * rand_range(0.6, 0.8)
+	#var frag_line_size = new_line_size * rand_range(0.4, 0.8) #What's the total length of our side fragment line
+	
+	#line_sections.append(Vector3(0, 300,0))
+	#This is the one that's difficult
+	#line_sections.append(Vector3(-frag_line_size * 0.5, 220, frag_first_point))
+	#line_sections.append(Vector3(frag_exit_point - new_line_size, 300, frag_exit_point))
+	
+	#line_size = line_size * 1.5 #Man I dunno, lets just test it!
+	
+	#PROBLEM: Need to keep a list/handle on the fragment lines we've got to disable them or reuse them
+	#So here I've got to add in some graphics to indicate where everything is going to go
+	for i in range(line_sections.size()-1):
+		#Really this just involves linking the ends of the sections :)
+		var new_fragment_line = fragment_line_scene.instance()
+		add_child(new_fragment_line) #But we won't be able to see this behind the background
+		var frag_start = Vector2(line_sections[i+1].z + line_sections[i].x, line_sections[i].y)
+		var frag_end = Vector2(line_sections[i+1].z + line_sections[i+1].x, line_sections[i+1].y)
+		new_fragment_line.position = frag_start
+		new_fragment_line.set_point_positions(frag_end-frag_start)
+	#	pass
+	
+	return long_line_size
+	
 func do_level_setup():
 	change_direction_presses = 0
 	x_prompt.modulate = Color.white	#Turn our prompt panel back on again
 	
 	var line_size = get_viewport().get_visible_rect().size.x
+	
+	#So now I need a few more things
+	#Lines to indicate where a section is jumpting to and from where
+	#Some clever function to come up with a ton of different "fragments" for our system
+	#A system that reflects this in the displayed lines on screen
+	line_size = setup_line_fragment(line_size)
 	
 	max_score = int(SaveManager.get_value("max_score"))
 	high_score_node.text = str(max_score)
@@ -336,6 +429,7 @@ func do_level_setup():
 	player_node.set_line_position(startpos/7.0 * line_size)
 	player_node.set_speed_multiplier(speed_multiplier)
 	player_node.set_line_size(line_size)
+	player_node.set_start_invincible()
 	
 	#Based off of our start pos we can now look at positioning our enemy
 	var direction = [-1, 1][randi() % 2]
@@ -347,7 +441,7 @@ func do_level_setup():
 	#Ghost has to be not too close to the player, but we're simply prototyping at this stage
 	#startpos = floor(rand_range(1, start_positions.size()))
 	ghost_node.set_speed_multiplier(speed_multiplier)
-	ghost_node.global_position =  Vector2(enemystartpos/7.0 * 1024, 300)
+	ghost_node.global_position =  Vector2(enemystartpos/7.0 * line_size, 300)
 	ghost_node.reset_ghost()
 	ghost_node.set_line_size(line_size)
 	#print(enemystartpos)
@@ -394,7 +488,6 @@ func display_ingame_dialogue():
 	ingame_dialogue_handler.visible = true
 	ingame_dialogue_handler.display_dialogue_powerup() #This'll need some arguments
 	get_tree().paused = true #Not totally sure how we'll unpause given the current setup...
-
 
 func pips_exhausted():
 	#Have some clever stuff here that'll sort out what our rewards might be
