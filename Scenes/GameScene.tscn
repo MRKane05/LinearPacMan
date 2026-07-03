@@ -674,19 +674,55 @@ color_ramp = SubResource( 30 )
 hue_variation = -0.1
 hue_variation_random = 0.5
 
+[node name="BarBackingFragmentA" type="Sprite" parent="Background"]
+visible = false
+position = Vector2( 492, 300 )
+scale = Vector2( 1, 0.296875 )
+texture = ExtResource( 32 )
+
+[node name="Beam_Top" type="Sprite" parent="Background/BarBackingFragmentA"]
+position = Vector2( 1, -128 )
+scale = Vector2( 2.924, 0.202105 )
+texture = ExtResource( 9 )
+
+[node name="Beam_Bottom" type="Sprite" parent="Background/BarBackingFragmentA"]
+position = Vector2( -3, 131.368 )
+scale = Vector2( 2.924, 0.202105 )
+texture = ExtResource( 9 )
+
+[node name="BarBackingATween" type="Tween" parent="Background"]
+
+[node name="BarBackingFragmentB" type="Sprite" parent="Background"]
+visible = false
+position = Vector2( 492, 300 )
+scale = Vector2( 1, 0.296875 )
+texture = ExtResource( 32 )
+
+[node name="Beam_Top" type="Sprite" parent="Background/BarBackingFragmentB"]
+position = Vector2( 1, -128 )
+scale = Vector2( 2.924, 0.202105 )
+texture = ExtResource( 9 )
+
+[node name="Beam_Bottom" type="Sprite" parent="Background/BarBackingFragmentB"]
+position = Vector2( -3, 131.368 )
+scale = Vector2( 2.924, 0.202105 )
+texture = ExtResource( 9 )
+
+[node name="BarBackingBTween" type="Tween" parent="Background"]
+
 [node name="BarBacking" type="Sprite" parent="Background"]
 position = Vector2( 492, 300 )
 scale = Vector2( 1, 0.296875 )
 texture = ExtResource( 32 )
 
-[node name="Beam_Top" type="Sprite" parent="Background"]
-position = Vector2( 493, 262 )
-scale = Vector2( 2.924, 0.06 )
+[node name="Beam_Top" type="Sprite" parent="Background/BarBacking"]
+position = Vector2( 1, -128 )
+scale = Vector2( 2.924, 0.202105 )
 texture = ExtResource( 9 )
 
-[node name="Beam_Bottom" type="Sprite" parent="Background"]
-position = Vector2( 489, 339 )
-scale = Vector2( 2.924, 0.06 )
+[node name="Beam_Bottom" type="Sprite" parent="Background/BarBacking"]
+position = Vector2( -3, 131.368 )
+scale = Vector2( 2.924, 0.202105 )
 texture = ExtResource( 9 )
 
 [node name="LineEffectors" type="Node2D" parent="."]
