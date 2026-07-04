@@ -190,6 +190,7 @@ func set_game_state(gamestate):
 		#At this stage we need to know if we're going to do a fragment
 		#so that we can play a little reveal animation also
 		level_is_fragment = rng.randi_range(0, 2)
+		level_is_fragment = 2
 		set_fragments()
 		countdown_screen.start_countdown(current_round, target_score)
 	
@@ -330,32 +331,45 @@ var fragment_indictors = []
 func setup_line_fragment(line_size: float):
 	line_sections.clear()
 	if (level_is_fragment == 0): #Tidy everything up as we'll not be using things in this cycle
+		Global.set_line_sections(line_sections) #Make sure we annul this record
+		Global.set_line_size(line_size)
 		return line_size
 	
 	#Lets see about having breaks and offsets :)
-	#line_size = line_size * 1.4
 	var long_line_size = line_size
 	var fragment_dir = -1 #So that we can flip things to try and keep i interesint
 	if (level_is_fragment == 2):
 		fragment_dir = 1
-	
-	var formation_type = rng.randi_range(0, 1)
-	#formation_type = 1
-	if (formation_type == 0):
-		#Formation 1:
-		#..123456
-		#012..56789
+	if (level_is_fragment < 3):
+		var formation_type = rng.randi_range(0, 1)
+		#formation_type = 1
+		if (formation_type == 0):
+			#Formation 1:
+			#..123456
+			#012..56789
+			line_sections.append(Vector3(0, 300, 0))
+			line_sections.append(Vector3(-line_size * 0.1, 300 + 100 * fragment_dir, line_size*0.3))
+			line_sections.append(Vector3(-line_size * 0.4, 300, line_size * 0.9))
+			long_line_size = line_size * 1.4
+		if (formation_type == 1):
+			#Formation 2:
+			#..123456
+			#01234..789
+			line_sections.append(Vector3(0, 300, 0))
+			line_sections.append(Vector3(-line_size * 0.3, 300 + 100 * fragment_dir, line_size*0.5))
+			line_sections.append(Vector3(-line_size * 0.4, 300, line_size * 1.1))
+			
+			long_line_size = line_size * 1.4
+	else: #This is a double fragment
+		#.1234
+		#01..56.89
+		#.....1234
+		#This one has been terrible to figure out. It'll do
 		line_sections.append(Vector3(0, 300, 0))
-		line_sections.append(Vector3(-line_size * 0.1, 300 + 100 * fragment_dir, line_size*0.3))
-		line_sections.append(Vector3(-line_size * 0.4, 300, line_size * 0.9))
-		long_line_size = line_size * 1.4
-	if (formation_type == 1):
-		#Formation 2:
-		#..123456
-		#01234..789
-		line_sections.append(Vector3(0, 300, 0))
-		line_sections.append(Vector3(-line_size * 0.3, 300 + 100 * fragment_dir, line_size*0.5))
-		line_sections.append(Vector3(-line_size * 0.4, 300, line_size * 1.1))
+		line_sections.append(Vector3(-line_size * 0.1, 300 + 100 * fragment_dir, line_size * 0.2))
+		line_sections.append(Vector3(-line_size * 0.2, 300, line_size * 0.7))
+		line_sections.append(Vector3(-line_size * 0.4, 300 - 100 * fragment_dir, line_size * 0.9))
+		line_sections.append(Vector3(-line_size * 0.4, 300, line_size * 1.3))
 		
 		long_line_size = line_size * 1.4
 		
@@ -373,7 +387,10 @@ func setup_line_fragment(line_size: float):
 		var frag_end = Vector2(line_sections[i+1].z + line_sections[i+1].x, line_sections[i+1].y)
 		fragment_indictors[i].position = frag_start
 		fragment_indictors[i].set_point_positions(frag_end-frag_start)
+		fragment_indictors[i].set_color(lerp(Color.white, Color.black, i/5.0))
 	
+	Global.set_line_sections(line_sections)
+	Global.set_line_size(long_line_size)
 	return long_line_size
 
 func set_fragments():

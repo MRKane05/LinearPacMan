@@ -8,6 +8,10 @@ func set_point_positions(end_offset: Vector2):
 	#And we should do a reveal on these also
 	set_visibility(true)
 
+func set_color(new_color: Color):
+	$EndPoint.modulate = new_color
+	$StartPoint.modulate = new_color
+
 func set_visibility(is_visible: bool):
 	var tween = $Tween
 	tween.stop_all()

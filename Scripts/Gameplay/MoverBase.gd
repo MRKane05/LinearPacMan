@@ -162,18 +162,3 @@ func create_callback_timer(duration: float, callback: String):
 	timer.one_shot = true
 	timer.start()
 	
-func get_screen_position(position: Vector2):
-	#Compare this linear position against the array of offsets
-	#Return a corrected position for fragmented lines
-	var current_section = 0
-	if (level_controller.line_sections != null && level_controller.line_sections != []):
-		if (level_controller.line_sections.size() > 0):
-			for i in level_controller.line_sections.size():
-				if (line_position > level_controller.line_sections[i].z):
-					current_section = i
-		else:
-			return position
-	else:
-		return position
-	#Finally apply and return our offset
-	return Vector2(line_position + level_controller.line_sections[current_section].x, level_controller.line_sections[current_section].y)

@@ -151,7 +151,7 @@ func _physics_process(delta):
 	if (line_position > screen_size - sprite_side_buffer):
 		line_position = screen_size - sprite_side_buffer
 	
-	position = get_screen_position(Vector2(line_position, 300))
+	position = Global.get_screen_position(Vector2(line_position, 300))
 
 func _on_Area2D_body_entered(body):
 	#in theory this'll only be the player that we can contact with

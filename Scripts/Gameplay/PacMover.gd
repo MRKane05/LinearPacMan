@@ -82,7 +82,7 @@ func _physics_process(delta):
 		#new_pos.y = fposmod(new_pos.y, screen_size.y)
 	
 	#And NOW get our screen position given offsets :)
-	position = get_screen_position(Vector2(line_position, 300))
+	position = Global.get_screen_position(Vector2(line_position, 300))
 	#print(position)
 	# Need to have a duplicate sprite here too
 

@@ -13,6 +13,8 @@ var parent_pickup_handler = null
 
 var reveal_delay = 0.0;
 
+var line_position = 0
+
 func _ready():
 	if (timer && reveal_delay > 0):
 		timer.wait_time = reveal_delay
@@ -23,6 +25,17 @@ func _ready():
 		do_reveal()
 	pass
 
+func set_line_position(new_position: Vector2):
+	#Somehow we've got to get our positioning information here
+	line_position = new_position
+	position = Global.get_screen_position(Vector2(line_position.x, 300))
+	pass
+
+func apply_velocity(velocity: Vector2):
+	#Apply a move velocity, and then the set_position
+	line_position += velocity
+	position = Global.get_screen_position(Vector2(line_position.x, 300))
+	pass
 
 func do_reveal():
 	if (animation_player):

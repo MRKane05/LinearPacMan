@@ -12,20 +12,28 @@ var boost_action_druation = 1.5
 var got_tazed_duration = 2.0
 
 
+#Send up our line_fragments to make it easier for everything to refernce this
+var line_sections = []
+var line_size = 0
 
-#I do wonder if I need a global handler with the powerup stuff that sends
-#calls through to the respective agents
+func set_line_size(new_line_size: float):
+	line_size = new_line_size
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+func set_line_sections(new_line_sections):
+	line_sections = new_line_sections
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func get_screen_position(position: Vector2):
+	#Compare this linear position against the array of offsets
+	#Return a corrected position for fragmented lines
+	var current_section = 0
+	if (line_sections != null && line_sections != []):
+		if (line_sections.size() > 0):
+			for i in line_sections.size():
+				if (position.x > line_sections[i].z):
+					current_section = i
+		else:
+			return position
+	else:
+		return position
+	#Finally apply and return our offset
+	return Vector2(position.x + line_sections[current_section].x, line_sections[current_section].y)

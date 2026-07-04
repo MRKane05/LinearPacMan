@@ -36,13 +36,13 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 			child.queue_free()
 	
 	screen_size = get_viewport_rect().size
-	num_pickups = floor(screen_size.x / pickup_density);
+	num_pickups = floor(Global.line_size / pickup_density);
 	num_spawned_pickups = num_pickups
 	
 	var min_place_distance = 0.25 * 1024
 	
 	var start_pos = Vector2(screen_padding, 300)
-	var end_pos = Vector2(screen_size.x - screen_padding, 300)
+	var end_pos = Vector2(Global.line_size - screen_padding, 300) #Vector2(screen_size.x - screen_padding, 300)
 	
 	var special_pickup = -1
 
@@ -89,7 +89,8 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 		
 		if (p):
 			p.parent_pickup_handler = self
-			p.position = spawn_pos
+			#p.position = spawn_pos
+			p.set_line_position(spawn_pos)
 			p.reveal_delay = i * 0.03
 			add_child(p)
 		
@@ -127,7 +128,9 @@ func _physics_process(delta):
 		if (bounds.x > screen_padding):
 			#I'd like to graduate our drift velocity so that it moves faster to shift the pips
 			var drift_Vector = Vector2(-lerp(drift_velocity_max, drift_velocity_min, num_spawned_pickups/min_child_count), 0)
-			move_and_slide(drift_Vector)
+			#move_and_slide(drift_Vector)
+			for child in self.get_children():
+				child.apply_velocity(drift_Vector * delta)
 		
 		
 func get_children_bounds_2d():
