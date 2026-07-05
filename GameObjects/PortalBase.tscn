@@ -21,6 +21,7 @@ portal_right_node_path = NodePath("Portal_Right")
 portal_left_node_path = NodePath("Portal_Left")
 
 [node name="Portal_Right" type="Area2D" parent="."]
+visible = false
 position = Vector2( 246, -4 )
 collision_layer = 8
 collision_mask = 0
@@ -51,6 +52,7 @@ scale_amount = 0.25
 color_ramp = SubResource( 7 )
 
 [node name="Portal_Left" type="Area2D" parent="."]
+visible = false
 position = Vector2( -240, -4 )
 collision_layer = 8
 collision_mask = 0

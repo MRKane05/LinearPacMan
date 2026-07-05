@@ -9,7 +9,16 @@ onready var portal_right = get_node(portal_right_node_path)
 export(NodePath) var portal_left_node_path
 onready var portal_left = get_node(portal_left_node_path)
 
+var is_enabled = false
+
+func enable_portals(new_is_enabled: bool):
+	is_enabled = new_is_enabled
+	$Portal_Right.visible = is_enabled
+	$Portal_Left.visible = is_enabled
+
 func do_pac_contacted(pac_node : Node2D, bwas_right: bool):
+	if (!is_enabled):
+		return
 	#So, we've had a contact on one of our portals and need to put the player
 	#into a different location
 	#First we need to move the player

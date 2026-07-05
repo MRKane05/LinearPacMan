@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=2]
+[gd_scene load_steps=90 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -57,6 +57,7 @@
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_boost.tres" type="Resource" id=55]
 [ext_resource path="res://GameObjects/UI/SurpriseBoxElement.tscn" type="PackedScene" id=56]
 [ext_resource path="res://Textures/GameIcons/Boost.png" type="Texture" id=57]
+[ext_resource path="res://GameObjects/PortalBase.tscn" type="PackedScene" id=58]
 
 [sub_resource type="CanvasItemMaterial" id=28]
 blend_mode = 1
@@ -630,6 +631,7 @@ high_score_node_path = NodePath("Camera2D/GameplayElements/HighscoreContainer/Hi
 current_score_node_path = NodePath("Camera2D/GameplayElements/ScoreContainer/CurrentScore")
 score_node_path = NodePath("Camera2D/GameplayElements/LevelScoreContainer/LevelScore")
 target_score_node_path = NodePath("Camera2D/GameplayElements/TargetScoreContainer/TargetScore")
+portal_system_path = NodePath("PortalBase")
 support_quote_path = NodePath("Camera2D/DieScreen/PromotionalStub/DialogueContent")
 x_prompt_path = NodePath("Camera2D/ChangeDirectionsPrompt")
 effect_freeze_path = NodePath("Camera2D/PowerupOverlays/Effect_Freeze")
@@ -727,6 +729,10 @@ texture = ExtResource( 9 )
 
 [node name="LineEffectors" type="Node2D" parent="."]
 position = Vector2( 492, 300 )
+
+[node name="PortalBase" parent="." instance=ExtResource( 58 )]
+position = Vector2( 477, 300 )
+level_controller_node_path = NodePath("..")
 
 [node name="LevelPips" type="KinematicBody2D" parent="."]
 collision_layer = 0

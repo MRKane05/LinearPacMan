@@ -36,7 +36,7 @@ var save_data = {
 
 func _ready():
 	target_save_path = OS.get_user_data_dir() + "/savegame.json"
-	
+	print(target_save_path)
 	load_game()
 
 ## SAVE

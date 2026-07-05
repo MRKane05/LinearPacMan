@@ -57,6 +57,10 @@ onready var score_node = get_node(score_node_path)
 export(NodePath) var target_score_node_path
 onready var target_score_node = get_node(target_score_node_path)
 
+#Portal system
+export(NodePath) var portal_system_path
+onready var portal_system = get_node(portal_system_path)
+
 #Bits and pieces for our support quote screen
 export(NodePath) var support_quote_path
 onready var support_quote = get_node(support_quote_path)
@@ -189,8 +193,10 @@ func set_game_state(gamestate):
 	if (Global.game_state == 1):
 		#At this stage we need to know if we're going to do a fragment
 		#so that we can play a little reveal animation also
-		level_is_fragment = rng.randi_range(0, 2)
-		level_is_fragment = 2
+		if (randf() > 0.75): #1:20 odds of a fragment happening
+			level_is_fragment = rng.randi_range(1, 2)
+		else:
+			level_is_fragment = 0
 		set_fragments()
 		countdown_screen.start_countdown(current_round, target_score)
 	
@@ -462,6 +468,11 @@ func set_fragments():
 
 
 func do_level_setup():
+	if (randf() > 0.80 && level_is_fragment == 0):
+		portal_system.enable_portals(true)
+	else:
+		portal_system.enable_portals(false)
+	
 	change_direction_presses = 0
 	x_prompt.modulate = Color.white	#Turn our prompt panel back on again
 	
