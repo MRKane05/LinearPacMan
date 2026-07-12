@@ -122,6 +122,16 @@ func apply_powerup(new_powerup:String):
 			taser_effect.emitting = true
 			play_sound(SOUNDS["taser"])
 			pass
+		"pup_boost":
+			bBoostActive = true
+			create_callback_timer(Global.boost_action_druation, "boost_callback")
+			instance_motion_ghost()
+			$GhostTimer.start()
+			pass
+			
+func boost_callback():
+	.boost_callback()
+	$GhostTimer.stop()
 
 func repulse_callback():
 	.repulse_callback()
@@ -150,3 +160,19 @@ func end_start_invincible():
 func set_start_invincible():
 	bInvincible = true
 	create_callback_timer(1.0, "end_start_invincible")
+
+var motion_ghost_scene = preload("res://GameObjects/PowerupFX/MotionGhost.tscn")
+func instance_motion_ghost():
+	var ghost: Sprite = motion_ghost_scene.instance()
+	get_parent().get_parent().add_child(ghost)
+
+	ghost.global_position = global_position
+	ghost.texture = char_sprite.texture
+	ghost.vframes = char_sprite.vframes
+	ghost.hframes = char_sprite.hframes
+	ghost.frame = char_sprite.frame
+	ghost.scale = char_sprite.scale
+
+
+func _on_GhostTimer_timeout():
+	instance_motion_ghost()

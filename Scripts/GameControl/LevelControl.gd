@@ -326,6 +326,8 @@ func _ready():
 	randomize()
 	rng.randomize()
 	set_game_state(0)
+	# Loads and plays the music with a crossfade
+	MusicManager.play_music(preload("res://Music/mfcc-retro-arcade-game-music-297305.mp3"))
 	pass # Replace with function body.
 
 var change_direction_presses = 0
