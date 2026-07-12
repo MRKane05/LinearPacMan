@@ -10,6 +10,8 @@ class LineSection:
 #get a callback when all pips have been completed and consider the level closed
 #get a callback when the player dies and do a reset on the system
 
+onready var game_timer = $GameLevelTimer
+
 export(Array, NodePath) var UI_Menus = []
 
 #export(NodePath) var level_pickuphandler_path
@@ -56,6 +58,10 @@ onready var score_node = get_node(score_node_path)
 
 export(NodePath) var target_score_node_path
 onready var target_score_node = get_node(target_score_node_path)
+
+export(NodePath) var game_time_display_path
+onready var game_time_display = get_node(game_time_display_path)
+
 
 #Portal system
 export(NodePath) var portal_system_path
@@ -544,6 +550,13 @@ func do_level_setup():
 	
 	#var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x)
 	level_start_time = Time.get_ticks_msec()
+	
+	#PROBLEM: We're going to need a clever way to figure out how much time 
+	#the player should get in the level based off of everything that's happening
+	
+	#For the moment, fuckit
+	game_timer.wait_time = 60.0
+	game_timer.start()
 
 func apply_start_pickups():
 	#We need to present the powerups that the player has. This'll need some sort of extra screen. Yay
@@ -612,7 +625,18 @@ func _process(delta):
 				
 			
 			set_game_state(new_game_state)
+	
+	#Handle our display timer
+	if (Global.game_state == 2):
+		# time_left returns the time remaining in seconds
+		var time_remaining = game_timer.time_left
 		
+		# Convert to minutes and seconds
+		var minutes = int(time_remaining) / 60
+		var seconds = int(time_remaining) % 60
+		
+		# Display formatted as MM:SS
+		game_time_display.text = "%02d:%02d" % [minutes, seconds]
 
 func return_from_paused():
 	#In theory our paused menu (ingame dialogue or settings) will hide itself, so we only need to do sundry stuff
@@ -682,7 +706,6 @@ func ghost_ate_player():
 func player_teleported():
 	ghost_node.set_confused(1.0)
 
-
 #This one is in seconds, just to be extra-confusing
 func create_callback_timer(duration: float, callback: String):
 	var timer = get_node_or_null(callback)
@@ -695,3 +718,8 @@ func create_callback_timer(duration: float, callback: String):
 	timer.wait_time = duration
 	timer.one_shot = true
 	timer.start()
+
+
+func _on_GameLevelTimer_timeout():
+	print("Time finished. Player dies")
+	pass # Replace with function body.

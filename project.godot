@@ -79,6 +79,7 @@ SaveManager="*res://Scripts/Globals/SaveManager.gd"
 PointIndicatorManager="*res://Scripts/Globals/PointIndicatorManager.gd"
 StoryManager="*res://Scripts/Globals/StoryManager.gd"
 Global="*res://Scripts/Globals/Global.gd"
+MusicManager="*res://GameObjects/MusicManager.tscn"
 
 [display]
 

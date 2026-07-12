@@ -336,6 +336,14 @@ blend_mode = 1
 size = 32
 font_data = ExtResource( 40 )
 
+[sub_resource type="DynamicFont" id=26]
+size = 26
+font_data = ExtResource( 40 )
+
+[sub_resource type="DynamicFont" id=25]
+size = 22
+font_data = ExtResource( 40 )
+
 [sub_resource type="DynamicFont" id=23]
 size = 42
 font_data = ExtResource( 40 )
@@ -607,14 +615,6 @@ tracks/15/keys = {
 "times": PoolRealArray( 0 )
 }
 
-[sub_resource type="DynamicFont" id=26]
-size = 26
-font_data = ExtResource( 40 )
-
-[sub_resource type="DynamicFont" id=25]
-size = 22
-font_data = ExtResource( 40 )
-
 [node name="SceneBase" type="Node2D"]
 script = ExtResource( 5 )
 UI_Menus = [ NodePath("Camera2D/ReadyScreen"), NodePath("Camera2D/CountdownScreen"), NodePath(""), NodePath("Camera2D/LevelCompleteScreen"), NodePath("Camera2D/DieScreen"), NodePath("Camera2D/DialogueScreen") ]
@@ -631,10 +631,13 @@ high_score_node_path = NodePath("Camera2D/GameplayElements/HighscoreContainer/Hi
 current_score_node_path = NodePath("Camera2D/GameplayElements/ScoreContainer/CurrentScore")
 score_node_path = NodePath("Camera2D/GameplayElements/LevelScoreContainer/LevelScore")
 target_score_node_path = NodePath("Camera2D/GameplayElements/TargetScoreContainer/TargetScore")
+game_time_display_path = NodePath("Camera2D/GameplayElements/LevelTimer")
 portal_system_path = NodePath("PortalBase")
 support_quote_path = NodePath("Camera2D/DieScreen/PromotionalStub/DialogueContent")
 x_prompt_path = NodePath("Camera2D/ChangeDirectionsPrompt")
 effect_freeze_path = NodePath("Camera2D/PowerupOverlays/Effect_Freeze")
+
+[node name="GameLevelTimer" type="Timer" parent="."]
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -894,282 +897,6 @@ text = "Change direction"
 align = 3
 autowrap = true
 
-[node name="ReadyScreen" type="Node2D" parent="Camera2D"]
-visible = false
-script = ExtResource( 38 )
-target_text_path = NodePath("Sprite/TargetScore")
-
-[node name="Sprite" type="Sprite" parent="Camera2D/ReadyScreen"]
-texture = ExtResource( 11 )
-
-[node name="TargetScore" type="RichTextLabel" parent="Camera2D/ReadyScreen/Sprite"]
-margin_left = -203.0
-margin_top = -170.0
-margin_right = 168.0
-margin_bottom = -88.0
-custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
-custom_constants/shadow_as_outline = 8
-custom_fonts/normal_font = SubResource( 23 )
-text = "Target:"
-
-[node name="Prompt" type="RichTextLabel" parent="Camera2D/ReadyScreen/Sprite"]
-margin_left = 288.0
-margin_top = 203.0
-margin_right = 659.0
-margin_bottom = 285.0
-custom_fonts/normal_font = ExtResource( 10 )
-text = "Press X
-"
-
-[node name="ButtonPromptNode" parent="Camera2D/ReadyScreen" instance=ExtResource( 52 )]
-position = Vector2( 181, 183 )
-
-[node name="LevelCompleteScreen" type="Node2D" parent="Camera2D"]
-script = ExtResource( 38 )
-return_var = 1
-target_text_path = NodePath("Sprite/TargetScore")
-PrizeBoxes = [ NodePath("SurpriseBoxElement"), NodePath("SurpriseBoxElement2"), NodePath("SurpriseBoxElement3") ]
-
-[node name="Sprite" type="Sprite" parent="Camera2D/LevelCompleteScreen"]
-texture = ExtResource( 11 )
-
-[node name="Label" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite"]
-margin_left = -203.0
-margin_top = -173.0
-margin_right = 174.0
-margin_bottom = -96.0
-custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
-custom_constants/shadow_as_outline = 8
-custom_fonts/font = SubResource( 24 )
-text = "Level Cleared!"
-align = 1
-
-[node name="TargetScore" type="RichTextLabel" parent="Camera2D/LevelCompleteScreen/Sprite"]
-visible = false
-margin_left = -203.0
-margin_top = -170.0
-margin_right = 168.0
-margin_bottom = -88.0
-text = "Level Complete!"
-
-[node name="Prompt" type="RichTextLabel" parent="Camera2D/LevelCompleteScreen/Sprite"]
-margin_left = 288.0
-margin_top = 203.0
-margin_right = 659.0
-margin_bottom = 285.0
-custom_fonts/normal_font = ExtResource( 10 )
-text = "Press X
-"
-
-[node name="ButtonPromptNode" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 52 )]
-position = Vector2( 180, 183 )
-
-[node name="RewardsSection" type="Node2D" parent="Camera2D/LevelCompleteScreen"]
-
-[node name="SurpriseBoxElement" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 56 )]
-position = Vector2( -202, 2 )
-level_controller_path = NodePath("../../..")
-max_score = 2500.0
-
-[node name="SurpriseBoxElement2" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 56 )]
-position = Vector2( -54, 9 )
-level_controller_path = NodePath("../../..")
-
-[node name="SurpriseBoxElement3" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 56 )]
-position = Vector2( 87, 8 )
-level_controller_path = NodePath("../../..")
-max_score = 7.0
-uses_score = false
-
-[node name="DieScreen" type="Node2D" parent="Camera2D"]
-visible = false
-script = ExtResource( 15 )
-speaker_icon_path = NodePath("PromotionalStub/CharacterIcon")
-speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
-dialogue_text_path = NodePath("PromotionalStub/DialogueContent")
-speaker_name_path = NodePath("PromotionalStub/SpeakerName")
-
-[node name="Sprite" type="Sprite" parent="Camera2D/DieScreen"]
-texture = ExtResource( 11 )
-
-[node name="Label" type="Label" parent="Camera2D/DieScreen/Sprite"]
-margin_left = -203.0
-margin_top = -173.0
-margin_right = 174.0
-margin_bottom = -96.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_as_outline = 15
-custom_fonts/font = SubResource( 24 )
-text = "You Died
-try again!"
-align = 1
-
-[node name="Prompt" type="RichTextLabel" parent="Camera2D/DieScreen/Sprite"]
-margin_left = 288.0
-margin_top = 203.0
-margin_right = 659.0
-margin_bottom = 285.0
-custom_fonts/normal_font = ExtResource( 10 )
-text = "Press X
-"
-
-[node name="PromotionalStub" type="Node2D" parent="Camera2D/DieScreen"]
-
-[node name="CharacterIcon" type="Sprite" parent="Camera2D/DieScreen/PromotionalStub"]
-position = Vector2( -190, 33 )
-texture = ExtResource( 44 )
-
-[node name="Sprite" type="Sprite" parent="Camera2D/DieScreen/PromotionalStub"]
-position = Vector2( -2, 114 )
-texture = ExtResource( 45 )
-
-[node name="SpeakerName" type="Label" parent="Camera2D/DieScreen/PromotionalStub"]
-margin_left = -149.0
-margin_top = 14.0
-margin_right = 26.0
-margin_bottom = 95.0
-theme = SubResource( 27 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_as_outline = 8
-custom_fonts/font = SubResource( 24 )
-text = "Speaker
-"
-align = 3
-autowrap = true
-
-[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/DieScreen/PromotionalStub"]
-margin_left = -212.0
-margin_top = 93.0
-margin_right = 214.0
-margin_bottom = 220.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_as_outline = 2
-custom_fonts/normal_font = ExtResource( 41 )
-text = "This window gives a promotional statement to the player such as \"new highscore!\" or \"nearly set a new high score\""
-
-[node name="CountdownScreen" type="Node2D" parent="Camera2D"]
-visible = false
-script = ExtResource( 13 )
-levelcontrol_node_path = NodePath("../..")
-target_score_path = NodePath("TargetScore")
-round_node_path = NodePath("LevelTitle")
-
-[node name="TextureProgress" type="TextureProgress" parent="Camera2D/CountdownScreen"]
-margin_left = -139.0
-margin_top = -293.0
-margin_right = 373.0
-margin_bottom = 219.0
-rect_scale = Vector2( 0.5, 0.5 )
-value = 100.0
-texture_progress = ExtResource( 14 )
-fill_mode = 5
-
-[node name="CountDownInt" type="RichTextLabel" parent="Camera2D/CountdownScreen"]
-anchor_top = -0.136
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -42.0
-margin_top = -246.0
-margin_right = 68.0
-margin_bottom = -164.0
-rect_scale = Vector2( 3, 3 )
-custom_fonts/normal_font = ExtResource( 42 )
-text = "3"
-
-[node name="LevelTitle" type="Label" parent="Camera2D/CountdownScreen"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -256.0
-margin_top = -60.0
-margin_right = 256.0
-margin_bottom = 114.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 8
-custom_constants/shadow_offset_y = 8
-custom_fonts/font = ExtResource( 53 )
-text = "Level 01"
-align = 1
-
-[node name="TargetScore" type="Label" parent="Camera2D/CountdownScreen"]
-modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -344.0
-margin_top = -64.0
-margin_right = 345.0
-margin_bottom = 110.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 8
-custom_constants/shadow_offset_y = 8
-custom_fonts/font = ExtResource( 53 )
-text = "Target 100"
-align = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/CountdownScreen"]
-anims/LevelOpening = SubResource( 32 )
-anims/RESET = SubResource( 33 )
-
-[node name="DialogueScreen" type="Node2D" parent="Camera2D"]
-visible = false
-position = Vector2( 8, 29 )
-scale = Vector2( 0.8, 0.8 )
-script = ExtResource( 36 )
-return_var = 4
-speaker_icon_path = NodePath("SpeakerIcon")
-speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
-dialogue_text_path = NodePath("Node2D/DialogueContent")
-speaker_name_path = NodePath("Node2D/SpeakerName")
-
-[node name="SpeakerIcon" type="Sprite" parent="Camera2D/DialogueScreen"]
-position = Vector2( -406.25, -78.75 )
-texture = ExtResource( 44 )
-
-[node name="Sprite" type="Sprite" parent="Camera2D/DialogueScreen"]
-position = Vector2( 8.50002, 0 )
-texture = ExtResource( 43 )
-
-[node name="Node2D" type="Node2D" parent="Camera2D/DialogueScreen"]
-
-[node name="SpeakerName" type="Label" parent="Camera2D/DialogueScreen/Node2D"]
-margin_left = -365.0
-margin_top = -166.25
-margin_right = -190.0
-margin_bottom = -85.25
-theme = SubResource( 27 )
-custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 2
-custom_constants/shadow_offset_y = 3
-custom_fonts/font = ExtResource( 42 )
-text = "Speaker
-"
-align = 3
-autowrap = true
-
-[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/DialogueScreen/Node2D"]
-margin_left = -425.0
-margin_top = -96.0
-margin_right = 444.0
-margin_bottom = 165.0
-custom_colors/default_color = Color( 0.980392, 1, 0.768627, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/shadow_offset_y = 2
-custom_fonts/normal_font = ExtResource( 47 )
-text = "Dialogue content goes here and hopefully everything displays correctly!"
-
-[node name="Prompt" type="RichTextLabel" parent="Camera2D/DialogueScreen/Node2D"]
-margin_left = 109.0
-margin_top = 138.0
-margin_right = 480.0
-margin_bottom = 220.0
-custom_fonts/normal_font = ExtResource( 10 )
-text = "Press X
-"
-
-[node name="ButtonPromptNode" parent="Camera2D/DialogueScreen" instance=ExtResource( 52 )]
-position = Vector2( 415, 137.5 )
-
 [node name="ingameDialogueBoxes" type="Node2D" parent="Camera2D"]
 pause_mode = 2
 visible = false
@@ -1284,7 +1011,7 @@ script = ExtResource( 37 )
 [node name="HighscoreContainer" type="HBoxContainer" parent="Camera2D/GameplayElements"]
 margin_left = 217.0
 margin_top = -262.0
-margin_right = 459.0
+margin_right = 417.0
 margin_bottom = -222.0
 
 [node name="Name" type="Label" parent="Camera2D/GameplayElements/HighscoreContainer"]
@@ -1298,13 +1025,13 @@ text = "High:"
 
 [node name="Control" type="Control" parent="Camera2D/GameplayElements/HighscoreContainer"]
 margin_left = 73.0
-margin_right = 170.0
+margin_right = 128.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 
 [node name="HighScore" type="Label" parent="Camera2D/GameplayElements/HighscoreContainer"]
-margin_left = 174.0
-margin_right = 242.0
+margin_left = 132.0
+margin_right = 200.0
 margin_bottom = 39.0
 custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -1316,7 +1043,7 @@ align = 3
 [node name="ScoreContainer" type="HBoxContainer" parent="Camera2D/GameplayElements"]
 margin_left = 217.0
 margin_top = -222.0
-margin_right = 459.0
+margin_right = 417.0
 margin_bottom = -182.0
 
 [node name="Name" type="Label" parent="Camera2D/GameplayElements/ScoreContainer"]
@@ -1330,13 +1057,13 @@ text = "Score:"
 
 [node name="Control" type="Control" parent="Camera2D/GameplayElements/ScoreContainer"]
 margin_left = 97.0
-margin_right = 170.0
+margin_right = 128.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 
 [node name="CurrentScore" type="Label" parent="Camera2D/GameplayElements/ScoreContainer"]
-margin_left = 174.0
-margin_right = 242.0
+margin_left = 132.0
+margin_right = 200.0
 margin_bottom = 39.0
 custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -1348,7 +1075,7 @@ align = 3
 [node name="LevelScoreContainer" type="HBoxContainer" parent="Camera2D/GameplayElements"]
 margin_left = -113.0
 margin_top = -262.0
-margin_right = 152.0
+margin_right = 143.0
 margin_bottom = -222.0
 
 [node name="Name" type="Label" parent="Camera2D/GameplayElements/LevelScoreContainer"]
@@ -1362,13 +1089,13 @@ text = "Level Score:"
 
 [node name="Control" type="Control" parent="Camera2D/GameplayElements/LevelScoreContainer"]
 margin_left = 184.0
-margin_right = 193.0
+margin_right = 184.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 
 [node name="LevelScore" type="Label" parent="Camera2D/GameplayElements/LevelScoreContainer"]
-margin_left = 197.0
-margin_right = 265.0
+margin_left = 188.0
+margin_right = 256.0
 margin_bottom = 39.0
 custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -1380,7 +1107,7 @@ align = 3
 [node name="TargetScoreContainer" type="HBoxContainer" parent="Camera2D/GameplayElements"]
 margin_left = -113.0
 margin_top = -222.0
-margin_right = 153.0
+margin_right = 87.0
 margin_bottom = -182.0
 
 [node name="Name" type="Label" parent="Camera2D/GameplayElements/TargetScoreContainer"]
@@ -1395,13 +1122,13 @@ text = "Target:"
 
 [node name="Control" type="Control" parent="Camera2D/GameplayElements/TargetScoreContainer"]
 margin_left = 113.0
-margin_right = 218.0
+margin_right = 152.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 
 [node name="TargetScore" type="Label" parent="Camera2D/GameplayElements/TargetScoreContainer"]
-margin_left = 222.0
-margin_right = 266.0
+margin_left = 156.0
+margin_right = 200.0
 margin_bottom = 39.0
 custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -1472,6 +1199,295 @@ margin_right = 538.0
 margin_bottom = 74.0
 custom_fonts/normal_font = ExtResource( 10 )
 
+[node name="LevelTimer" type="Label" parent="Camera2D/GameplayElements"]
+margin_left = -189.0
+margin_top = -177.0
+margin_right = 119.0
+margin_bottom = -3.0
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 0
+custom_fonts/font = ExtResource( 53 )
+text = "60:99"
+align = 3
+
+[node name="DialogueScreen" type="Node2D" parent="Camera2D"]
+visible = false
+position = Vector2( 8, 29 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 36 )
+return_var = 4
+speaker_icon_path = NodePath("SpeakerIcon")
+speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
+dialogue_text_path = NodePath("Node2D/DialogueContent")
+speaker_name_path = NodePath("Node2D/SpeakerName")
+
+[node name="SpeakerIcon" type="Sprite" parent="Camera2D/DialogueScreen"]
+position = Vector2( -406.25, -78.75 )
+texture = ExtResource( 44 )
+
+[node name="Sprite" type="Sprite" parent="Camera2D/DialogueScreen"]
+position = Vector2( 8.50002, 0 )
+texture = ExtResource( 43 )
+
+[node name="Node2D" type="Node2D" parent="Camera2D/DialogueScreen"]
+
+[node name="SpeakerName" type="Label" parent="Camera2D/DialogueScreen/Node2D"]
+margin_left = -365.0
+margin_top = -166.25
+margin_right = -190.0
+margin_bottom = -85.25
+theme = SubResource( 27 )
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 3
+custom_fonts/font = ExtResource( 42 )
+text = "Speaker
+"
+align = 3
+autowrap = true
+
+[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/DialogueScreen/Node2D"]
+margin_left = -425.0
+margin_top = -96.0
+margin_right = 444.0
+margin_bottom = 165.0
+custom_colors/default_color = Color( 0.980392, 1, 0.768627, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 2
+custom_fonts/normal_font = ExtResource( 47 )
+text = "Dialogue content goes here and hopefully everything displays correctly!"
+
+[node name="Prompt" type="RichTextLabel" parent="Camera2D/DialogueScreen/Node2D"]
+margin_left = 109.0
+margin_top = 138.0
+margin_right = 480.0
+margin_bottom = 220.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Press X
+"
+
+[node name="ButtonPromptNode" parent="Camera2D/DialogueScreen" instance=ExtResource( 52 )]
+position = Vector2( 415, 137.5 )
+
+[node name="ReadyScreen" type="Node2D" parent="Camera2D"]
+visible = false
+script = ExtResource( 38 )
+target_text_path = NodePath("Sprite/TargetScore")
+
+[node name="Sprite" type="Sprite" parent="Camera2D/ReadyScreen"]
+texture = ExtResource( 11 )
+
+[node name="TargetScore" type="RichTextLabel" parent="Camera2D/ReadyScreen/Sprite"]
+margin_left = -203.0
+margin_top = -170.0
+margin_right = 168.0
+margin_bottom = -88.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = SubResource( 23 )
+text = "Target:"
+
+[node name="Prompt" type="RichTextLabel" parent="Camera2D/ReadyScreen/Sprite"]
+margin_left = 288.0
+margin_top = 203.0
+margin_right = 659.0
+margin_bottom = 285.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Press X
+"
+
+[node name="ButtonPromptNode" parent="Camera2D/ReadyScreen" instance=ExtResource( 52 )]
+position = Vector2( 181, 183 )
+
+[node name="CountdownScreen" type="Node2D" parent="Camera2D"]
+visible = false
+script = ExtResource( 13 )
+levelcontrol_node_path = NodePath("../..")
+target_score_path = NodePath("TargetScore")
+round_node_path = NodePath("LevelTitle")
+
+[node name="TextureProgress" type="TextureProgress" parent="Camera2D/CountdownScreen"]
+margin_left = -139.0
+margin_top = -293.0
+margin_right = 373.0
+margin_bottom = 219.0
+rect_scale = Vector2( 0.5, 0.5 )
+value = 100.0
+texture_progress = ExtResource( 14 )
+fill_mode = 5
+
+[node name="CountDownInt" type="RichTextLabel" parent="Camera2D/CountdownScreen"]
+anchor_top = -0.136
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -42.0
+margin_top = -246.0
+margin_right = 68.0
+margin_bottom = -164.0
+rect_scale = Vector2( 3, 3 )
+custom_fonts/normal_font = ExtResource( 42 )
+text = "3"
+
+[node name="LevelTitle" type="Label" parent="Camera2D/CountdownScreen"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -256.0
+margin_top = -60.0
+margin_right = 256.0
+margin_bottom = 114.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 8
+custom_constants/shadow_offset_y = 8
+custom_fonts/font = ExtResource( 53 )
+text = "Level 01"
+align = 1
+
+[node name="TargetScore" type="Label" parent="Camera2D/CountdownScreen"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -344.0
+margin_top = -64.0
+margin_right = 345.0
+margin_bottom = 110.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 8
+custom_constants/shadow_offset_y = 8
+custom_fonts/font = ExtResource( 53 )
+text = "Target 100"
+align = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/CountdownScreen"]
+anims/LevelOpening = SubResource( 32 )
+anims/RESET = SubResource( 33 )
+
+[node name="DieScreen" type="Node2D" parent="Camera2D"]
+visible = false
+script = ExtResource( 15 )
+speaker_icon_path = NodePath("PromotionalStub/CharacterIcon")
+speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
+dialogue_text_path = NodePath("PromotionalStub/DialogueContent")
+speaker_name_path = NodePath("PromotionalStub/SpeakerName")
+
+[node name="Sprite" type="Sprite" parent="Camera2D/DieScreen"]
+texture = ExtResource( 11 )
+
+[node name="Label" type="Label" parent="Camera2D/DieScreen/Sprite"]
+margin_left = -203.0
+margin_top = -173.0
+margin_right = 174.0
+margin_bottom = -96.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 15
+custom_fonts/font = SubResource( 24 )
+text = "You Died
+try again!"
+align = 1
+
+[node name="Prompt" type="RichTextLabel" parent="Camera2D/DieScreen/Sprite"]
+margin_left = 288.0
+margin_top = 203.0
+margin_right = 659.0
+margin_bottom = 285.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Press X
+"
+
+[node name="PromotionalStub" type="Node2D" parent="Camera2D/DieScreen"]
+
+[node name="CharacterIcon" type="Sprite" parent="Camera2D/DieScreen/PromotionalStub"]
+position = Vector2( -190, 33 )
+texture = ExtResource( 44 )
+
+[node name="Sprite" type="Sprite" parent="Camera2D/DieScreen/PromotionalStub"]
+position = Vector2( -2, 114 )
+texture = ExtResource( 45 )
+
+[node name="SpeakerName" type="Label" parent="Camera2D/DieScreen/PromotionalStub"]
+margin_left = -149.0
+margin_top = 14.0
+margin_right = 26.0
+margin_bottom = 95.0
+theme = SubResource( 27 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/font = SubResource( 24 )
+text = "Speaker
+"
+align = 3
+autowrap = true
+
+[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/DieScreen/PromotionalStub"]
+margin_left = -212.0
+margin_top = 93.0
+margin_right = 214.0
+margin_bottom = 220.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 2
+custom_fonts/normal_font = ExtResource( 41 )
+text = "This window gives a promotional statement to the player such as \"new highscore!\" or \"nearly set a new high score\""
+
+[node name="LevelCompleteScreen" type="Node2D" parent="Camera2D"]
+visible = false
+script = ExtResource( 38 )
+return_var = 1
+target_text_path = NodePath("Sprite/TargetScore")
+PrizeBoxes = [ NodePath("SurpriseBoxElement"), NodePath("SurpriseBoxElement2"), NodePath("SurpriseBoxElement3") ]
+
+[node name="Sprite" type="Sprite" parent="Camera2D/LevelCompleteScreen"]
+texture = ExtResource( 11 )
+
+[node name="Label" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite"]
+margin_left = -203.0
+margin_top = -173.0
+margin_right = 174.0
+margin_bottom = -96.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/font = SubResource( 24 )
+text = "Level Cleared!"
+align = 1
+
+[node name="TargetScore" type="RichTextLabel" parent="Camera2D/LevelCompleteScreen/Sprite"]
+visible = false
+margin_left = -203.0
+margin_top = -170.0
+margin_right = 168.0
+margin_bottom = -88.0
+text = "Level Complete!"
+
+[node name="Prompt" type="RichTextLabel" parent="Camera2D/LevelCompleteScreen/Sprite"]
+margin_left = 288.0
+margin_top = 203.0
+margin_right = 659.0
+margin_bottom = 285.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Press X
+"
+
+[node name="ButtonPromptNode" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 52 )]
+position = Vector2( 180, 183 )
+
+[node name="RewardsSection" type="Node2D" parent="Camera2D/LevelCompleteScreen"]
+
+[node name="SurpriseBoxElement" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 56 )]
+position = Vector2( -202, 2 )
+level_controller_path = NodePath("../../..")
+max_score = 2500.0
+
+[node name="SurpriseBoxElement2" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 56 )]
+position = Vector2( -54, 9 )
+level_controller_path = NodePath("../../..")
+
+[node name="SurpriseBoxElement3" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 56 )]
+position = Vector2( 87, 8 )
+level_controller_path = NodePath("../../..")
+max_score = 7.0
+uses_score = false
+
 [node name="LevelWonPowerups" type="Node2D" parent="Camera2D"]
 visible = false
 position = Vector2( 4, 61 )
@@ -1480,6 +1496,7 @@ position = Vector2( 4, 61 )
 visible = false
 texture = ExtResource( 57 )
 
+[connection signal="timeout" from="GameLevelTimer" to="." method="_on_GameLevelTimer_timeout"]
 [connection signal="body_entered" from="Ghost/Area2D" to="Ghost" method="_on_Area2D_body_entered"]
 [connection signal="timeout" from="PacMan/GhostTimer" to="PacMan" method="_on_GhostTimer_timeout"]
 [connection signal="area_entered" from="PacMan/CenterPointTrigger" to="PacMan" method="_on_CenterPointTrigger_area_entered"]
