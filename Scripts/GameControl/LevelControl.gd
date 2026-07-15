@@ -14,6 +14,7 @@ onready var game_timer = $GameLevelTimer
 
 export(Array, NodePath) var UI_Menus = []
 
+export(Array, NodePath) var Level_Prize_Paths = []
 #export(NodePath) var level_pickuphandler_path
 #onready var level_pickuphandler_ = get_node(level_pickuphandler_path)
 
@@ -90,6 +91,8 @@ var powerup_time = 0
 var current_powerup = ""	#lets make it so that there's only one powerup at once
 
 var current_round = 0
+var score_start = 200
+var score_step = 70
 var target_score = 200
 var score = 0
 var aggregate_score = 0
@@ -118,10 +121,10 @@ func add_start_powerup(thisPowerup: Resource):
 # Score handling functions=======================================================
 func add_score(by_this):
 	score += by_this
-	score_node.text = str(score)
+	score_node.text = str(score) + "/" + str(target_score)
 	
 	aggregate_score += by_this
-	current_score_node.text = str(aggregate_score)
+	high_score_node.text = str(aggregate_score) + "/" + str(max_score)
 	
 	if (score >= target_score):
 		set_game_state(3)
@@ -149,8 +152,10 @@ func add_score(by_this):
 	
 	if (aggregate_score > max_score):
 		max_score = aggregate_score
-		high_score_node.text = str(max_score)
+		#high_score_node.text = str(max_score)
 		bHighscoreSet = true
+		high_score_node.text = str(aggregate_score) + "/" + str(max_score)
+	
 
 # Stage present goal=============================================================
 func _on_ReadyButton_pressed():
@@ -162,8 +167,8 @@ func _on_ReadyButton_pressed():
 
 func _on_NextLevelButton_pressed():
 	current_round += 1
-	target_score = 200 + current_round * 70
-	target_score_node.text = str(target_score)
+	target_score = score_start + current_round * score_step
+	#target_score_node.text = str(target_score)
 	score = 0
 	set_game_state(0)	#Go back to our ready screen
 
@@ -218,10 +223,35 @@ func set_game_state(gamestate):
 	
 	#Do the level complete stuff
 	if (Global.game_state == 3):
+		#PROBLEM: Need to note that we've set a highscore and the feedback should reflect that!
+		var games_played = int(SaveManager.get_value("total_games"))
+		var story_index = SaveManager.get_value("story_index")
+		if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
+			var line = StoryManager.get_dialogue(story_index) 
+			if (line != null && line != {} && line.size() != 0):
+				if (line.trigger == "level_complete"):
+					if (games_played >= line.triggernum):
+						if (line.reward_reveal != -1):
+							SaveManager.set_value("reward_reveal", line.reward_reveal)
+							print("Got Story Trigger!")
+							get_node(UI_Menus[5]).do_display_dilogue()
+							#Global.game_state = 5	#This is our conversation screen window
+							#In theory I suppose we could just re-call this function...
+							bAllowInput = false
+							create_callback_timer(debounce, "enable_control_input")
+							dialogue_node.return_var = 3
+							set_game_state(5)
+		
+		
 		levelcomplete_screen.update_prize_boxes(target_score)
 		#PROBLEM: Need a debounce on this screen just in case the player was trying to change direction
 		bAllowInput = false
+		#We need to check here for dialogue if it's got a "level_complete" trigger on it
+		
 		create_callback_timer(debounce, "enable_control_input")
+		var prize_boxes = int(SaveManager.get_value("reward_reveal"))
+		for i in range(Level_Prize_Paths.size()):
+			get_node(Level_Prize_Paths[i]).visible = prize_boxes > i
 	
 	#This is where we need to keep an eye out to see if we've got to display
 	#a message (or similar)
@@ -493,7 +523,9 @@ func do_level_setup():
 	line_size = setup_line_fragment(line_size)
 	
 	max_score = int(SaveManager.get_value("max_score"))
-	high_score_node.text = str(max_score)
+	#high_score_node.text = str(max_score)
+	high_score_node.text = str(aggregate_score) + "/" + str(max_score)
+	
 	#Idea: break the screen up into sections and then use that logic for the placement of the character
 	#This seems like a good idea, but it's not as it can start the player in situations where they cannot survive
 	#var start_positions = [1, 2, 3, 4, 5, 6, 7]
@@ -537,7 +569,7 @@ func do_level_setup():
 	var necessary_pickup = -1
 	
 	if (line != null && line != {} && line.size() != 0):
-		if (line.trigger == "powerup" && int(SaveManager.get_value("story_games")) > line.triggernum):
+		if (line.trigger == "powerup" && int(SaveManager.get_value("story_games")) >= line.triggernum):
 			necessary_pickup = line.powerup_reveal
 			#Make sure we update our save manager so that this'll be unlocked from this point forward
 			SaveManager.set_value("powerup_unlock", max(int(SaveManager.get_value("powerup_unlock")), necessary_pickup+1))
@@ -555,7 +587,11 @@ func do_level_setup():
 	#the player should get in the level based off of everything that's happening
 	
 	#For the moment, fuckit
-	game_timer.wait_time = 60.0
+	#First level takes 15 seconds, so
+	#target score to start is 200, therefore divide the target score by 10?
+	#PROBLEM: Need to pause timer for message dialogues
+	game_timer.stop()
+	game_timer.wait_time = int (target_score/(7.5 * speed_multiplier))	#This gives a good bit of leeway, but we need to pause for message dialogues
 	game_timer.start()
 
 func apply_start_pickups():
@@ -610,7 +646,7 @@ func _process(delta):
 				#new_game_state = 0;
 				set_game_state(1)
 				current_round += 1
-				target_score = 100 + current_round * 100
+				target_score = score_start + current_round * score_step
 				target_score_node.text = str(target_score)
 				score = 0
 				
@@ -618,8 +654,8 @@ func _process(delta):
 				
 			
 			if (Global.game_state == 4):
-				target_score = 100
-				target_score_node.text = "100"
+				target_score = score_start
+				#target_score_node.text = "100"
 				score = 0
 				new_game_state = 0;
 				

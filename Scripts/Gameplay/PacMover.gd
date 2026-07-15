@@ -29,6 +29,8 @@ onready var repel_effect = get_node(repel_effect_path)
 export(NodePath) var taser_effect_path
 onready var taser_effect = get_node(taser_effect_path)
 
+var sound_effect_die = preload("res://Sounds/GameEffects/freesound_community-086398_game-die-81356.mp3")
+
 func _ready():
 	# Get the viewport size
 	#screen_size = get_viewport_rect().size
@@ -153,6 +155,8 @@ func ghost_ate_player():
 	bPlayer_alive = false
 	set_animation("Die")
 	level_controller.ghost_ate_player()
+	$AudioStreamPlayer2D.stream = sound_effect_die
+	$AudioStreamPlayer2D.play()
 	
 func end_start_invincible():
 	bInvincible = false

@@ -30,7 +30,8 @@ var save_data = {
 	"story_index":     0,
 	"playtime":        0.0,
 	"powerup_unlock":	1,
-	"gamemod_unlock":	0,
+	"powerup_reveal":	-1,
+	"reward_reveal":	-1,
 	"pac_reveal":		0,
 }
 
@@ -86,7 +87,8 @@ func delete_save():
 			"story_index":     0,
 			"playtime":        0.0,
 			"powerup_unlock":	1,
-			"gamemod_unlock":	0,
+			"reward_reveal":	-1,
+			"powerup_reveal":	-1,
 			"pac_reveal":		0,
 		}
 		print("Save deleted")
