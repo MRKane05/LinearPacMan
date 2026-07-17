@@ -719,7 +719,21 @@ func apply_powerup(new_powerup:String):
 			#taser_action_end = OS.get_ticks_msec() + Global.taser_action_duration
 			#btaserActive = true
 			create_callback_timer(Global.taser_action_duration, "taser_callback")
+		"pup_add_time":
+			#Simply add time to our clock
+			var time_remaining = game_timer.time_left + Global.additional_time_duration
+			game_timer.stop()
+			game_timer.wait_time = time_remaining
+			game_timer.start(time_remaining)
+			#Should have some sort of effect on the clock itself to indicate that this happened
+		"pup_stop_time":
+			game_timer.paused = true
+			create_callback_timer(Global.timer_pause_duration, "stop_time_callback")
+			#Play a pause effect
 
+func stop_time_callback():
+	game_timer.paused = false
+	#Play some sort of "unpause" effect
 
 func freeze_callback():
 	var tween = create_tween()

@@ -149,8 +149,8 @@ func invisible_callback():
 	tween.tween_property(char_sprite, "modulate", color_normal, 0.5)
 
 func ghost_ate_player():
-	if (bInvincible):
-		return #Can't kill the player right now
+	if (bInvincible || !bPlayer_alive):
+		return #Can't kill the player right now, and can't kill what's already dead
 	#Tell our level controller about it
 	bPlayer_alive = false
 	set_animation("Die")

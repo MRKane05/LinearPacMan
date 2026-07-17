@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=2]
+[gd_scene load_steps=94 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -58,6 +58,10 @@
 [ext_resource path="res://GameObjects/UI/SurpriseBoxElement.tscn" type="PackedScene" id=56]
 [ext_resource path="res://Textures/GameIcons/Boost.png" type="Texture" id=57]
 [ext_resource path="res://GameObjects/PortalBase.tscn" type="PackedScene" id=58]
+[ext_resource path="res://GameObjects/Pickups/pup_stop_time.tscn" type="PackedScene" id=59]
+[ext_resource path="res://GameObjects/Pickups/pup_add_time.tscn" type="PackedScene" id=60]
+[ext_resource path="res://GameObjects/PowerupDataResources/pup_add_time.tres" type="Resource" id=61]
+[ext_resource path="res://GameObjects/PowerupDataResources/pup_stop_time.tres" type="Resource" id=62]
 
 [sub_resource type="CanvasItemMaterial" id=28]
 blend_mode = 1
@@ -745,8 +749,8 @@ script = ExtResource( 7 )
 level_controller_path = NodePath("..")
 powerup_items_path = NodePath("../Camera2D/GameplayElements/PowerupItems")
 pip_scene = ExtResource( 6 )
-special_pips = [ ExtResource( 35 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 8 ), ExtResource( 54 ), ExtResource( 26 ) ]
-override_powerup = ExtResource( 54 )
+special_pips = [ ExtResource( 35 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 8 ), ExtResource( 59 ), ExtResource( 54 ), ExtResource( 60 ), ExtResource( 26 ) ]
+override_powerup = ExtResource( 60 )
 
 [node name="Ghost" type="KinematicBody2D" parent="."]
 position = Vector2( 32, 300 )
@@ -1016,7 +1020,7 @@ position = Vector2( -457, -250 )
 script = ExtResource( 16 )
 level_controller_path = NodePath("../../..")
 PowerupBoxes = [ NodePath("HBoxContainer/PowerupUIBox"), NodePath("HBoxContainer/PowerupUIBox2"), NodePath("HBoxContainer/PowerupUIBox3") ]
-PowerupItemList = [ ExtResource( 17 ), ExtResource( 24 ), ExtResource( 22 ), ExtResource( 55 ), ExtResource( 25 ) ]
+PowerupItemList = [ ExtResource( 17 ), ExtResource( 24 ), ExtResource( 22 ), ExtResource( 55 ), ExtResource( 25 ), ExtResource( 61 ), ExtResource( 62 ) ]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/GameplayElements/PowerupItems"]
 margin_left = -3.0
