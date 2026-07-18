@@ -4,6 +4,7 @@
 
 [node name="MusicManager" type="Node2D"]
 script = ExtResource( 1 )
+playlist_paths = [ "res://Music/backgroundmusicmaster-neon-arcade-runner-431354.mp3", "res://Music/hitslab-chiptune-video-game-games-music-457939.mp3", "res://Music/kaazoom-run-and-catch-x27em-full-version-retro-platform-game-music-442980.mp3", "res://Music/mfcc-retro-arcade-game-music-297305.mp3", "res://Music/mondamusic-retro-arcade-game-music-512837.mp3", "res://Music/nickpanekaiassets-retro-8-bit-chiptune-action-high-energy-90s-video-game-music-499059.mp3", "res://Music/tatamusic-chiptune-video-game-games-music-552833.mp3" ]
 
 [node name="Track1" type="AudioStreamPlayer2D" parent="."]
 

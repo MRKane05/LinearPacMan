@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/kaazoom-run-and-catch-x27em-full-version-retro-platform-game-music-442980.mp3-0eabe8712fdca1b3fdb0c5b48ed661b1.mp3str"
+
+[deps]
+
+source_file="res://Music/kaazoom-run-and-catch-x27em-full-version-retro-platform-game-music-442980.mp3"
+dest_files=[ "res://.import/kaazoom-run-and-catch-x27em-full-version-retro-platform-game-music-442980.mp3-0eabe8712fdca1b3fdb0c5b48ed661b1.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

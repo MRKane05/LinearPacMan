@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/mfcc-retro-arcade-game-music-297305.mp3-96565daf9e878c1ebfd0feac5de347c3.mp3str"
+
+[deps]
+
+source_file="res://Music/mfcc-retro-arcade-game-music-297305.mp3"
+dest_files=[ "res://.import/mfcc-retro-arcade-game-music-297305.mp3-96565daf9e878c1ebfd0feac5de347c3.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

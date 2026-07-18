@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/freesound_community-086398_game-die-81356.mp3-ba1328d47821aa50024e19d94dd0826c.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/freesound_community-086398_game-die-81356.mp3"
+dest_files=[ "res://.import/freesound_community-086398_game-die-81356.mp3-ba1328d47821aa50024e19d94dd0826c.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

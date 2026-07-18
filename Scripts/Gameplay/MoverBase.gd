@@ -5,6 +5,8 @@ class_name MoverBase
 export(NodePath) var level_controller_path
 onready var level_controller = get_node(level_controller_path)
 
+onready var sound_player = $AudioStreamPlayer
+
 export(NodePath) var char_sprite_path
 onready var char_sprite = get_node(char_sprite_path)
 
@@ -75,12 +77,8 @@ func do_position_move(velocity: Vector2, delta: float):
 
 #Handle our audio source playing
 func play_sound(stream):
-	var player = AudioStreamPlayer2D.new()
-	add_child(player)
-	player.stream = stream
-	player.play()
-	yield(player, "finished")
-	player.queue_free()
+	sound_player.stream = stream
+	sound_player.play()
 
 #This could do with being part of a base class
 func set_boostzone(new_boost_type):
@@ -155,10 +153,18 @@ func create_callback_timer(duration: float, callback: String):
 	if timer == null:
 		timer = Timer.new()
 		timer.name = callback
-		add_child(timer)  # Only add if newly created
-		timer.connect("timeout", self, callback)  # Only connect once
+		add_child(timer)
+		timer.connect("timeout", self, callback)
 	
-	timer.wait_time = duration
 	timer.one_shot = true
-	timer.start()
 	
+	# If timer is already running, add time to what's remaining. Hopefully this'll cover any issues we trip over
+	if not timer.is_stopped():
+		var time_remaining = timer.time_left + duration
+		timer.stop()
+		timer.wait_time = time_remaining
+		timer.start(time_remaining)
+	else:
+		timer.wait_time = duration
+		timer.start()
+

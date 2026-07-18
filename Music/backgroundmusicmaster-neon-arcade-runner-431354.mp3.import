@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/backgroundmusicmaster-neon-arcade-runner-431354.mp3-6c7e2c2454af4ad04487462689482e35.mp3str"
+
+[deps]
+
+source_file="res://Music/backgroundmusicmaster-neon-arcade-runner-431354.mp3"
+dest_files=[ "res://.import/backgroundmusicmaster-neon-arcade-runner-431354.mp3-6c7e2c2454af4ad04487462689482e35.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

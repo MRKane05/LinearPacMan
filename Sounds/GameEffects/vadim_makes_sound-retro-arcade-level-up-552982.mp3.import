@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/vadim_makes_sound-retro-arcade-level-up-552982.mp3-73b82b0779dec2fe3ceeaefb751fd665.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/vadim_makes_sound-retro-arcade-level-up-552982.mp3"
+dest_files=[ "res://.import/vadim_makes_sound-retro-arcade-level-up-552982.mp3-73b82b0779dec2fe3ceeaefb751fd665.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

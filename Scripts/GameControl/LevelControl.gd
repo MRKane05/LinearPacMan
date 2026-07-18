@@ -10,6 +10,7 @@ class LineSection:
 #get a callback when all pips have been completed and consider the level closed
 #get a callback when the player dies and do a reset on the system
 
+onready var scene_audio_effects = $SceneAudioEffects
 onready var game_timer = $GameLevelTimer
 
 export(Array, NodePath) var UI_Menus = []
@@ -37,6 +38,9 @@ onready var countdown_screen = get_node(countdown_screen_path)
 export(NodePath) var levelcomplete_screen_path
 onready var levelcomplete_screen = get_node(levelcomplete_screen_path)
 
+export(NodePath) var gameplay_elements_screen_path
+onready var gameplay_elements = get_node(gameplay_elements_screen_path)
+
 export(NodePath) var die_screen_path
 onready var die_screen = get_node(die_screen_path)
 
@@ -60,9 +64,16 @@ onready var score_node = get_node(score_node_path)
 export(NodePath) var target_score_node_path
 onready var target_score_node = get_node(target_score_node_path)
 
+#Details for our countdown timer at the top of the screen
 export(NodePath) var game_time_display_path
 onready var game_time_display = get_node(game_time_display_path)
 
+export(Color) var game_timer_normal_color = Color.white
+export(Color) var game_timer_paused_color = Color.white
+
+var time_freeze_sound = preload("res://Sounds/GameEffects/TimeFreeze.wav")
+var time_unfreeze_sound = preload("res://Sounds/GameEffects/TimeUnfreeze.wav")
+var time_add_sound = preload("res://Sounds/GameEffects/TimeAdd.wav")
 
 #Portal system
 export(NodePath) var portal_system_path
@@ -208,6 +219,8 @@ func set_game_state(gamestate):
 			level_is_fragment = rng.randi_range(1, 2)
 		else:
 			level_is_fragment = 0
+		
+		level_is_fragment=1
 		set_fragments()
 		countdown_screen.start_countdown(current_round, target_score)
 	
@@ -363,7 +376,8 @@ func _ready():
 	rng.randomize()
 	set_game_state(0)
 	# Loads and plays the music with a crossfade
-	MusicManager.play_music(preload("res://Music/mfcc-retro-arcade-game-music-297305.mp3"))
+	#MusicManager.play_music(preload("res://Music/mfcc-retro-arcade-game-music-297305.mp3"))
+	MusicManager.play_music()
 	pass # Replace with function body.
 
 var change_direction_presses = 0
@@ -676,6 +690,7 @@ func _process(delta):
 
 func return_from_paused():
 	#In theory our paused menu (ingame dialogue or settings) will hide itself, so we only need to do sundry stuff
+	
 	pass
 
 #=========Powerup Stuff======================================================
@@ -725,15 +740,41 @@ func apply_powerup(new_powerup:String):
 			game_timer.stop()
 			game_timer.wait_time = time_remaining
 			game_timer.start(time_remaining)
+			gameplay_elements.show_add_time(Global.additional_time_duration)
+			play_sound(time_add_sound)
 			#Should have some sort of effect on the clock itself to indicate that this happened
 		"pup_stop_time":
 			game_timer.paused = true
 			create_callback_timer(Global.timer_pause_duration, "stop_time_callback")
 			#Play a pause effect
+			tween_counter_color(game_timer_normal_color, game_timer_paused_color, 0.75)
+			play_sound(time_freeze_sound)
 
 func stop_time_callback():
 	game_timer.paused = false
 	#Play some sort of "unpause" effect
+	tween_counter_color(game_timer_paused_color, game_timer_normal_color, 0.75)
+	play_sound(time_unfreeze_sound)
+
+var text_tween #The tween we'll be using for our color change
+func tween_counter_color(start_color: Color, end_color: Color, duration: float):
+	if text_tween == null:
+		text_tween = Tween.new()
+		add_child(text_tween)  # Must be in the scene tree to process
+	
+	text_tween.stop_all()
+	text_tween.remove_all()
+	
+	text_tween.interpolate_property(
+		game_time_display,
+		"custom_colors/font_color",
+		start_color,
+		end_color,
+		duration,
+		Tween.TRANS_LINEAR,
+		Tween.EASE_IN_OUT
+	)
+	text_tween.start()
 
 func freeze_callback():
 	var tween = create_tween()
@@ -773,3 +814,12 @@ func create_callback_timer(duration: float, callback: String):
 func _on_GameLevelTimer_timeout():
 	print("Time finished. Player dies")
 	pass # Replace with function body.
+
+func play_sound(stream: AudioStream):
+	scene_audio_effects.stop()
+	scene_audio_effects.stream = stream
+	call_deferred("_play_deferred")
+
+func _play_deferred():
+	scene_audio_effects.play()
+

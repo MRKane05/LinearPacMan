@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/vadim_makes_sound-retro-arcade-menu-navigate-554505.mp3-a48829d5e76b3c1316e3e3d6650dafc6.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/vadim_makes_sound-retro-arcade-menu-navigate-554505.mp3"
+dest_files=[ "res://.import/vadim_makes_sound-retro-arcade-menu-navigate-554505.mp3-a48829d5e76b3c1316e3e3d6650dafc6.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

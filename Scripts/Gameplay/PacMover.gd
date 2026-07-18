@@ -155,8 +155,7 @@ func ghost_ate_player():
 	bPlayer_alive = false
 	set_animation("Die")
 	level_controller.ghost_ate_player()
-	$AudioStreamPlayer2D.stream = sound_effect_die
-	$AudioStreamPlayer2D.play()
+	play_sound(sound_effect_die)
 	
 func end_start_invincible():
 	bInvincible = false

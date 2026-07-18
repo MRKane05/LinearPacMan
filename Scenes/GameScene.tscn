@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=2]
+[gd_scene load_steps=97 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -62,6 +62,7 @@
 [ext_resource path="res://GameObjects/Pickups/pup_add_time.tscn" type="PackedScene" id=60]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_add_time.tres" type="Resource" id=61]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_stop_time.tres" type="Resource" id=62]
+[ext_resource path="res://Scripts/GameControl/GamePlayElements.gd" type="Script" id=63]
 
 [sub_resource type="CanvasItemMaterial" id=28]
 blend_mode = 1
@@ -348,6 +349,233 @@ font_data = ExtResource( 40 )
 size = 22
 font_data = ExtResource( 40 )
 
+[sub_resource type="Animation" id=34]
+resource_name = "AddTimeToClock"
+length = 1.75
+tracks/0/type = "value"
+tracks/0/path = NodePath("LevelAddTime:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2, -203 ), Vector2( 2, -278 ) ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("LevelAddTime:custom_colors/font_color:r")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0.980392, -0.25, 0, 0.25, 0, 0.980392, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 1, 1.5 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("LevelAddTime:custom_colors/font_color:g")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 1, 1.5 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("LevelAddTime:custom_colors/font_color:b")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 0.768627, -0.25, 0, 0.25, 0, 0.768627, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 1, 1.5 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("LevelAddTime:custom_colors/font_color:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 1, 1.5 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("LevelAddTime:custom_colors/font_color_shadow:r")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 1.5 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("LevelAddTime:custom_colors/font_color_shadow:g")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 1.5 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("LevelAddTime:custom_colors/font_color_shadow:b")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 1.5 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("LevelAddTime:custom_colors/font_color_shadow:a")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 1.5 )
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("LevelAddTime:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 1.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=35]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("LevelAddTime:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 2, -203 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LevelAddTime:custom_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.980392, 1, 0.768627, 1 ) ]
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("LevelAddTime:custom_colors/font_color:r")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0.980392, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("LevelAddTime:custom_colors/font_color:g")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("LevelAddTime:custom_colors/font_color:b")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 0.768627, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("LevelAddTime:custom_colors/font_color:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("LevelAddTime:custom_colors/font_color_shadow:r")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("LevelAddTime:custom_colors/font_color_shadow:g")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("LevelAddTime:custom_colors/font_color_shadow:b")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/9/type = "bezier"
+tracks/9/path = NodePath("LevelAddTime:custom_colors/font_color_shadow:a")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("LevelAddTime:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
 [sub_resource type="DynamicFont" id=23]
 size = 42
 font_data = ExtResource( 40 )
@@ -629,6 +857,7 @@ pips_node_path = NodePath("LevelPips")
 ready_screen_path = NodePath("Camera2D/ReadyScreen")
 countdown_screen_path = NodePath("Camera2D/CountdownScreen")
 levelcomplete_screen_path = NodePath("Camera2D/LevelCompleteScreen")
+gameplay_elements_screen_path = NodePath("Camera2D/GameplayElements")
 die_screen_path = NodePath("Camera2D/DieScreen")
 dialogue_node_path = NodePath("Camera2D/DialogueScreen")
 ingame_dialogue_handler_path = NodePath("Camera2D/ingameDialogueBoxes")
@@ -637,6 +866,8 @@ current_score_node_path = NodePath("Camera2D/GameplayElements/GridContainer/Scor
 score_node_path = NodePath("Camera2D/GameplayElements/GridContainer/LevelScoreContainer/LevelScore")
 target_score_node_path = NodePath("Camera2D/GameplayElements/GridContainer/TargetScoreContainer/TargetScore")
 game_time_display_path = NodePath("Camera2D/GameplayElements/LevelTimer")
+game_timer_normal_color = Color( 0.980392, 1, 0.768627, 1 )
+game_timer_paused_color = Color( 0.768627, 0.976471, 1, 1 )
 portal_system_path = NodePath("PortalBase")
 support_quote_path = NodePath("Camera2D/DieScreen/PromotionalStub/DialogueContent")
 x_prompt_path = NodePath("Camera2D/ChangeDirectionsPrompt")
@@ -797,6 +1028,8 @@ anims/RESET = SubResource( 15 )
 anims/Respawn = SubResource( 19 )
 anims/Search_Move = SubResource( 17 )
 anims/Search_Still = SubResource( 16 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Ghost"]
 
 [node name="PacMan" type="KinematicBody2D" parent="."]
 position = Vector2( 492, 300 )
@@ -1014,80 +1247,8 @@ scale = Vector2( 0.8, 0.8 )
 script = ExtResource( 37 )
 
 [node name="GameplayElements" type="Node2D" parent="Camera2D"]
-
-[node name="PowerupItems" type="Node2D" parent="Camera2D/GameplayElements"]
-position = Vector2( -457, -250 )
-script = ExtResource( 16 )
-level_controller_path = NodePath("../../..")
-PowerupBoxes = [ NodePath("HBoxContainer/PowerupUIBox"), NodePath("HBoxContainer/PowerupUIBox2"), NodePath("HBoxContainer/PowerupUIBox3") ]
-PowerupItemList = [ ExtResource( 17 ), ExtResource( 24 ), ExtResource( 22 ), ExtResource( 55 ), ExtResource( 25 ), ExtResource( 61 ), ExtResource( 62 ) ]
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/GameplayElements/PowerupItems"]
-margin_left = -3.0
-margin_top = -4.0
-margin_right = 390.0
-margin_bottom = 124.0
-rect_min_size = Vector2( 200, 100 )
-rect_scale = Vector2( 0.4, 0.4 )
-
-[node name="PowerupUIBox3" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
-button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect")
-
-[node name="PowerupUIBox2" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
-margin_left = 132.0
-margin_right = 260.0
-button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect2")
-
-[node name="PowerupUIBox" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
-margin_left = 264.0
-margin_right = 392.0
-button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect3")
-
-[node name="ButtonAssignmentContainer" type="HBoxContainer" parent="Camera2D/GameplayElements/PowerupItems"]
-margin_left = -1.0
-margin_top = 51.0
-margin_right = 39.0
-margin_bottom = 91.0
-rect_scale = Vector2( 0.665, 0.665 )
-
-[node name="TextureRect" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
-margin_right = 74.0
-margin_bottom = 73.0
-texture = ExtResource( 19 )
-
-[node name="TextureRect2" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
-margin_left = 78.0
-margin_right = 152.0
-margin_bottom = 73.0
-texture = ExtResource( 21 )
-
-[node name="TextureRect3" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
-margin_left = 156.0
-margin_right = 230.0
-margin_bottom = 73.0
-texture = ExtResource( 20 )
-
-[node name="PowerupName" type="RichTextLabel" parent="Camera2D/GameplayElements/PowerupItems"]
-anchor_top = -0.136
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 167.0
-margin_top = -8.0
-margin_right = 538.0
-margin_bottom = 74.0
-custom_fonts/normal_font = ExtResource( 10 )
-
-[node name="LevelTimer" type="Label" parent="Camera2D/GameplayElements"]
-margin_left = -288.0
-margin_top = -293.0
-margin_right = 58.0
-margin_bottom = -119.0
-custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_as_outline = 0
-custom_fonts/font = ExtResource( 53 )
-text = "60:99"
-align = 3
+script = ExtResource( 63 )
+level_add_time_label_node = NodePath("LevelAddTime")
 
 [node name="GridContainer" type="GridContainer" parent="Camera2D/GameplayElements"]
 margin_left = 77.0
@@ -1222,6 +1383,98 @@ custom_fonts/font = ExtResource( 47 )
 text = "100"
 align = 3
 
+[node name="PowerupItems" type="Node2D" parent="Camera2D/GameplayElements"]
+position = Vector2( -457, -250 )
+script = ExtResource( 16 )
+level_controller_path = NodePath("../../..")
+PowerupBoxes = [ NodePath("HBoxContainer/PowerupUIBox"), NodePath("HBoxContainer/PowerupUIBox2"), NodePath("HBoxContainer/PowerupUIBox3") ]
+PowerupItemList = [ ExtResource( 17 ), ExtResource( 24 ), ExtResource( 22 ), ExtResource( 55 ), ExtResource( 25 ), ExtResource( 61 ), ExtResource( 62 ) ]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/GameplayElements/PowerupItems"]
+margin_left = -3.0
+margin_top = -4.0
+margin_right = 390.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 200, 100 )
+rect_scale = Vector2( 0.4, 0.4 )
+
+[node name="PowerupUIBox3" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
+button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect")
+
+[node name="PowerupUIBox2" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
+margin_left = 132.0
+margin_right = 260.0
+button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect2")
+
+[node name="PowerupUIBox" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
+margin_left = 264.0
+margin_right = 392.0
+button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect3")
+
+[node name="ButtonAssignmentContainer" type="HBoxContainer" parent="Camera2D/GameplayElements/PowerupItems"]
+margin_left = -1.0
+margin_top = 51.0
+margin_right = 39.0
+margin_bottom = 91.0
+rect_scale = Vector2( 0.665, 0.665 )
+
+[node name="TextureRect" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
+margin_right = 74.0
+margin_bottom = 73.0
+texture = ExtResource( 19 )
+
+[node name="TextureRect2" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
+margin_left = 78.0
+margin_right = 152.0
+margin_bottom = 73.0
+texture = ExtResource( 21 )
+
+[node name="TextureRect3" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
+margin_left = 156.0
+margin_right = 230.0
+margin_bottom = 73.0
+texture = ExtResource( 20 )
+
+[node name="PowerupName" type="RichTextLabel" parent="Camera2D/GameplayElements/PowerupItems"]
+anchor_top = -0.136
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 167.0
+margin_top = -8.0
+margin_right = 538.0
+margin_bottom = 74.0
+custom_fonts/normal_font = ExtResource( 10 )
+
+[node name="LevelTimer" type="Label" parent="Camera2D/GameplayElements"]
+margin_left = -288.0
+margin_top = -293.0
+margin_right = 58.0
+margin_bottom = -119.0
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 0
+custom_fonts/font = ExtResource( 53 )
+text = "60:99"
+align = 3
+
+[node name="LevelAddTime" type="Label" parent="Camera2D/GameplayElements"]
+visible = false
+margin_left = 2.0
+margin_top = -203.0
+margin_right = 348.0
+margin_bottom = -29.0
+rect_scale = Vector2( 0.8, 0.8 )
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 0
+custom_fonts/font = ExtResource( 53 )
+text = "+3"
+align = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/GameplayElements"]
+anims/AddTimeToClock = SubResource( 34 )
+anims/RESET = SubResource( 35 )
+
 [node name="DialogueScreen" type="Node2D" parent="Camera2D"]
 visible = false
 position = Vector2( 8, 29 )
@@ -1335,11 +1588,14 @@ anchor_top = -0.136
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -42.0
-margin_top = -246.0
+margin_top = -252.0
 margin_right = 68.0
-margin_bottom = -164.0
-rect_scale = Vector2( 3, 3 )
-custom_fonts/normal_font = ExtResource( 42 )
+margin_bottom = -41.0
+custom_colors/default_color = Color( 0.980392, 1, 0.768627, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.505882 )
+custom_constants/shadow_offset_x = 8
+custom_constants/shadow_offset_y = 10
+custom_fonts/normal_font = ExtResource( 53 )
 text = "3"
 
 [node name="LevelTitle" type="Label" parent="Camera2D/CountdownScreen"]
@@ -1349,6 +1605,7 @@ margin_left = -256.0
 margin_top = -60.0
 margin_right = 256.0
 margin_bottom = 114.0
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
@@ -1364,6 +1621,7 @@ margin_left = -344.0
 margin_top = -64.0
 margin_right = 345.0
 margin_bottom = 110.0
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
@@ -1506,6 +1764,8 @@ position = Vector2( 4, 61 )
 [node name="PowerupIndicator01" type="Sprite" parent="Camera2D/LevelWonPowerups"]
 visible = false
 texture = ExtResource( 57 )
+
+[node name="SceneAudioEffects" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="timeout" from="GameLevelTimer" to="." method="_on_GameLevelTimer_timeout"]
 [connection signal="body_entered" from="Ghost/Area2D" to="Ghost" method="_on_Area2D_body_entered"]

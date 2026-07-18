@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/mondamusic-retro-arcade-game-music-512837.mp3-ee5972c7c5ea2fde6b50eb878a5f6180.mp3str"
+
+[deps]
+
+source_file="res://Music/mondamusic-retro-arcade-game-music-512837.mp3"
+dest_files=[ "res://.import/mondamusic-retro-arcade-game-music-512837.mp3-ee5972c7c5ea2fde6b50eb878a5f6180.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

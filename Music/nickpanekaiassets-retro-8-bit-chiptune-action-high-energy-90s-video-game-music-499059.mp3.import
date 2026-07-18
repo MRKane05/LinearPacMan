@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/nickpanekaiassets-retro-8-bit-chiptune-action-high-energy-90s-video-game-music-499059.mp3-c71d4fa179f42f5c9bfa1b1ce1f3eb29.mp3str"
+
+[deps]
+
+source_file="res://Music/nickpanekaiassets-retro-8-bit-chiptune-action-high-energy-90s-video-game-music-499059.mp3"
+dest_files=[ "res://.import/nickpanekaiassets-retro-8-bit-chiptune-action-high-energy-90s-video-game-music-499059.mp3-c71d4fa179f42f5c9bfa1b1ce1f3eb29.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

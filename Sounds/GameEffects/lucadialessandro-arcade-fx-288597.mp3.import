@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/lucadialessandro-arcade-fx-288597.mp3-09f4334ff02bffdcd7f82d4ac9289032.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/lucadialessandro-arcade-fx-288597.mp3"
+dest_files=[ "res://.import/lucadialessandro-arcade-fx-288597.mp3-09f4334ff02bffdcd7f82d4ac9289032.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

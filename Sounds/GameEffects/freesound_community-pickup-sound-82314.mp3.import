@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/freesound_community-pickup-sound-82314.mp3-eaaf729771667f8d5a8b1e08deb0975f.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/freesound_community-pickup-sound-82314.mp3"
+dest_files=[ "res://.import/freesound_community-pickup-sound-82314.mp3-eaaf729771667f8d5a8b1e08deb0975f.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

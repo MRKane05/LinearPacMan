@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/hitslab-chiptune-video-game-games-music-457939.mp3-b91620826321977234021f802ec4351f.mp3str"
+
+[deps]
+
+source_file="res://Music/hitslab-chiptune-video-game-games-music-457939.mp3"
+dest_files=[ "res://.import/hitslab-chiptune-video-game-games-music-457939.mp3-b91620826321977234021f802ec4351f.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
