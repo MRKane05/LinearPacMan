@@ -5,7 +5,7 @@ class_name MoverBase
 export(NodePath) var level_controller_path
 onready var level_controller = get_node(level_controller_path)
 
-onready var sound_player = $AudioStreamPlayer
+onready var sound_player = $AudioStreamPlayer2D
 
 export(NodePath) var char_sprite_path
 onready var char_sprite = get_node(char_sprite_path)

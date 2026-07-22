@@ -1,12 +1,15 @@
 # PointIndicatorManager.gd - add to AutoLoad in Project Settings
 extends Node
 
-const PointIndicator = preload("res://GameObjects/UI/CollectDisplay.tscn")
+export (PackedScene) var PointIndicator # Assign your pickup scene in inspector
+#const PointIndicator = preload("res://GameObjects/UI/CollectDisplay.tscn")
 const POOL_SIZE = 10
 
 var _pool = []
 
 func _ready():
+	if (PointIndicator == null):
+		PointIndicator = preload("res://GameObjects/UI/CollectDisplay.tscn")
 	_initialise_pool()
 
 func _initialise_pool():

@@ -3,6 +3,9 @@ extends Node
 export(NodePath) var level_add_time_label_node
 onready var add_time_label = get_node(level_add_time_label_node)
 
+export(NodePath) var add_score_label_node
+onready var add_score_label = get_node(add_score_label_node)
+
 onready var animation_player = $AnimationPlayer
 
 func show_add_time(ammount: float):
@@ -10,3 +13,6 @@ func show_add_time(ammount: float):
 	add_time_label.visible = true
 	add_time_label.text = "+" + str(ammount)
 	animation_player.play("AddTimeToClock")
+
+func show_add_score(ammount: float):
+	pass

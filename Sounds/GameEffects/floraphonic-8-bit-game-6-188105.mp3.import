@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/floraphonic-8-bit-game-6-188105.mp3-2331097769e6f9849394bdeca0e0c5c4.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/floraphonic-8-bit-game-6-188105.mp3"
+dest_files=[ "res://.import/floraphonic-8-bit-game-6-188105.mp3-2331097769e6f9849394bdeca0e0c5c4.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

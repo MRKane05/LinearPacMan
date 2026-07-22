@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=2]
+[gd_scene load_steps=101 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -37,7 +37,7 @@
 [ext_resource path="res://GameObjects/Pickups/GhostPellet.tscn" type="PackedScene" id=35]
 [ext_resource path="res://Scripts/Story/DialogueScreen.gd" type="Script" id=36]
 [ext_resource path="res://Scripts/Gameplay/UI/CollectScoreDisplayer.gd" type="Script" id=37]
-[ext_resource path="res://Scripts/GameControl/ReadyScreen.gd" type="Script" id=38]
+[ext_resource path="res://Scripts/GameControl/LevelCompleteScreen.gd" type="Script" id=38]
 [ext_resource path="res://Scripts/Gameplay/UI/IngameDialogueBoxes.gd" type="Script" id=39]
 [ext_resource path="res://Fonts/johnny-fever/Johnny Fever.otf" type="DynamicFontData" id=40]
 [ext_resource path="res://Fonts/JohnnyFever_22.tres" type="DynamicFont" id=41]
@@ -63,6 +63,8 @@
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_add_time.tres" type="Resource" id=61]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_stop_time.tres" type="Resource" id=62]
 [ext_resource path="res://Scripts/GameControl/GamePlayElements.gd" type="Script" id=63]
+[ext_resource path="res://Scripts/Globals/PointIndicatorManager.gd" type="Script" id=64]
+[ext_resource path="res://GameObjects/UI/AddScoreIndicator.tscn" type="PackedScene" id=65]
 
 [sub_resource type="CanvasItemMaterial" id=28]
 blend_mode = 1
@@ -683,6 +685,26 @@ tracks/9/keys = {
 "points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 1.5, 1.7, 2.7, 3 )
 }
+tracks/10/type = "bezier"
+tracks/10/path = NodePath("CountDownClock:scale:x")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"points": PoolRealArray( 1e-05, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1e-05, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( -0.025, 0.3, 0.7, 2.6, 2.8, 3 )
+}
+tracks/11/type = "bezier"
+tracks/11/path = NodePath("CountDownClock:scale:y")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"points": PoolRealArray( 1e-05, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1e-05, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( -0.025, 0.3, 0.7, 2.6, 2.8, 3 )
+}
 
 [sub_resource type="Animation" id=33]
 length = 0.001
@@ -846,6 +868,56 @@ tracks/15/keys = {
 "points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
+tracks/16/type = "bezier"
+tracks/16/path = NodePath("CountDownClock:scale:x")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/17/type = "bezier"
+tracks/17/path = NodePath("CountDownClock:scale:y")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=36]
+resource_name = "DoScoreDisplay"
+length = 3.0
+tracks/0/type = "method"
+tracks/0/path = NodePath("Camera2D/LevelCompleteScreen")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.5, 1.2, 1.5, 2.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"values": [ {
+"args": [ 0 ],
+"method": "display_score_structure"
+}, {
+"args": [ 1 ],
+"method": "display_score_structure"
+}, {
+"args": [ 2 ],
+"method": "display_score_structure"
+}, {
+"args": [ 3 ],
+"method": "display_score_structure"
+} ]
+}
+
+[sub_resource type="Animation" id=37]
+resource_name = "StartAnim"
 
 [node name="SceneBase" type="Node2D"]
 script = ExtResource( 5 )
@@ -973,15 +1045,15 @@ position = Vector2( 492, 300 )
 position = Vector2( 477, 300 )
 level_controller_node_path = NodePath("..")
 
-[node name="LevelPips" type="KinematicBody2D" parent="."]
-collision_layer = 0
-collision_mask = 0
+[node name="LevelPips" type="Node2D" parent="."]
 script = ExtResource( 7 )
 level_controller_path = NodePath("..")
 powerup_items_path = NodePath("../Camera2D/GameplayElements/PowerupItems")
+add_score_display_path = NodePath("../Camera2D/GameplayElements/AddPointsBase")
 pip_scene = ExtResource( 6 )
 special_pips = [ ExtResource( 35 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 8 ), ExtResource( 59 ), ExtResource( 54 ), ExtResource( 60 ), ExtResource( 26 ) ]
-override_powerup = ExtResource( 60 )
+override_powerup = ExtResource( 35 )
+sound_player_path = NodePath("../PipsAudioStreamPlayer2D")
 
 [node name="Ghost" type="KinematicBody2D" parent="."]
 position = Vector2( 32, 300 )
@@ -1249,6 +1321,7 @@ script = ExtResource( 37 )
 [node name="GameplayElements" type="Node2D" parent="Camera2D"]
 script = ExtResource( 63 )
 level_add_time_label_node = NodePath("LevelAddTime")
+add_score_label_node = NodePath("AddPointsBase")
 
 [node name="GridContainer" type="GridContainer" parent="Camera2D/GameplayElements"]
 margin_left = 77.0
@@ -1475,6 +1548,11 @@ align = 3
 anims/AddTimeToClock = SubResource( 34 )
 anims/RESET = SubResource( 35 )
 
+[node name="AddPointsBase" type="Node2D" parent="Camera2D/GameplayElements"]
+position = Vector2( 331, -168 )
+script = ExtResource( 64 )
+PointIndicator = ExtResource( 65 )
+
 [node name="DialogueScreen" type="Node2D" parent="Camera2D"]
 visible = false
 position = Vector2( 8, 29 )
@@ -1539,7 +1617,6 @@ position = Vector2( 415, 137.5 )
 [node name="ReadyScreen" type="Node2D" parent="Camera2D"]
 visible = false
 script = ExtResource( 38 )
-target_text_path = NodePath("Sprite/TargetScore")
 
 [node name="Sprite" type="Sprite" parent="Camera2D/ReadyScreen"]
 texture = ExtResource( 11 )
@@ -1573,24 +1650,36 @@ levelcontrol_node_path = NodePath("../..")
 target_score_path = NodePath("TargetScore")
 round_node_path = NodePath("LevelTitle")
 
-[node name="TextureProgress" type="TextureProgress" parent="Camera2D/CountdownScreen"]
-margin_left = -139.0
-margin_top = -293.0
-margin_right = 373.0
-margin_bottom = 219.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/CountdownScreen"]
+anims/LevelOpening = SubResource( 32 )
+anims/RESET = SubResource( 33 )
+
+[node name="CountDownClock" type="Node2D" parent="Camera2D/CountdownScreen"]
+position = Vector2( -11, -165 )
+
+[node name="TextureProgressBacking" type="Sprite" parent="Camera2D/CountdownScreen/CountDownClock"]
+modulate = Color( 0.576471, 0.576471, 0.576471, 0.933333 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 14 )
+
+[node name="TextureProgress" type="TextureProgress" parent="Camera2D/CountdownScreen/CountDownClock"]
+margin_left = -128.0
+margin_top = -128.0
+margin_right = 384.0
+margin_bottom = 384.0
 rect_scale = Vector2( 0.5, 0.5 )
-value = 100.0
+value = 50.0
 texture_progress = ExtResource( 14 )
 fill_mode = 5
 
-[node name="CountDownInt" type="RichTextLabel" parent="Camera2D/CountdownScreen"]
+[node name="CountDownInt" type="RichTextLabel" parent="Camera2D/CountdownScreen/CountDownClock"]
 anchor_top = -0.136
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -42.0
-margin_top = -252.0
-margin_right = 68.0
-margin_bottom = -41.0
+margin_left = -31.0
+margin_top = -87.0
+margin_right = 79.0
+margin_bottom = 124.0
 custom_colors/default_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.505882 )
 custom_constants/shadow_offset_x = 8
@@ -1628,10 +1717,6 @@ custom_constants/shadow_offset_y = 8
 custom_fonts/font = ExtResource( 53 )
 text = "Target 100"
 align = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/CountdownScreen"]
-anims/LevelOpening = SubResource( 32 )
-anims/RESET = SubResource( 33 )
 
 [node name="DieScreen" type="Node2D" parent="Camera2D"]
 visible = false
@@ -1700,20 +1785,22 @@ custom_fonts/normal_font = ExtResource( 41 )
 text = "This window gives a promotional statement to the player such as \"new highscore!\" or \"nearly set a new high score\""
 
 [node name="LevelCompleteScreen" type="Node2D" parent="Camera2D"]
-visible = false
+position = Vector2( 0, 2 )
 script = ExtResource( 38 )
 return_var = 1
-target_text_path = NodePath("Sprite/TargetScore")
+points_earned_path = NodePath("Sprite/VBoxContainer/PointsHBox/PointsValue")
+time_remaining_path = NodePath("Sprite/VBoxContainer/TimeRemainingHBox/TimeRemainingValue")
+total_score_path = NodePath("Sprite/VBoxContainer/TotalPointsHBox/TotalPointsValue")
 PrizeBoxes = [ NodePath("SurpriseBoxElement"), NodePath("SurpriseBoxElement2"), NodePath("SurpriseBoxElement3") ]
 
 [node name="Sprite" type="Sprite" parent="Camera2D/LevelCompleteScreen"]
 texture = ExtResource( 11 )
 
 [node name="Label" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite"]
-margin_left = -203.0
-margin_top = -173.0
-margin_right = 174.0
-margin_bottom = -96.0
+margin_left = -200.0
+margin_top = -206.0
+margin_right = 177.0
+margin_bottom = -129.0
 custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
 custom_constants/shadow_as_outline = 8
 custom_fonts/font = SubResource( 24 )
@@ -1737,6 +1824,98 @@ custom_fonts/normal_font = ExtResource( 10 )
 text = "Press X
 "
 
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/LevelCompleteScreen/Sprite"]
+margin_left = -197.0
+margin_top = -148.0
+margin_right = 201.0
+margin_bottom = -32.0
+
+[node name="PointsHBox" type="HBoxContainer" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer"]
+margin_right = 398.0
+margin_bottom = 39.0
+
+[node name="Title" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox"]
+margin_right = 91.0
+margin_bottom = 39.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/font = SubResource( 24 )
+text = "Points"
+
+[node name="Control" type="Control" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox"]
+margin_left = 95.0
+margin_right = 377.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+
+[node name="PointsValue" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox"]
+margin_left = 381.0
+margin_right = 398.0
+margin_bottom = 39.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/font = SubResource( 24 )
+text = "0"
+align = 2
+
+[node name="TimeRemainingHBox" type="HBoxContainer" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer"]
+margin_top = 43.0
+margin_right = 398.0
+margin_bottom = 82.0
+
+[node name="Title" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox"]
+margin_right = 213.0
+margin_bottom = 39.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/font = SubResource( 24 )
+text = "Time remaining"
+
+[node name="Control" type="Control" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox"]
+margin_left = 217.0
+margin_right = 377.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+
+[node name="TimeRemainingValue" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox"]
+margin_left = 381.0
+margin_right = 398.0
+margin_bottom = 39.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/font = SubResource( 24 )
+text = "0"
+align = 2
+
+[node name="TotalPointsHBox" type="HBoxContainer" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer"]
+margin_top = 86.0
+margin_right = 398.0
+margin_bottom = 125.0
+
+[node name="Title" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox"]
+margin_right = 170.0
+margin_bottom = 39.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/font = SubResource( 24 )
+text = "TotalPoints"
+
+[node name="Control" type="Control" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox"]
+margin_left = 174.0
+margin_right = 377.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+
+[node name="TotalPointsValue" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox"]
+margin_left = 381.0
+margin_right = 398.0
+margin_bottom = 39.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/font = SubResource( 24 )
+text = "0"
+align = 2
+
 [node name="ButtonPromptNode" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 52 )]
 position = Vector2( 180, 183 )
 
@@ -1757,6 +1936,11 @@ level_controller_path = NodePath("../../..")
 max_score = 7.0
 uses_score = false
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/LevelCompleteScreen"]
+root_node = NodePath("../../..")
+anims/DoScoreDisplay = SubResource( 36 )
+anims/StartAnim = SubResource( 37 )
+
 [node name="LevelWonPowerups" type="Node2D" parent="Camera2D"]
 visible = false
 position = Vector2( 4, 61 )
@@ -1764,6 +1948,8 @@ position = Vector2( 4, 61 )
 [node name="PowerupIndicator01" type="Sprite" parent="Camera2D/LevelWonPowerups"]
 visible = false
 texture = ExtResource( 57 )
+
+[node name="PipsAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [node name="SceneAudioEffects" type="AudioStreamPlayer2D" parent="."]
 

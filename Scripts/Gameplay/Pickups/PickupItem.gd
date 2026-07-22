@@ -44,16 +44,19 @@ func do_reveal():
 func _on_GenericPip_body_entered(body):
 	# only the player can interact with this object
 	# need to call through to the level controller to say we've collected
+	var collects_remaining = 0
 	if (parent_pickup_handler != null):
-		parent_pickup_handler.pellet_pickedup(self, pickup_effect, pickup_value)
+		collects_remaining = parent_pickup_handler.pellet_pickedup(self, pickup_effect, pickup_value)
 		
 		if (pickup_resource):
 			var pickup_name = pickup_resource.get("powerup_name")
 			var pickup_color = pickup_resource.get("powerup_color")
 			PointIndicatorManager.show_indicator(global_position, pickup_name, pickup_color)
 		else:
-			PointIndicatorManager.show_indicator(global_position, str(pickup_value))
-		
+			#I want to know how many points are remaining after this has been collected...
+			#PointIndicatorManager.show_indicator(global_position, "+" + str(pickup_value) + "\n" + str(collects_remaining))
+			PointIndicatorManager.show_indicator(global_position, str(collects_remaining))
+			
 			
 	# do our collect animation
 	# Remove the item from the scene

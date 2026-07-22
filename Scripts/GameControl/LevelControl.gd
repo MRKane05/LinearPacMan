@@ -153,13 +153,7 @@ func add_score(by_this):
 						level_count = 0 #Reset this
 						SaveManager.set_value("level_count", level_count)
 						#Display a dialogue for the player to read. Somehow
-						get_node(UI_Menus[5]).do_display_dilogue()
-						dialogue_node.return_var = 3
-						#debounce
-						bAllowInput = false
-						create_callback_timer(debounce, "enable_control_input")
-						set_game_state(5)
-						pass
+						handle_story_line(line, 3)
 	
 	if (aggregate_score > max_score):
 		max_score = aggregate_score
@@ -167,6 +161,23 @@ func add_score(by_this):
 		bHighscoreSet = true
 		high_score_node.text = str(aggregate_score) + "/" + str(max_score)
 	
+	return ((target_score-score)/10)
+
+func handle_story_line(line, dialoge_return_var: int):
+	#Display a dialogue for the player to read. Somehow
+	get_node(UI_Menus[5]).do_display_dilogue()
+	dialogue_node.return_var = dialoge_return_var
+	#debounce
+	bAllowInput = false
+	create_callback_timer(debounce, "enable_control_input")
+	set_game_state(5)
+	
+	if (line.special_unlock != null):
+		if  (line.special_unlock.length() > 0):
+			if ("portal" in line.special_unlock):	#we've unlocked portals!
+				SaveManager.set_value("portals_enabled", 2) #Setting to 2 means "show up next level"
+			if ("fragment" in line.special_unlock):
+				SaveManager.set_value("fragment_enabled", 2)
 
 # Stage present goal=============================================================
 func _on_ReadyButton_pressed():
@@ -213,14 +224,15 @@ func set_game_state(gamestate):
 	
 	#handle trigger calls
 	if (Global.game_state == 1):
-		#At this stage we need to know if we're going to do a fragment
-		#so that we can play a little reveal animation also
-		if (randf() > 0.75): #1:20 odds of a fragment happening
-			level_is_fragment = rng.randi_range(1, 2)
-		else:
-			level_is_fragment = 0
-		
-		level_is_fragment=1
+		if (SaveManager.get_value("fragment_enabled") > 0):
+			#At this stage we need to know if we're going to do a fragment
+			#so that we can play a little reveal animation also
+			if (randf() > 0.75 || SaveManager.get_value("fragment_enabled") > 1): #1:20 odds of a fragment happening
+				level_is_fragment = rng.randi_range(1, 2)
+				SaveManager.set_value("fragment_enabled", 1) #Set this back so that we don't put this down for sure
+			else:
+				level_is_fragment = 0
+			
 		set_fragments()
 		countdown_screen.start_countdown(current_round, target_score)
 	
@@ -239,6 +251,7 @@ func set_game_state(gamestate):
 		#PROBLEM: Need to note that we've set a highscore and the feedback should reflect that!
 		var games_played = int(SaveManager.get_value("total_games"))
 		var story_index = SaveManager.get_value("story_index")
+		var bShowingStory = false
 		if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
 			var line = StoryManager.get_dialogue(story_index) 
 			if (line != null && line != {} && line.size() != 0):
@@ -247,16 +260,12 @@ func set_game_state(gamestate):
 						if (line.reward_reveal != -1):
 							SaveManager.set_value("reward_reveal", line.reward_reveal)
 							print("Got Story Trigger!")
-							get_node(UI_Menus[5]).do_display_dilogue()
-							#Global.game_state = 5	#This is our conversation screen window
-							#In theory I suppose we could just re-call this function...
-							bAllowInput = false
-							create_callback_timer(debounce, "enable_control_input")
-							dialogue_node.return_var = 3
-							set_game_state(5)
+							handle_story_line(line, 3)
+							bShowingStory = true
 		
-		
-		levelcomplete_screen.update_prize_boxes(target_score)
+		if (!bShowingStory):
+			levelcomplete_screen.display_level_complete(target_score, game_timer.time_left, max_score)
+			levelcomplete_screen.update_prize_boxes(target_score)
 		#PROBLEM: Need a debounce on this screen just in case the player was trying to change direction
 		bAllowInput = false
 		#We need to check here for dialogue if it's got a "level_complete" trigger on it
@@ -287,13 +296,7 @@ func set_game_state(gamestate):
 				if (line.trigger == "deaths"):
 					if (story_games >= line.triggernum):
 						print("Got Story Trigger!")
-						get_node(UI_Menus[5]).do_display_dilogue()
-						#Global.game_state = 5	#This is our conversation screen window
-						#In theory I suppose we could just re-call this function...
-						bAllowInput = false
-						create_callback_timer(debounce, "enable_control_input")
-						dialogue_node.return_var = 4
-						set_game_state(5)
+						handle_story_line(line, 4)
 		
 		#set_game_state(0)
 		#Change music to menu music
@@ -520,8 +523,13 @@ func set_fragments():
 
 
 func do_level_setup():
-	if (randf() > 0.80 && level_is_fragment == 0):
-		portal_system.enable_portals(true)
+	if (SaveManager.get_value("portals_enabled") > 0):
+		if (randf() > 0.80 && level_is_fragment == 0) || SaveManager.get_value("portals_enabled") > 1:
+			portal_system.enable_portals(true)
+			if (SaveManager.get_value("portals_enabled") > 1): #Set this back to 1 so as to not keep triggering this
+				SaveManager.set_value("portals_enabled", 1)
+		else:
+			portal_system.enable_portals(false)
 	else:
 		portal_system.enable_portals(false)
 	
@@ -664,8 +672,8 @@ func _process(delta):
 				target_score_node.text = str(target_score)
 				score = 0
 				
-				levelcomplete_screen.display_target(target_score)
-				
+				#levelcomplete_screen.display_target(target_score)
+				#levelcomplete_screen.display_level_complete(target_score, game_timer.time_left, max_score)
 			
 			if (Global.game_state == 4):
 				target_score = score_start

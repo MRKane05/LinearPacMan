@@ -18,7 +18,8 @@ const SOUNDS = {
 	"freeze_start"	: preload("res://Sounds//Powerups/Freeze_Start.wav"),
 	"freeze_end" : preload("res://Sounds//Powerups/Freeze_Stop.wav"),
 	"invisible_start" : preload("res://Sounds//Powerups/Invisible_Start.wav"),
-	"invisible_end" : preload("res://Sounds//Powerups/Invisible_Stop.wav")
+	"invisible_end" : preload("res://Sounds//Powerups/Invisible_Stop.wav"),
+	"eat_pip" : preload("res://Sounds/GameEffects/vadim_makes_sound-retro-arcade-menu-navigate-554505.mp3")
 }
 
 
@@ -95,7 +96,6 @@ func _on_CenterPointTrigger_area_entered(area):
 	#Teleporter script makes affected change
 	if (area.has_method("pac_contacted")):
 		area.pac_contacted(self)
-	pass # Replace with function body.
 
 func play_freeze_end_sound():
 	play_sound(SOUNDS["freeze_end"])

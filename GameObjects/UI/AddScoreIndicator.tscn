@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Fonts/JohnnyFever_32.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Fonts/JohnnyFever_58.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Scripts/Gameplay/UI/CollectDisplayItem.gd" type="Script" id=2]
 
 [sub_resource type="Animation" id=21]
@@ -95,13 +95,12 @@ anchor_bottom = 0.5
 margin_left = -110.0
 margin_top = -29.0
 margin_right = 190.0
-margin_bottom = 140.0
+margin_bottom = 42.0
 rect_scale = Vector2( 0.75, 0.75 )
 rect_pivot_offset = Vector2( 150, 30 )
 custom_constants/line_spacing = -13
 custom_fonts/font = ExtResource( 1 )
-text = "+10
-15"
+text = "+10"
 align = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

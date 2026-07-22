@@ -33,6 +33,8 @@ var save_data = {
 	"powerup_reveal":	-1,
 	"reward_reveal":	-1,
 	"pac_reveal":		0,
+	"fragment_enabled":	0,
+	"portals_enabled":	0,
 }
 
 func _ready():
@@ -90,6 +92,8 @@ func delete_save():
 			"reward_reveal":	-1,
 			"powerup_reveal":	-1,
 			"pac_reveal":		0,
+			"fragment_enabled":	0,
+			"portals_enabled":	0,
 		}
 		print("Save deleted")
 

@@ -26,6 +26,10 @@ var sprite_side_buffer = 24
 var taser_action_timer;
 var bIstasered = false
 
+const SOUNDS = {
+	"eaten"   : preload("res://Sounds/GameEffects/eatGhost_floraphonic-8-bit-game-6-188105.wav")
+}
+
 func _setup_counters():
 	#taser timer
 	taser_action_timer = Timer.new()
@@ -162,6 +166,9 @@ func _on_Area2D_body_entered(body):
 			print("Player ate the ghost!")
 			bGhostFlee = true
 			bCanBeEaten = false
+			level_controller.pips_node.pellet_pickedup(null, "ghost", 200) #Update our points system
+			PointIndicatorManager.show_indicator(global_position, "+200") #Display the points we just go
+			play_sound(SOUNDS["eaten"])
 			#Set our ghost flee position to the other quarter point on the screen from where we were caught as we'll logically be in a corner
 			if (position.x < screen_size/2):
 				flee_position = screen_size * 0.75
