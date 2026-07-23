@@ -166,8 +166,8 @@ func _on_Area2D_body_entered(body):
 			print("Player ate the ghost!")
 			bGhostFlee = true
 			bCanBeEaten = false
-			level_controller.pips_node.pellet_pickedup(null, "ghost", 200) #Update our points system
-			PointIndicatorManager.show_indicator(global_position, "+200") #Display the points we just go
+			level_controller.pips_node.pellet_pickedup(null, "ghost", 50) #Update our points system
+			PointIndicatorManager.show_indicator(global_position, "-5") #Display the points we just go
 			play_sound(SOUNDS["eaten"])
 			#Set our ghost flee position to the other quarter point on the screen from where we were caught as we'll logically be in a corner
 			if (position.x < screen_size/2):

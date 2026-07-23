@@ -131,7 +131,7 @@ func pellet_pickedup(pickup_item : Node, pickup_effect : String, add_value: int)
 			level_controller.select_powerup(pickup_item.pickup_resource.get("powerup_effect_tag"))
 	else:
 		play_sound(SOUNDS["eat_pip"])
-		add_score_display.show_indicator(add_score_display.global_position, "+"+ str(add_value))
+		#add_score_display.show_indicator(add_score_display.global_position, "+"+ str(add_value))
 	
 	if (pickup_item != null):
 		pickup_item.queue_free()

@@ -103,8 +103,11 @@ var current_powerup = ""	#lets make it so that there's only one powerup at once
 
 var current_round = 0
 var score_start = 200
+var pips_start = 20
+var pips_step = 7
 var score_step = 70
 var target_score = 200
+var target_pips = 20
 var score = 0
 var aggregate_score = 0
 
@@ -133,11 +136,12 @@ func add_start_powerup(thisPowerup: Resource):
 func add_score(by_this):
 	score += by_this
 	score_node.text = str(score) + "/" + str(target_score)
-	
+	target_pips -= int(by_this/10.0)
 	aggregate_score += by_this
 	high_score_node.text = str(aggregate_score) + "/" + str(max_score)
 	
-	if (score >= target_score):
+	#if (score >= target_score):
+	if (target_pips <= 0):
 		set_game_state(3)
 		#We've got a level complete, so should also increment our level counter and check against our json
 		var level_count = int(SaveManager.get_value("level_count"))
@@ -161,7 +165,7 @@ func add_score(by_this):
 		bHighscoreSet = true
 		high_score_node.text = str(aggregate_score) + "/" + str(max_score)
 	
-	return ((target_score-score)/10)
+	return target_pips #((target_score-score)/10)
 
 func handle_story_line(line, dialoge_return_var: int):
 	#Display a dialogue for the player to read. Somehow
@@ -190,6 +194,7 @@ func _on_ReadyButton_pressed():
 func _on_NextLevelButton_pressed():
 	current_round += 1
 	target_score = score_start + current_round * score_step
+	target_pips = pips_start + current_round * pips_step #int ((score_start + current_round * score_step) /10.0)
 	#target_score_node.text = str(target_score)
 	score = 0
 	set_game_state(0)	#Go back to our ready screen
@@ -234,7 +239,7 @@ func set_game_state(gamestate):
 				level_is_fragment = 0
 			
 		set_fragments()
-		countdown_screen.start_countdown(current_round, target_score)
+		countdown_screen.start_countdown(current_round, target_pips)
 	
 	if (Global.game_state == 2):
 		do_level_setup()
@@ -677,6 +682,8 @@ func _process(delta):
 				set_game_state(1)
 				current_round += 1
 				target_score = aggregate_score + score_start + current_round * score_step
+				target_pips = pips_start + current_round * pips_step# int ((score_start + current_round * score_step) / 10.0)
+	#
 				target_score_node.text = str(target_score)
 				score = 0
 				
@@ -685,6 +692,7 @@ func _process(delta):
 			
 			if (Global.game_state == 4):
 				target_score = score_start
+				target_pips = pips_start #int(score_start/10)
 				#target_score_node.text = "100"
 				score = 0
 				new_game_state = 0;
