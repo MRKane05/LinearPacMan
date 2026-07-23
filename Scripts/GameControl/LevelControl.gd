@@ -144,16 +144,16 @@ func add_score(by_this):
 		level_count = level_count + 1
 		SaveManager.set_value("level_count", level_count)
 		
-		var story_index = SaveManager.get_value("story_index")
-		if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
-			var line = StoryManager.get_dialogue(story_index) 
-			if (line != null && line != {} && line.size() != 0):
-				if (line.trigger == "deaths" && line.leveltriggers > 0):
-					if (level_count >= line.leveltriggers):
-						level_count = 0 #Reset this
-						SaveManager.set_value("level_count", level_count)
+		#var story_index = SaveManager.get_value("story_index")
+		#if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
+		#	var line = StoryManager.get_dialogue(story_index) 
+		#	if (line != null && line != {} && line.size() != 0):
+		#		if (line.trigger == "deaths" && line.leveltriggers > 0):
+		#			if (level_count >= line.leveltriggers):
+		#				level_count = 0 #Reset this
+		#				SaveManager.set_value("level_count", level_count)
 						#Display a dialogue for the player to read. Somehow
-						handle_story_line(line, 3)
+		#				handle_story_line(line, 3)
 	
 	if (aggregate_score > max_score):
 		max_score = aggregate_score
@@ -264,8 +264,20 @@ func set_game_state(gamestate):
 							bShowingStory = true
 		
 		if (!bShowingStory):
-			levelcomplete_screen.display_level_complete(target_score, game_timer.time_left, max_score)
+			#We need to do some score handling here
+			var time_remaining = game_timer.time_left
+			var time_score = time_remaining * Global.time_score_value
+			#Our aggregate_score at this stage will have had the points added to it, therefore we need to add our time to this value
+			aggregate_score += int(time_score)
+			
+			#func display_level_complete(new_level_score: int, new_time_remaining: float, new_time_score: float, new_aggregate_score: int, new_high_score: int, bIsNewHighscore: bool):
+			if (aggregate_score > max_score):
+				bHighscoreSet = true
+				max_score = aggregate_score
+			
+			levelcomplete_screen.display_level_complete(target_score, game_timer.time_left, time_score, aggregate_score, max_score, bHighscoreSet)
 			levelcomplete_screen.update_prize_boxes(target_score)
+		
 		#PROBLEM: Need a debounce on this screen just in case the player was trying to change direction
 		bAllowInput = false
 		#We need to check here for dialogue if it's got a "level_complete" trigger on it
@@ -297,10 +309,6 @@ func set_game_state(gamestate):
 					if (story_games >= line.triggernum):
 						print("Got Story Trigger!")
 						handle_story_line(line, 4)
-		
-		#set_game_state(0)
-		#Change music to menu music
-		#display stats on the die screen
 		pass
 
 var high_score_support = ["You set a new high score! That's fantastic! Keep trying to see how high you can get!",
@@ -668,7 +676,7 @@ func _process(delta):
 				#new_game_state = 0;
 				set_game_state(1)
 				current_round += 1
-				target_score = score_start + current_round * score_step
+				target_score = aggregate_score + score_start + current_round * score_step
 				target_score_node.text = str(target_score)
 				score = 0
 				

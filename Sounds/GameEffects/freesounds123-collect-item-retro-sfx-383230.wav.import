@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/freesounds123-collect-item-retro-sfx-383230.wav-040455f0a3110026e62ad07f1c3f0551.sample"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/freesounds123-collect-item-retro-sfx-383230.wav"
+dest_files=[ "res://.import/freesounds123-collect-item-retro-sfx-383230.wav-040455f0a3110026e62ad07f1c3f0551.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=true
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=1
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=101 format=2]
+[gd_scene load_steps=102 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -891,7 +891,8 @@ tracks/17/keys = {
 
 [sub_resource type="Animation" id=36]
 resource_name = "DoScoreDisplay"
-length = 3.0
+length = 4.0
+step = 0.05
 tracks/0/type = "method"
 tracks/0/path = NodePath("Camera2D/LevelCompleteScreen")
 tracks/0/interp = 1
@@ -899,8 +900,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.5, 1.2, 1.5, 2.2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0.5, 1.2, 1.8, 2.5, 3.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "values": [ {
 "args": [ 0 ],
 "method": "display_score_structure"
@@ -913,7 +914,301 @@ tracks/0/keys = {
 }, {
 "args": [ 3 ],
 "method": "display_score_structure"
+}, {
+"args": [ 4 ],
+"method": "display_score_structure"
 } ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_scale:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.05, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.5, 0.7, 0.9 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_scale:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.5, 0.7, 0.9 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_scale:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.05, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.05, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 1.2, 1.4, 1.6, 1.8, 2, 2.2 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_scale:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 1.2, 1.4, 1.6, 1.8, 2, 2.2 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_scale:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.05, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 2.5, 2.7, 2.9 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_scale:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 2.5, 2.7, 2.9 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_position:x")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -10, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.5, 0.7, 0.9 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_position:y")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.5, 0.7, 0.9 )
+}
+tracks/9/type = "bezier"
+tracks/9/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_position:x")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -10, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, -10, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 1.2, 1.4, 1.6, 1.8, 2, 2.2 )
+}
+tracks/10/type = "bezier"
+tracks/10/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_position:y")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"points": PoolRealArray( 43, -0.25, 0, 0.25, 0, 43, -0.25, 0, 0.25, 0, 43, -0.25, 0, 0.25, 0, 43, -0.25, 0, 0.25, 0, 43, -0.25, 0, 0.25, 0, 43, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 1.2, 1.4, 1.6, 1.8, 2, 2.2 )
+}
+tracks/11/type = "bezier"
+tracks/11/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_position:x")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -10, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 2.5, 2.7, 2.9 )
+}
+tracks/12/type = "bezier"
+tracks/12/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_position:y")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"points": PoolRealArray( 86, -0.25, 0, 0.25, 0, 86, -0.25, 0, 0.25, 0, 86, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 2.5, 2.7, 2.9 )
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox:rect_position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 3.3, 3.45, 3.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 129 ), Vector2( -10, 129 ), Vector2( 0, 129 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox:rect_scale")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 3.3, 3.45, 3.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.05, 1.2 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=38]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_scale:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_scale:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_scale:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_scale:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_position:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_position:x")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/9/type = "bezier"
+tracks/9/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_position:y")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"points": PoolRealArray( 43, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/10/type = "bezier"
+tracks/10/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_position:x")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/11/type = "bezier"
+tracks/11/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_position:y")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"points": PoolRealArray( 86, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox:rect_position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 129 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox:rect_scale")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=37]
@@ -1785,15 +2080,19 @@ custom_fonts/normal_font = ExtResource( 41 )
 text = "This window gives a promotional statement to the player such as \"new highscore!\" or \"nearly set a new high score\""
 
 [node name="LevelCompleteScreen" type="Node2D" parent="Camera2D"]
+visible = false
 position = Vector2( 0, 2 )
 script = ExtResource( 38 )
 return_var = 1
 points_earned_path = NodePath("Sprite/VBoxContainer/PointsHBox/PointsValue")
 time_remaining_path = NodePath("Sprite/VBoxContainer/TimeRemainingHBox/TimeRemainingValue")
 total_score_path = NodePath("Sprite/VBoxContainer/TotalPointsHBox/TotalPointsValue")
+high_score_path = NodePath("Sprite/VBoxContainer/HighscoreBox/HighscoreValue")
+high_score_title_path = NodePath("Sprite/VBoxContainer/HighscoreBox/HighscoreTitle")
 PrizeBoxes = [ NodePath("SurpriseBoxElement"), NodePath("SurpriseBoxElement2"), NodePath("SurpriseBoxElement3") ]
 
 [node name="Sprite" type="Sprite" parent="Camera2D/LevelCompleteScreen"]
+position = Vector2( 0, -1 )
 texture = ExtResource( 11 )
 
 [node name="Label" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite"]
@@ -1801,6 +2100,7 @@ margin_left = -200.0
 margin_top = -206.0
 margin_right = 177.0
 margin_bottom = -129.0
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
 custom_constants/shadow_as_outline = 8
 custom_fonts/font = SubResource( 24 )
@@ -1826,17 +2126,20 @@ text = "Press X
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/LevelCompleteScreen/Sprite"]
 margin_left = -197.0
-margin_top = -148.0
+margin_top = -160.0
 margin_right = 201.0
-margin_bottom = -32.0
+margin_bottom = 53.0
 
 [node name="PointsHBox" type="HBoxContainer" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer"]
 margin_right = 398.0
 margin_bottom = 39.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Title" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox"]
 margin_right = 91.0
 margin_bottom = 39.0
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
 custom_constants/shadow_as_outline = 8
 custom_fonts/font = SubResource( 24 )
@@ -1852,6 +2155,7 @@ size_flags_horizontal = 3
 margin_left = 381.0
 margin_right = 398.0
 margin_bottom = 39.0
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
 custom_constants/shadow_as_outline = 8
 custom_fonts/font = SubResource( 24 )
@@ -1862,10 +2166,13 @@ align = 2
 margin_top = 43.0
 margin_right = 398.0
 margin_bottom = 82.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Title" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox"]
 margin_right = 213.0
 margin_bottom = 39.0
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
 custom_constants/shadow_as_outline = 8
 custom_fonts/font = SubResource( 24 )
@@ -1881,6 +2188,7 @@ size_flags_horizontal = 3
 margin_left = 381.0
 margin_right = 398.0
 margin_bottom = 39.0
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
 custom_constants/shadow_as_outline = 8
 custom_fonts/font = SubResource( 24 )
@@ -1891,10 +2199,13 @@ align = 2
 margin_top = 86.0
 margin_right = 398.0
 margin_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Title" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox"]
 margin_right = 170.0
 margin_bottom = 39.0
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
 custom_constants/shadow_as_outline = 8
 custom_fonts/font = SubResource( 24 )
@@ -1910,6 +2221,40 @@ size_flags_horizontal = 3
 margin_left = 381.0
 margin_right = 398.0
 margin_bottom = 39.0
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/font = SubResource( 24 )
+text = "0"
+align = 2
+
+[node name="HighscoreBox" type="HBoxContainer" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer"]
+margin_top = 129.0
+margin_right = 398.0
+margin_bottom = 168.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HighscoreTitle" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox"]
+margin_right = 161.0
+margin_bottom = 39.0
+custom_colors/font_color = Color( 1, 0.839216, 0.207843, 1 )
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/font = SubResource( 24 )
+text = "Hoighscore"
+
+[node name="Control" type="Control" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox"]
+margin_left = 165.0
+margin_right = 377.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+
+[node name="HighscoreValue" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox"]
+margin_left = 381.0
+margin_right = 398.0
+margin_bottom = 39.0
+custom_colors/font_color = Color( 1, 0.839216, 0.207843, 1 )
 custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
 custom_constants/shadow_as_outline = 8
 custom_fonts/font = SubResource( 24 )
@@ -1922,16 +2267,16 @@ position = Vector2( 180, 183 )
 [node name="RewardsSection" type="Node2D" parent="Camera2D/LevelCompleteScreen"]
 
 [node name="SurpriseBoxElement" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 56 )]
-position = Vector2( -202, 2 )
+position = Vector2( -204, 30 )
 level_controller_path = NodePath("../../..")
 max_score = 2500.0
 
 [node name="SurpriseBoxElement2" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 56 )]
-position = Vector2( -54, 9 )
+position = Vector2( -56, 37 )
 level_controller_path = NodePath("../../..")
 
 [node name="SurpriseBoxElement3" parent="Camera2D/LevelCompleteScreen" instance=ExtResource( 56 )]
-position = Vector2( 87, 8 )
+position = Vector2( 85, 36 )
 level_controller_path = NodePath("../../..")
 max_score = 7.0
 uses_score = false
@@ -1939,7 +2284,10 @@ uses_score = false
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/LevelCompleteScreen"]
 root_node = NodePath("../../..")
 anims/DoScoreDisplay = SubResource( 36 )
+anims/RESET = SubResource( 38 )
 anims/StartAnim = SubResource( 37 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/LevelCompleteScreen"]
 
 [node name="LevelWonPowerups" type="Node2D" parent="Camera2D"]
 visible = false

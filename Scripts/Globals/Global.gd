@@ -13,6 +13,8 @@ var got_tazed_duration = 2.0
 var additional_time_duration = 5.0
 var timer_pause_duration = 3.0
 
+var time_score_value = 12.0
+
 
 #Send up our line_fragments to make it easier for everything to refernce this
 var line_sections = []

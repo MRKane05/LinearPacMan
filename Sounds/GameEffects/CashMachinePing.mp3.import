@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/CashMachinePing.mp3-5641837e2307b72e7ba99c3c6d079fd1.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/CashMachinePing.mp3"
+dest_files=[ "res://.import/CashMachinePing.mp3-5641837e2307b72e7ba99c3c6d079fd1.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
