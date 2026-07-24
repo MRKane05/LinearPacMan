@@ -281,7 +281,7 @@ func set_game_state(gamestate):
 				max_score = aggregate_score
 			
 			levelcomplete_screen.display_level_complete(target_score, game_timer.time_left, time_score, aggregate_score, max_score, bHighscoreSet)
-			levelcomplete_screen.update_prize_boxes(target_score)
+			#levelcomplete_screen.update_prize_boxes(target_score + time_score)
 		
 		#PROBLEM: Need a debounce on this screen just in case the player was trying to change direction
 		bAllowInput = false
@@ -290,7 +290,8 @@ func set_game_state(gamestate):
 		create_callback_timer(debounce, "enable_control_input")
 		var prize_boxes = int(SaveManager.get_value("reward_reveal"))
 		for i in range(Level_Prize_Paths.size()):
-			get_node(Level_Prize_Paths[i]).visible = prize_boxes > i
+			#PROBLEM: hacked prize boxes on
+			get_node(Level_Prize_Paths[i]).visible = true # prize_boxes > i
 	
 	#This is where we need to keep an eye out to see if we've got to display
 	#a message (or similar)
@@ -657,6 +658,7 @@ func do_powerup_eat_ghost():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
 	if Input.is_action_just_pressed("ui_accept"):
 		#Keep a ticker on our control prompt
 		change_direction_presses = change_direction_presses + 1
@@ -666,7 +668,8 @@ func _process(delta):
 			tween.tween_property(x_prompt, "modulate:a", 0.0, 1.0)
 		
 		#Step forward with our screen setup
-		if (Global.game_state != 2 && Global.game_state != 1 && bAllowInput):
+		if (Global.game_state != 2 && Global.game_state != 1 && Global.bCanAcceptInput && bAllowInput):
+			print ("Got menu interact")
 			var new_game_state = Global.game_state # + 1
 			if (UI_Menus[new_game_state]):
 				if (get_node(UI_Menus[new_game_state]).has_method("handle_inputaction")):

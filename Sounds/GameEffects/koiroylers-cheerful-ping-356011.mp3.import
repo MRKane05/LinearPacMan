@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/koiroylers-cheerful-ping-356011.mp3-a897f14defb31b7d340b58bcf1d62b04.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/koiroylers-cheerful-ping-356011.mp3"
+dest_files=[ "res://.import/koiroylers-cheerful-ping-356011.mp3-a897f14defb31b7d340b58bcf1d62b04.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

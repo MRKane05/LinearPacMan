@@ -24,7 +24,8 @@ onready var sound_player
 const SOUNDS = {
 	"collect"   : preload("res://Sounds/GameEffects/freesounds123-collect-item-retro-sfx-383230.wav"),
 	"final"	: preload("res://Sounds/GameEffects/CashMachinePing.mp3"),
-	"highscore" : preload("res://Sounds/GameEffects/floraphonic-tada-military-1-183974.mp3")
+	"highscore" : preload("res://Sounds/GameEffects/floraphonic-tada-military-1-183974.mp3"),
+	"ping" : preload("res://Sounds/GameEffects/koiroylers-cheerful-ping-356011.mp3")
 }
 
 func display_target(target):
@@ -58,6 +59,7 @@ func _resolve_nodes():
 
 
 func display_level_complete(new_level_score: int, new_time_remaining: float, new_time_score: float, new_aggregate_score: int, new_high_score: int, bIsNewHighscore: bool):
+	Global.set_can_accept_input(false)
 	level_score = new_level_score
 	score_time_remaining = new_time_remaining
 	time_score = new_time_score
@@ -99,13 +101,20 @@ func display_score_structure(entry: int):
 				play_sound(SOUNDS["highscore"])
 				high_score_title_node.text = "NEW HIGHSCORE"
 				high_score_node.text = str(high_score) + "!"
-
+		
+		#Really our prize boxes need to be updated as part of this process
+		5:
+			update_prize_boxes(level_score + time_score)
+			#Play some sound for this, or maybe have something that does one at a time? I dunno
+			Global.set_can_accept_input(true)
 
 func update_prize_boxes(additive_score: int):
 	for i in PrizeBoxes.size():
 		var powerup_box = get_node(PrizeBoxes[i]);
 		if (powerup_box.visible):
+			yield(get_tree().create_timer(0.5), "timeout") #PROBLEM: Added a hard yeild just to get timing right for this, player be damned
 			powerup_box.do_score_add(additive_score)
+			play_sound(SOUNDS["ping"])
 
 
 func handle_inputaction(gamestate: int):

@@ -20,6 +20,13 @@ var time_score_value = 12.0
 var line_sections = []
 var line_size = 0
 
+var bCanAcceptInput = true
+
+func set_can_accept_input(new_input_state):
+	print ("Setting allow input")
+	print(new_input_state)
+	bCanAcceptInput = new_input_state
+
 func set_line_size(new_line_size: float):
 	line_size = new_line_size
 

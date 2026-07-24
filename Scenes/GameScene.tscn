@@ -705,6 +705,29 @@ tracks/11/keys = {
 "points": PoolRealArray( 1e-05, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1e-05, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( -0.025, 0.3, 0.7, 2.6, 2.8, 3 )
 }
+tracks/12/type = "method"
+tracks/12/path = NodePath(".")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 0.8, 1.8, 2.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_beep"
+}, {
+"args": [  ],
+"method": "play_beep"
+}, {
+"args": [  ],
+"method": "play_beep"
+}, {
+"args": [  ],
+"method": "play_tone"
+} ]
+}
 
 [sub_resource type="Animation" id=33]
 length = 0.001
@@ -891,7 +914,7 @@ tracks/17/keys = {
 
 [sub_resource type="Animation" id=36]
 resource_name = "DoScoreDisplay"
-length = 4.0
+length = 5.0
 step = 0.05
 tracks/0/type = "method"
 tracks/0/path = NodePath("Camera2D/LevelCompleteScreen")
@@ -900,8 +923,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.5, 1.2, 1.8, 2.5, 3.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0.5, 1.2, 1.8, 2.5, 3.45, 3.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "values": [ {
 "args": [ 0 ],
 "method": "display_score_structure"
@@ -916,6 +939,9 @@ tracks/0/keys = {
 "method": "display_score_structure"
 }, {
 "args": [ 4 ],
+"method": "display_score_structure"
+}, {
+"args": [ 5 ],
 "method": "display_score_structure"
 } ]
 }
@@ -2013,6 +2039,8 @@ custom_fonts/font = ExtResource( 53 )
 text = "Target 100"
 align = 1
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/CountdownScreen"]
+
 [node name="DieScreen" type="Node2D" parent="Camera2D"]
 visible = false
 script = ExtResource( 15 )
@@ -2080,7 +2108,6 @@ custom_fonts/normal_font = ExtResource( 41 )
 text = "This window gives a promotional statement to the player such as \"new highscore!\" or \"nearly set a new high score\""
 
 [node name="LevelCompleteScreen" type="Node2D" parent="Camera2D"]
-visible = false
 position = Vector2( 0, 2 )
 script = ExtResource( 38 )
 return_var = 1

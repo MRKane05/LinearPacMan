@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/pwlpl-countdown-beep-377323.mp3-4624208905cd73c4e82fe008526e6bd7.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/pwlpl-countdown-beep-377323.mp3"
+dest_files=[ "res://.import/pwlpl-countdown-beep-377323.mp3-4624208905cd73c4e82fe008526e6bd7.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

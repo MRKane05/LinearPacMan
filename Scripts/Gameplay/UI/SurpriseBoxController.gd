@@ -30,7 +30,7 @@ func do_score_add(thisScore: int):
 	#Ideally this should have an animation, and a callback, but we're going to not care for the moment
 	var tween = get_tree().create_tween()
 	score_label.text = "+" + str(thisScore)
-	
+	$AnimationPlayer.play("get_boost")
 	#score_label.rect_scale = Vector2(0.125, 0.125)
 	#tween.tween_property(score_label, "scale", Vector2(1.0,  1.0), 0.5)
 	if (uses_score):
