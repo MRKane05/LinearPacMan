@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/freesound_community-8-bit-powerup-6768.mp3-db572f1849f371f0ab33eac25c896883.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/freesound_community-8-bit-powerup-6768.mp3"
+dest_files=[ "res://.import/freesound_community-8-bit-powerup-6768.mp3-db572f1849f371f0ab33eac25c896883.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

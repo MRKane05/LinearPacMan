@@ -27,7 +27,8 @@ var drift_velocity_max = 100
 
 #Any sounds that we could be playing in the scene when pellets are collected/interacted with
 const SOUNDS = {
-	"eat_pip" : preload("res://Sounds/GameEffects/vadim_makes_sound-retro-arcade-menu-navigate-554505.mp3")
+	"eat_pip" : preload("res://Sounds/GameEffects/vadim_makes_sound-retro-arcade-menu-navigate-554505.mp3"),
+	"eat_powerup": preload("res://Sounds/GameEffects/freesound_community-8-bit-powerup-6768.mp3")
 }
 
 export(NodePath) var sound_player_path
@@ -104,7 +105,9 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 			#p.position = spawn_pos
 			p.set_line_position(spawn_pos)
 			p.reveal_delay = i * 0.03
-			add_child(p)
+			#add_child(p)
+			#Fix weird error by calling deferred on add child
+			call_deferred("add_child", p)
 	
 	return special_placed
 
@@ -129,6 +132,7 @@ func pellet_pickedup(pickup_item : Node, pickup_effect : String, add_value: int)
 		var pickup_added = powerup_items.addPowerup(pickup_item.pickup_resource, pickup_item.global_position)
 		if (!pickup_added):
 			level_controller.select_powerup(pickup_item.pickup_resource.get("powerup_effect_tag"))
+		play_sound(SOUNDS["eat_powerup"])
 	else:
 		play_sound(SOUNDS["eat_pip"])
 		#add_score_display.show_indicator(add_score_display.global_position, "+"+ str(add_value))

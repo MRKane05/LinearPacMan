@@ -39,6 +39,7 @@ var high_score = 0
 var aggregate_score = 0
 var time_score_scale = 12
 var bHighScoreSet = false
+var bDisplayingScore = false
 
 #This little function is being copy and pasted everywhere...
 func play_sound(stream):
@@ -57,9 +58,34 @@ func _resolve_nodes():
 	high_score_node = get_node_or_null(high_score_path)
 	high_score_title_node = get_node_or_null(high_score_title_path)
 
+#Need a bypass function to allow this screen to be quickly dismissed
+
+func bypass_score_display():
+	$AnimationPlayer.stop()
+	#Frustratingly we've also got to stop our boxes process...
+	
+	points_earned.text = str(level_score)
+	#time_remaining.text = str("%0.2f" % score_time_remaining, "s")
+	time_remaining.text = str(int(time_score))
+	total_score.text = str(aggregate_score)
+	if (!bHighScoreSet):
+		#play_sound(SOUNDS["final"])
+		high_score_title_node.text = "HIGHSCORE"
+		high_score_node.text = str(high_score)
+	else:
+		#play_sound(SOUNDS["highscore"])
+		high_score_title_node.text = "NEW HIGHSCORE"
+		high_score_node.text = str(high_score) + "!"
+	#Need to hard-set our prize boxes also
+	
+	hard_update_prize_boxes(level_score + time_score)
+	bDisplayingScore = false
+	pass
 
 func display_level_complete(new_level_score: int, new_time_remaining: float, new_time_score: float, new_aggregate_score: int, new_high_score: int, bIsNewHighscore: bool):
-	Global.set_can_accept_input(false)
+	#Global.set_can_accept_input(false)
+	bDisplayingScore = true
+	
 	level_score = new_level_score
 	score_time_remaining = new_time_remaining
 	time_score = new_time_score
@@ -106,21 +132,34 @@ func display_score_structure(entry: int):
 		5:
 			update_prize_boxes(level_score + time_score)
 			#Play some sound for this, or maybe have something that does one at a time? I dunno
-			Global.set_can_accept_input(true)
+			#Global.set_can_accept_input(true)
+			bDisplayingScore = false
 
 func update_prize_boxes(additive_score: int):
 	for i in PrizeBoxes.size():
 		var powerup_box = get_node(PrizeBoxes[i]);
 		if (powerup_box.visible):
-			yield(get_tree().create_timer(0.5), "timeout") #PROBLEM: Added a hard yeild just to get timing right for this, player be damned
-			powerup_box.do_score_add(additive_score)
-			play_sound(SOUNDS["ping"])
+			if (bDisplayingScore):
+				yield(get_tree().create_timer(0.5), "timeout") #PROBLEM: Added a hard yeild just to get timing right for this, player be damned
+				powerup_box.do_score_add(additive_score, true)
+				play_sound(SOUNDS["ping"])
 
+func hard_update_prize_boxes(additive_score: int):
+	for i in PrizeBoxes.size():
+		var powerup_box = get_node(PrizeBoxes[i]);
+		if (powerup_box.visible):
+			#yield(get_tree().create_timer(0.5), "timeout") #PROBLEM: Added a hard yeild just to get timing right for this, player be damned
+			powerup_box.do_score_add(additive_score, false)
 
 func handle_inputaction(gamestate: int):
-	if (return_var == -1):
-		return gamestate + 1 #base behaviour is to increment this by one
-	return return_var
+	if (bDisplayingScore): 
+		bDisplayingScore = false
+		bypass_score_display()
+		return null #So that we'll send back a pass that won't have any input command
+	else:
+		if (return_var == -1):
+			return gamestate + 1 #base behaviour is to increment this by one
+		return return_var
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

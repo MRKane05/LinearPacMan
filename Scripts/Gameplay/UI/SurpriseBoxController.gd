@@ -26,7 +26,7 @@ func _ready():
 	#do_score_add(500)
 	pass # Replace with function body.
 
-func do_score_add(thisScore: int):
+func do_score_add(thisScore: int, bDoTween: bool):
 	#Ideally this should have an animation, and a callback, but we're going to not care for the moment
 	var tween = get_tree().create_tween()
 	score_label.text = "+" + str(thisScore)
@@ -47,12 +47,14 @@ func do_score_add(thisScore: int):
 		#Play some extra animation or something
 		reward_starting_powerup()
 	
-	
-	if (fill_ammount > fill_box.value):	#So that we don't go from full back to partially filled again
-		tween.tween_property(fill_box, "value", fill_ammount, 1.0)
+	if (bDoTween):
+		if (fill_ammount > fill_box.value):	#So that we don't go from full back to partially filled again
+			tween.tween_property(fill_box, "value", fill_ammount, 1.0)
+		else:
+			fill_box.value = 0
+			tween.tween_property(fill_box, "value", fill_ammount, 1.0)
 	else:
-		fill_box.value = 0
-		tween.tween_property(fill_box, "value", fill_ammount, 1.0)
+		fill_box.value = fill_ammount
 
 var anim_powerup_item
 

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/freesound_community-page-turning-106085.mp3-d59bab65bd2fdce47998556daddb1038.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/freesound_community-page-turning-106085.mp3"
+dest_files=[ "res://.import/freesound_community-page-turning-106085.mp3-d59bab65bd2fdce47998556daddb1038.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

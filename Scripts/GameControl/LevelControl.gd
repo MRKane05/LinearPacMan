@@ -221,7 +221,7 @@ func set_game_state(gamestate):
 	
 	#Specific per-case screen things
 	if (Global.game_state == 0): #setup and display our ready screen
-		ready_screen.display_target(target_score)
+		#ready_screen.display_target(target_score)
 		if (current_round == 0):
 			bHighscoreSet = false
 			aggregate_score = 0	#Reset our aggregate score as this is a game start thing (this might need another stage)
@@ -674,7 +674,12 @@ func _process(delta):
 			if (UI_Menus[new_game_state]):
 				if (get_node(UI_Menus[new_game_state]).has_method("handle_inputaction")):
 					new_game_state = get_node(UI_Menus[new_game_state]).handle_inputaction(new_game_state)
-				
+				else:
+					new_game_state = new_game_state + 1 #Just cycle this up one and hope that we've got a catch state
+			
+			if new_game_state == null:
+				return
+			
 			if (Global.game_state == 3): #Handle our end of level stuff
 				#I want this to launch straight into the game now, so we're doing to subdivert this function
 				if (current_round == 0):
