@@ -19,6 +19,8 @@ const SOUNDS = {
 	"freeze_end" : preload("res://Sounds//Powerups/Freeze_Stop.wav"),
 	"invisible_start" : preload("res://Sounds//Powerups/Invisible_Start.wav"),
 	"invisible_end" : preload("res://Sounds//Powerups/Invisible_Stop.wav"),
+	"boost" : preload("res://Sounds/GameEffects/alexis_gaming_cam-woosh-long-cartoon-370386.wav"),
+	"repulse" : preload("res://Sounds/GameEffects/freesound_community-energy-hum-29083_Shortened.wav"),
 	"eat_pip" : preload("res://Sounds/GameEffects/vadim_makes_sound-retro-arcade-menu-navigate-554505.mp3")
 }
 
@@ -119,6 +121,7 @@ func apply_powerup(new_powerup:String):
 			pass
 		"pup_repulse":
 			repel_effect.emitting = true
+			play_sound(SOUNDS["repulse"])
 			pass
 		"pup_taser":
 			taser_effect.emitting = true
@@ -129,6 +132,7 @@ func apply_powerup(new_powerup:String):
 			create_callback_timer(Global.boost_action_druation, "boost_callback")
 			instance_motion_ghost()
 			$GhostTimer.start()
+			play_sound(SOUNDS["boost"])
 			pass
 			
 func boost_callback():

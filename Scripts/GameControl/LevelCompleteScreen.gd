@@ -21,6 +21,8 @@ export(Array, NodePath) var PrizeBoxes = []
 
 onready var sound_player
 
+onready var animation_timer = $AnimationTimer
+
 const SOUNDS = {
 	"collect"   : preload("res://Sounds/GameEffects/freesounds123-collect-item-retro-sfx-383230.wav"),
 	"final"	: preload("res://Sounds/GameEffects/CashMachinePing.mp3"),
@@ -39,7 +41,9 @@ var high_score = 0
 var aggregate_score = 0
 var time_score_scale = 12
 var bHighScoreSet = false
-var bDisplayingScore = false
+var bSkipDisplay = false
+
+var score_index = 0
 
 #This little function is being copy and pasted everywhere...
 func play_sound(stream):
@@ -60,31 +64,11 @@ func _resolve_nodes():
 
 #Need a bypass function to allow this screen to be quickly dismissed
 
-func bypass_score_display():
-	$AnimationPlayer.stop()
-	#Frustratingly we've also got to stop our boxes process...
-	
-	points_earned.text = str(level_score)
-	#time_remaining.text = str("%0.2f" % score_time_remaining, "s")
-	time_remaining.text = str(int(time_score))
-	total_score.text = str(aggregate_score)
-	if (!bHighScoreSet):
-		#play_sound(SOUNDS["final"])
-		high_score_title_node.text = "HIGHSCORE"
-		high_score_node.text = str(high_score)
-	else:
-		#play_sound(SOUNDS["highscore"])
-		high_score_title_node.text = "NEW HIGHSCORE"
-		high_score_node.text = str(high_score) + "!"
-	#Need to hard-set our prize boxes also
-	
-	hard_update_prize_boxes(level_score + time_score)
-	bDisplayingScore = false
-	pass
+var timer_wait = 0.5
 
 func display_level_complete(new_level_score: int, new_time_remaining: float, new_time_score: float, new_aggregate_score: int, new_high_score: int, bIsNewHighscore: bool):
 	#Global.set_can_accept_input(false)
-	bDisplayingScore = true
+	bSkipDisplay = false
 	
 	level_score = new_level_score
 	score_time_remaining = new_time_remaining
@@ -100,24 +84,35 @@ func display_level_complete(new_level_score: int, new_time_remaining: float, new
 	total_score.text = ""
 	if (!visible): #Just in case we've been deactivated this pass for a message
 		return
-	$AnimationPlayer.stop() #This is needed because it'll be called through more than once
-	$AnimationPlayer.play("DoScoreDisplay")
+	
+	score_index = 0
+	animation_timer.wait_time = timer_wait
+	animation_timer.one_shot = true
+	animation_timer.start()
+	for i in range(0, 3):
+		if (get_node(PrizeBoxes[i]).visible):
+			get_node(PrizeBoxes[i]).reset()
+	display_score_structure(score_index) #Display this to kick everything off
 
 func display_score_structure(entry: int):
 	#This needs to display the correct score set, and make a sound
 	match(entry):
 		0 :
 			points_earned.text = str(level_score)
-			play_sound(SOUNDS["collect"])
+			if (!bSkipDisplay):
+				play_sound(SOUNDS["collect"])
 		1 :
 			time_remaining.text = str("%0.2f" % score_time_remaining, "s")
-			play_sound(SOUNDS["collect"])
+			if (!bSkipDisplay):
+				play_sound(SOUNDS["collect"])
 		2 :
 			time_remaining.text = str(int(time_score))
-			play_sound(SOUNDS["collect"])
+			if (!bSkipDisplay):
+				play_sound(SOUNDS["collect"])
 		3:
 			total_score.text = str(aggregate_score)
-			play_sound(SOUNDS["final"])
+			if (!bSkipDisplay):
+				play_sound(SOUNDS["final"])
 		4: #Highscore set
 			if (!bHighScoreSet):
 				play_sound(SOUNDS["final"])
@@ -127,34 +122,22 @@ func display_score_structure(entry: int):
 				play_sound(SOUNDS["highscore"])
 				high_score_title_node.text = "NEW HIGHSCORE"
 				high_score_node.text = str(high_score) + "!"
-		
-		#Really our prize boxes need to be updated as part of this process
-		5:
-			update_prize_boxes(level_score + time_score)
-			#Play some sound for this, or maybe have something that does one at a time? I dunno
-			#Global.set_can_accept_input(true)
-			bDisplayingScore = false
-
-func update_prize_boxes(additive_score: int):
-	for i in PrizeBoxes.size():
-		var powerup_box = get_node(PrizeBoxes[i]);
-		if (powerup_box.visible):
-			if (bDisplayingScore):
-				yield(get_tree().create_timer(0.5), "timeout") #PROBLEM: Added a hard yeild just to get timing right for this, player be damned
-				powerup_box.do_score_add(additive_score, true)
-				play_sound(SOUNDS["ping"])
-
-func hard_update_prize_boxes(additive_score: int):
-	for i in PrizeBoxes.size():
-		var powerup_box = get_node(PrizeBoxes[i]);
-		if (powerup_box.visible):
-			#yield(get_tree().create_timer(0.5), "timeout") #PROBLEM: Added a hard yeild just to get timing right for this, player be damned
-			powerup_box.do_score_add(additive_score, false)
+	
+	if (entry >= 5):
+		#update_prize_boxes(level_score + time_score)
+		#Play some sound for this, or maybe have something that does one at a time? I dunno
+		#Global.set_can_accept_input(true)
+		if (get_node(PrizeBoxes[entry-5]).visible):
+			get_node(PrizeBoxes[entry-5]).do_score_add(level_score + time_score, !bSkipDisplay)
+	
+	if (entry >= 6):
+		bSkipDisplay = true #So that we'll fast release when the user presses action
 
 func handle_inputaction(gamestate: int):
-	if (bDisplayingScore): 
-		bDisplayingScore = false
-		bypass_score_display()
+	if (!bSkipDisplay): 
+		bSkipDisplay = true
+		animation_timer.stop()
+		_on_AnimationTimer_timeout()
 		return null #So that we'll send back a pass that won't have any input command
 	else:
 		if (return_var == -1):
@@ -164,3 +147,16 @@ func handle_inputaction(gamestate: int):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+
+func _on_AnimationTimer_timeout():
+	score_index = score_index + 1
+	if (score_index < 7 && !bSkipDisplay):
+		animation_timer.wait_time = timer_wait
+		animation_timer.one_shot = true
+		animation_timer.start()
+		display_score_structure(score_index)
+	if (bSkipDisplay):
+		for value in range(score_index, 7):
+			display_score_structure(value)
+	pass # Replace with function body.

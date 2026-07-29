@@ -54,6 +54,8 @@ func use_powerup(index: int):
 
 func _process(delta):
 	#Handle our inputs and map accordingly
+	if (Global.game_state != 2):
+		return
 	if Input.is_action_just_pressed("ui_cancel"):
 		use_powerup(0)
 	if Input.is_action_just_pressed("ui_select"):

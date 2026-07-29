@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/freesound_community-energy-hum-29083_Shortened.wav-153427d5c9b875b30f4ff114a731e992.sample"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/freesound_community-energy-hum-29083_Shortened.wav"
+dest_files=[ "res://.import/freesound_community-energy-hum-29083_Shortened.wav-153427d5c9b875b30f4ff114a731e992.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=1
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

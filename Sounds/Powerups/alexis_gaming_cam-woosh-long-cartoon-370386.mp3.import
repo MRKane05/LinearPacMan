@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/alexis_gaming_cam-woosh-long-cartoon-370386.mp3-a87747eb2c2a380ce4495b09babd35ed.mp3str"
+
+[deps]
+
+source_file="res://Sounds/Powerups/alexis_gaming_cam-woosh-long-cartoon-370386.mp3"
+dest_files=[ "res://.import/alexis_gaming_cam-woosh-long-cartoon-370386.mp3-a87747eb2c2a380ce4495b09babd35ed.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -627,7 +627,8 @@ func do_level_setup():
 	#target score to start is 200, therefore divide the target score by 10?
 	#PROBLEM: Need to pause timer for message dialogues
 	game_timer.stop()
-	game_timer.wait_time = int (target_score/(7.5 * speed_multiplier))	#This gives a good bit of leeway, but we need to pause for message dialogues
+	#This works a little better for defining our time, in fact it might be a little tight especially when levels get more complicated
+	game_timer.wait_time = int (target_pips/(1.25 * speed_multiplier))	#This gives a good bit of leeway, but we need to pause for message dialogues
 	game_timer.start()
 
 func apply_start_pickups():
@@ -718,7 +719,10 @@ func _process(delta):
 		var seconds = int(time_remaining) % 60
 		
 		# Display formatted as MM:SS
-		game_time_display.text = "%02d:%02d" % [minutes, seconds]
+		if (time_remaining > 0):
+			game_time_display.text = "%02d:%02d" % [minutes, seconds]
+		else:
+			game_time_display.text = "TIME OVER!"
 
 func return_from_paused():
 	#In theory our paused menu (ingame dialogue or settings) will hide itself, so we only need to do sundry stuff
@@ -844,8 +848,10 @@ func create_callback_timer(duration: float, callback: String):
 
 
 func _on_GameLevelTimer_timeout():
-	print("Time finished. Player dies")
-	pass # Replace with function body.
+	if (Global.game_mode == 2):
+		player_node.ghost_ate_player()
+	#We should probably have something display that we're out of time
+	
 
 func play_sound(stream: AudioStream):
 	scene_audio_effects.stop()

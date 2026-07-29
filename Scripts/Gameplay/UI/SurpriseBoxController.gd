@@ -25,6 +25,10 @@ func _ready():
 	randomize() 
 	#do_score_add(500)
 	pass # Replace with function body.
+	
+
+func reset():
+	$AnimationPlayer.play("RESET")
 
 func do_score_add(thisScore: int, bDoTween: bool):
 	#Ideally this should have an animation, and a callback, but we're going to not care for the moment

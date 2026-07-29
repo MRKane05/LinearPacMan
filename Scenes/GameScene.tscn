@@ -1380,7 +1380,7 @@ level_controller_node_path = NodePath("..")
 [node name="LevelPips" type="Node2D" parent="."]
 script = ExtResource( 7 )
 level_controller_path = NodePath("..")
-powerup_items_path = NodePath("../Camera2D/GameplayElements/PowerupItems")
+powerup_items_path = NodePath("../Camera2D/PowerupItems/PowerupItems")
 add_score_display_path = NodePath("../Camera2D/GameplayElements/AddPointsBase")
 pip_scene = ExtResource( 6 )
 special_pips = [ ExtResource( 35 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 8 ), ExtResource( 59 ), ExtResource( 54 ), ExtResource( 60 ), ExtResource( 26 ) ]
@@ -1506,6 +1506,7 @@ position = Vector2( 480, 272 )
 current = true
 
 [node name="PowerupOverlays" type="Node2D" parent="Camera2D"]
+visible = false
 
 [node name="Effect_Freeze" type="Sprite" parent="Camera2D/PowerupOverlays"]
 visible = false
@@ -1788,68 +1789,6 @@ custom_fonts/font = ExtResource( 47 )
 text = "100"
 align = 3
 
-[node name="PowerupItems" type="Node2D" parent="Camera2D/GameplayElements"]
-position = Vector2( -457, -250 )
-script = ExtResource( 16 )
-level_controller_path = NodePath("../../..")
-PowerupBoxes = [ NodePath("HBoxContainer/PowerupUIBox"), NodePath("HBoxContainer/PowerupUIBox2"), NodePath("HBoxContainer/PowerupUIBox3") ]
-PowerupItemList = [ ExtResource( 17 ), ExtResource( 24 ), ExtResource( 22 ), ExtResource( 55 ), ExtResource( 25 ), ExtResource( 61 ), ExtResource( 62 ) ]
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/GameplayElements/PowerupItems"]
-margin_left = -3.0
-margin_top = -4.0
-margin_right = 390.0
-margin_bottom = 124.0
-rect_min_size = Vector2( 200, 100 )
-rect_scale = Vector2( 0.4, 0.4 )
-
-[node name="PowerupUIBox3" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
-button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect")
-
-[node name="PowerupUIBox2" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
-margin_left = 132.0
-margin_right = 260.0
-button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect2")
-
-[node name="PowerupUIBox" parent="Camera2D/GameplayElements/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
-margin_left = 264.0
-margin_right = 392.0
-button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect3")
-
-[node name="ButtonAssignmentContainer" type="HBoxContainer" parent="Camera2D/GameplayElements/PowerupItems"]
-margin_left = -1.0
-margin_top = 51.0
-margin_right = 39.0
-margin_bottom = 91.0
-rect_scale = Vector2( 0.665, 0.665 )
-
-[node name="TextureRect" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
-margin_right = 74.0
-margin_bottom = 73.0
-texture = ExtResource( 19 )
-
-[node name="TextureRect2" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
-margin_left = 78.0
-margin_right = 152.0
-margin_bottom = 73.0
-texture = ExtResource( 21 )
-
-[node name="TextureRect3" type="TextureRect" parent="Camera2D/GameplayElements/PowerupItems/ButtonAssignmentContainer"]
-margin_left = 156.0
-margin_right = 230.0
-margin_bottom = 73.0
-texture = ExtResource( 20 )
-
-[node name="PowerupName" type="RichTextLabel" parent="Camera2D/GameplayElements/PowerupItems"]
-anchor_top = -0.136
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 167.0
-margin_top = -8.0
-margin_right = 538.0
-margin_bottom = 74.0
-custom_fonts/normal_font = ExtResource( 10 )
-
 [node name="LevelTimer" type="Label" parent="Camera2D/GameplayElements"]
 margin_left = -276.0
 margin_top = -297.0
@@ -1859,7 +1798,6 @@ custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_as_outline = 0
 custom_fonts/font = ExtResource( 53 )
-text = "60:99"
 align = 1
 
 [node name="LevelAddTime" type="Label" parent="Camera2D/GameplayElements"]
@@ -2333,6 +2271,8 @@ anims/StartAnim = SubResource( 37 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/LevelCompleteScreen"]
 
+[node name="AnimationTimer" type="Timer" parent="Camera2D/LevelCompleteScreen"]
+
 [node name="LevelWonPowerups" type="Node2D" parent="Camera2D"]
 visible = false
 position = Vector2( 4, 61 )
@@ -2340,6 +2280,70 @@ position = Vector2( 4, 61 )
 [node name="PowerupIndicator01" type="Sprite" parent="Camera2D/LevelWonPowerups"]
 visible = false
 texture = ExtResource( 57 )
+
+[node name="PowerupItems" type="Node2D" parent="Camera2D"]
+
+[node name="PowerupItems" type="Node2D" parent="Camera2D/PowerupItems"]
+position = Vector2( -457, -250 )
+script = ExtResource( 16 )
+level_controller_path = NodePath("../../..")
+PowerupBoxes = [ NodePath("HBoxContainer/PowerupUIBox"), NodePath("HBoxContainer/PowerupUIBox2"), NodePath("HBoxContainer/PowerupUIBox3") ]
+PowerupItemList = [ ExtResource( 17 ), ExtResource( 24 ), ExtResource( 22 ), ExtResource( 55 ), ExtResource( 25 ), ExtResource( 61 ), ExtResource( 62 ) ]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/PowerupItems/PowerupItems"]
+margin_left = -3.0
+margin_top = -4.0
+margin_right = 390.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 200, 100 )
+rect_scale = Vector2( 0.4, 0.4 )
+
+[node name="PowerupUIBox3" parent="Camera2D/PowerupItems/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
+button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect")
+
+[node name="PowerupUIBox2" parent="Camera2D/PowerupItems/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
+margin_left = 132.0
+margin_right = 260.0
+button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect2")
+
+[node name="PowerupUIBox" parent="Camera2D/PowerupItems/PowerupItems/HBoxContainer" instance=ExtResource( 12 )]
+margin_left = 264.0
+margin_right = 392.0
+button_icon_path = NodePath("../../ButtonAssignmentContainer/TextureRect3")
+
+[node name="ButtonAssignmentContainer" type="HBoxContainer" parent="Camera2D/PowerupItems/PowerupItems"]
+margin_left = -1.0
+margin_top = 51.0
+margin_right = 39.0
+margin_bottom = 91.0
+rect_scale = Vector2( 0.665, 0.665 )
+
+[node name="TextureRect" type="TextureRect" parent="Camera2D/PowerupItems/PowerupItems/ButtonAssignmentContainer"]
+margin_right = 74.0
+margin_bottom = 73.0
+texture = ExtResource( 19 )
+
+[node name="TextureRect2" type="TextureRect" parent="Camera2D/PowerupItems/PowerupItems/ButtonAssignmentContainer"]
+margin_left = 78.0
+margin_right = 152.0
+margin_bottom = 73.0
+texture = ExtResource( 21 )
+
+[node name="TextureRect3" type="TextureRect" parent="Camera2D/PowerupItems/PowerupItems/ButtonAssignmentContainer"]
+margin_left = 156.0
+margin_right = 230.0
+margin_bottom = 73.0
+texture = ExtResource( 20 )
+
+[node name="PowerupName" type="RichTextLabel" parent="Camera2D/PowerupItems/PowerupItems"]
+anchor_top = -0.136
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 167.0
+margin_top = -8.0
+margin_right = 538.0
+margin_bottom = 74.0
+custom_fonts/normal_font = ExtResource( 10 )
 
 [node name="PipsAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
@@ -2349,3 +2353,4 @@ texture = ExtResource( 57 )
 [connection signal="body_entered" from="Ghost/Area2D" to="Ghost" method="_on_Area2D_body_entered"]
 [connection signal="timeout" from="PacMan/GhostTimer" to="PacMan" method="_on_GhostTimer_timeout"]
 [connection signal="area_entered" from="PacMan/CenterPointTrigger" to="PacMan" method="_on_CenterPointTrigger_area_entered"]
+[connection signal="timeout" from="Camera2D/LevelCompleteScreen/AnimationTimer" to="Camera2D/LevelCompleteScreen" method="_on_AnimationTimer_timeout"]
