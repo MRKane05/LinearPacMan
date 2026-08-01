@@ -21,7 +21,7 @@ var speed_multiplier = 1.0
 #What powerups are affecting us?
 export(Array, Resource) var AffectedPowerups = []
 
-var boost_type = 0
+var boost_type = -1
 var moveDir = 1
 
 #===============Animation Handlers=======================
@@ -82,7 +82,7 @@ func play_sound(stream):
 
 #This could do with being part of a base class
 func set_boostzone(new_boost_type):
-	#boost types: 0, none, 1 left, 2, right, 3 both
+	#boost types: 0 left, 1, right, 2 both, -1 none
 	boost_type = new_boost_type
 	pass
 

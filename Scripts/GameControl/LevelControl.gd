@@ -75,6 +75,8 @@ var time_freeze_sound = preload("res://Sounds/GameEffects/TimeFreeze.wav")
 var time_unfreeze_sound = preload("res://Sounds/GameEffects/TimeUnfreeze.wav")
 var time_add_sound = preload("res://Sounds/GameEffects/TimeAdd.wav")
 
+var window_open_sound = preload("res://Sounds/GameEffects/PageTurn_Menu.wav")
+
 #Portal system
 export(NodePath) var portal_system_path
 onready var portal_system = get_node(portal_system_path)
@@ -206,7 +208,8 @@ func set_game_state(gamestate):
 	#Quickly tidy up any left over effectors
 	effect_freeze.visible = false
 	
-	
+	if (Global.game_state != gamestate):
+		play_sound(window_open_sound)
 	Global.game_state = gamestate
 	#POBLEM: Handle menu visibility states (this is going to break as this expands I think)
 	for i in range(UI_Menus.size()):
@@ -229,10 +232,10 @@ func set_game_state(gamestate):
 	
 	#handle trigger calls
 	if (Global.game_state == 1):
-		if (SaveManager.get_value("fragment_enabled") > 0):
+		if (SaveManager.get_value("fragment_enabled") > 0 || true):
 			#At this stage we need to know if we're going to do a fragment
 			#so that we can play a little reveal animation also
-			if (randf() > 0.75 || SaveManager.get_value("fragment_enabled") > 1): #1:20 odds of a fragment happening
+			if (randf() > 0.75 || SaveManager.get_value("fragment_enabled") > 1 || true): #1:20 odds of a fragment happening
 				level_is_fragment = rng.randi_range(1, 2)
 				SaveManager.set_value("fragment_enabled", 1) #Set this back so that we don't put this down for sure
 			else:
@@ -612,6 +615,7 @@ func do_level_setup():
 			create_callback_timer(0.75, "display_ingame_dialogue") # Remember to pull up our ingame dialogue
 			
 	var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x, necessary_pickup)
+	pips_node.set_boosts(level_is_fragment)
 	#really we need a pause while the game presents the powerups that we might have unlocked
 	if (start_powerups.size() > 0):
 		apply_start_pickups()
@@ -848,7 +852,7 @@ func create_callback_timer(duration: float, callback: String):
 
 
 func _on_GameLevelTimer_timeout():
-	if (Global.game_mode == 2):
+	if (Global.game_state == 2):
 		player_node.ghost_ate_player()
 	#We should probably have something display that we're out of time
 	

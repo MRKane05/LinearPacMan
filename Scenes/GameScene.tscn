@@ -1,4 +1,4 @@
-[gd_scene load_steps=107 format=2]
+[gd_scene load_steps=111 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -68,6 +68,7 @@
 [ext_resource path="res://Fonts/JohnnyFever_58.tres" type="DynamicFont" id=66]
 [ext_resource path="res://Scripts/Gameplay/UI/UI_PanelVisuals.gd" type="Script" id=67]
 [ext_resource path="res://Shaders/UIBrighten.gdshader" type="Shader" id=68]
+[ext_resource path="res://GameObjects/BoostZone.tscn" type="PackedScene" id=69]
 
 [sub_resource type="CanvasItemMaterial" id=28]
 blend_mode = 1
@@ -172,6 +173,40 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
+[sub_resource type="Animation" id=44]
+resource_name = "Move_LookDown"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ghost/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 23 ]
+}
+
+[sub_resource type="Animation" id=45]
+resource_name = "Move_LookUp"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ghost/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 24 ]
+}
+
 [sub_resource type="Animation" id=15]
 length = 0.001
 tracks/0/type = "value"
@@ -232,6 +267,23 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 2, 3, 1 ]
+}
+
+[sub_resource type="Animation" id=43]
+resource_name = "Shock"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ghost/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 15, 19 ]
 }
 
 [sub_resource type="CanvasItemMaterial" id=5]
@@ -1377,6 +1429,17 @@ position = Vector2( 492, 300 )
 position = Vector2( 477, 300 )
 level_controller_node_path = NodePath("..")
 
+[node name="PlayerBoostZone" parent="." instance=ExtResource( 69 )]
+visible = false
+position = Vector2( 338, 300 )
+backing_spirte_color = Color( 1, 1, 0, 0.588235 )
+
+[node name="GhostDampenZone" parent="." instance=ExtResource( 69 )]
+visible = false
+position = Vector2( 147, 300 )
+affect_player = false
+backing_spirte_color = Color( 1, 0, 0, 0.588235 )
+
 [node name="LevelPips" type="Node2D" parent="."]
 script = ExtResource( 7 )
 level_controller_path = NodePath("..")
@@ -1384,6 +1447,8 @@ powerup_items_path = NodePath("../Camera2D/PowerupItems/PowerupItems")
 add_score_display_path = NodePath("../Camera2D/GameplayElements/AddPointsBase")
 pip_scene = ExtResource( 6 )
 special_pips = [ ExtResource( 35 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 8 ), ExtResource( 59 ), ExtResource( 54 ), ExtResource( 60 ), ExtResource( 26 ) ]
+player_boost_path = NodePath("../PlayerBoostZone")
+ghost_dampen_path = NodePath("../GhostDampenZone")
 sound_player_path = NodePath("../PipsAudioStreamPlayer2D")
 
 [node name="Ghost" type="KinematicBody2D" parent="."]
@@ -1427,10 +1492,13 @@ root_node = NodePath("../..")
 anims/Eaten = SubResource( 18 )
 anims/Flee = SubResource( 20 )
 anims/Move = SubResource( 14 )
+anims/Move_LookDown = SubResource( 44 )
+anims/Move_LookUp = SubResource( 45 )
 anims/RESET = SubResource( 15 )
 anims/Respawn = SubResource( 19 )
 anims/Search_Move = SubResource( 17 )
 anims/Search_Still = SubResource( 16 )
+anims/Shock = SubResource( 43 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Ghost"]
 

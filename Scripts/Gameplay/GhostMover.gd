@@ -23,8 +23,12 @@ var function_time = 0
 
 var sprite_side_buffer = 24
 
+var speed_dampen = 0.7 #How much is our speed dampened when going over the slow zone?
+
 var taser_action_timer;
 var bIstasered = false
+
+var player_height = 0 #for when we've a fractal level, if the player is below us this is changed to -1, above is 1
 
 const SOUNDS = {
 	"eaten"   : preload("res://Sounds/GameEffects/eatGhost_floraphonic-8-bit-game-6-188105.wav")
@@ -45,7 +49,7 @@ func _ready():
 	# We need to know what our player is
 	char_sprite.material.set_shader_param("scroll_speed", 1.0)
 	char_sprite.material.set_shader_param("scroll_direction", 1.0)
-	set_animation("Move")
+	set_move_animation()
 
 func set_scroll_speed(speed: float):
 	char_sprite.material.set_shader_param("scroll_speed", speed)
@@ -58,9 +62,19 @@ func reset_ghost():
 	bCanBeEaten = false;
 	bGhostFlee = false;
 	bGhostRespawning = false
-	set_animation("Move")
+	set_move_animation()
 	char_sprite.modulate = color_normal
 	#Might need to reset any animation state here
+
+func set_move_animation():
+	if player_height < 0:
+		set_animation("Move_LookDown")
+	elif player_height > 0:
+		set_animation("Move_LookUp")
+	else:
+		set_animation("Move")
+			
+
 
 func _physics_process(delta):
 	if (!visible):
@@ -88,7 +102,13 @@ func _physics_process(delta):
 		
 	
 	if (!bInvisibleActive && !bGhostRespawning && !bGhost_Confused):
-		set_animation("Move")
+			#A little helper for handling how our ghost animates with a fragmented level
+		if (level_controller.level_is_fragment > 0):
+			var pac_relative = sign(position.y - player_node.position.y)
+			print(pac_relative)
+			if (pac_relative != player_height):
+				player_height = pac_relative
+				set_move_animation() 
 	
 	if (btaserActive):
 		if (abs(player_node.global_position.x - position.x) < taser_distance):
@@ -137,6 +157,22 @@ func _physics_process(delta):
 	#set_scroll_direction(input_vector.x) #Scroll direction is sorted by the mirroring
 	set_moveDir(sign(input_vector.x))
 	velocity = input_vector.normalized() * move_speed * speed_multiplier
+	
+	print(boost_type)
+	match boost_type:
+		-1: #Don't do anything
+			#velocity = speed
+			pass
+		0: #Only going right
+			if (moveDir > 0):
+				velocity = velocity * speed_dampen
+		1:	#Only going left
+			if (moveDir < 0):
+				velocity = velocity * speed_dampen
+		2: #Bidirectional
+			velocity = velocity * speed_dampen
+	
+	
 	#======Handle repuse Powerup=======================
 	if (bRepulseActive && abs(player_node.global_position.x - position.x) < repulse_distance_max):
 		#Need to push the ghost back and away from the player, somehow...
@@ -156,6 +192,8 @@ func _physics_process(delta):
 		line_position = screen_size - sprite_side_buffer
 	
 	position = Global.get_screen_position(Vector2(line_position, 300))
+	
+
 
 func _on_Area2D_body_entered(body):
 	#in theory this'll only be the player that we can contact with
@@ -196,6 +234,7 @@ func apply_powerup(new_powerup:String):
 		"pup_repulse":
 			pass
 		"pup_taser":
+			set_animation("Shock")
 			pass
 			
 func freeze_callback():

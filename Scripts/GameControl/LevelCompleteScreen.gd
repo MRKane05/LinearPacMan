@@ -130,7 +130,7 @@ func display_score_structure(entry: int):
 		if (get_node(PrizeBoxes[entry-5]).visible):
 			get_node(PrizeBoxes[entry-5]).do_score_add(level_score + time_score, !bSkipDisplay)
 	
-	if (entry >= 6):
+	if (entry >= 7):
 		bSkipDisplay = true #So that we'll fast release when the user presses action
 
 func handle_inputaction(gamestate: int):
@@ -151,12 +151,12 @@ func handle_inputaction(gamestate: int):
 
 func _on_AnimationTimer_timeout():
 	score_index = score_index + 1
-	if (score_index < 7 && !bSkipDisplay):
+	if (score_index < 8 && !bSkipDisplay):
 		animation_timer.wait_time = timer_wait
 		animation_timer.one_shot = true
 		animation_timer.start()
 		display_score_structure(score_index)
 	if (bSkipDisplay):
-		for value in range(score_index, 7):
+		for value in range(score_index, 8):
 			display_score_structure(value)
 	pass # Replace with function body.

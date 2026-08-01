@@ -56,15 +56,15 @@ func _physics_process(delta):
 	input_vector.y = 0 #Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	
 	match boost_type:
-		0: #Don't do anything
+		-1: #Don't do anything
 			final_speed = speed
-		1: #Only going right
-			if (moveDir > 0):
-				final_speed = speed * speed_up
-		2:	#Only going left
+		0: #Only going right
 			if (moveDir < 0):
 				final_speed = speed * speed_up
-		3: #Bidirectional
+		1:	#Only going left
+			if (moveDir > 0):
+				final_speed = speed * speed_up
+		2: #Bidirectional
 			final_speed = speed * speed_up
 	
 	if (!bPlayer_alive):	#we've died so don't move anywhere
@@ -88,8 +88,6 @@ func _physics_process(delta):
 	
 	#And NOW get our screen position given offsets :)
 	position = Global.get_screen_position(Vector2(line_position, 300))
-	#print(position)
-	# Need to have a duplicate sprite here too
 
 #So with this we've gone over something that can affect us in some way
 func _on_CenterPointTrigger_area_entered(area):

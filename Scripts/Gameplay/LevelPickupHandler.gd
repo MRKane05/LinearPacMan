@@ -12,6 +12,12 @@ onready var add_score_display = get_node(add_score_display_path)
 export (PackedScene) var pip_scene # Assign your pickup scene in inspector
 export(Array, PackedScene) var special_pips = []
 
+export(NodePath) var player_boost_path
+onready var player_boost = get_node(player_boost_path)
+
+export(NodePath) var ghost_dampen_path
+onready var ghost_dampen = get_node(ghost_dampen_path)
+
 export (int) var num_pickups = 10	#Really this should be a density measure as I'd like to change the screensize
 export (float) var pickup_density = 72
 export (float) var screen_padding = 50
@@ -109,7 +115,39 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 			#Fix weird error by calling deferred on add child
 			call_deferred("add_child", p)
 	
+	#This is where we could look at doing something with our boost zone
+	#really there are only two places we could put this, and they're at our quarters
+	#if level_controller.fragment == 0
+	#This will cause it to move every time the lines get redrawn and I like that!
+	#it could just do with having some sort of fancy effect
+
+	
 	return special_placed
+
+func set_boosts(level_fragments: int):
+	if (level_fragments > 0):
+		return
+	#Need to do a check to see if we can show this
+	#Need to do a random for having this show up
+	if (randf() > 0.8 || true): #Have a boost happen 1 in 5 times
+		player_boost.set_sprite_visibility()
+		player_boost.visible = true
+		if (randf() > 0.5):
+			player_boost.position = Vector2(Global.line_size * 0.15, 300)
+		else:
+			player_boost.position = Vector2(Global.line_size * 0.83, 300)
+	else:
+		player_boost.visible = false
+	
+	if (randf() > 0.8 || true):
+		ghost_dampen.set_sprite_visibility()
+		ghost_dampen.visible = true
+		if (randf() > 0.5):
+			ghost_dampen.position = Vector2(Global.line_size * 0.65, 300)
+		else:
+			ghost_dampen.position = Vector2(Global.line_size * 0.4, 300)
+	else:
+		ghost_dampen.visible = false
 
 func pellet_pickedup(pickup_item : Node, pickup_effect : String, add_value: int):
 	if (Global.game_state != 2 || level_controller.level_start_time > Time.get_ticks_msec() - 50): #Needs a debounce for components to settle into location
