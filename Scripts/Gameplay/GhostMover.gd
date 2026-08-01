@@ -25,22 +25,13 @@ var sprite_side_buffer = 24
 
 var speed_dampen = 0.7 #How much is our speed dampened when going over the slow zone?
 
-var taser_action_timer;
-var bIstasered = false
+var bBeenTased = false
 
 var player_height = 0 #for when we've a fractal level, if the player is below us this is changed to -1, above is 1
 
 const SOUNDS = {
 	"eaten"   : preload("res://Sounds/GameEffects/eatGhost_floraphonic-8-bit-game-6-188105.wav")
 }
-
-func _setup_counters():
-	#taser timer
-	taser_action_timer = Timer.new()
-	taser_action_timer.name = "taser_action_timer"
-	add_child(taser_action_timer)  # Only add if newly created
-	pass
-	#This is where we setup the counters for anything that affects us (powerup effects)
 
 
 func _ready():
@@ -62,19 +53,22 @@ func reset_ghost():
 	bCanBeEaten = false;
 	bGhostFlee = false;
 	bGhostRespawning = false
+	bBeenTased = false
 	set_move_animation()
 	char_sprite.modulate = color_normal
 	#Might need to reset any animation state here
 
 func set_move_animation():
+	if (bBeenTased):#A quick little handler here
+		set_animation("Shock")
+		return
+	
 	if player_height < 0:
 		set_animation("Move_LookDown")
 	elif player_height > 0:
 		set_animation("Move_LookUp")
 	else:
 		set_animation("Move")
-			
-
 
 func _physics_process(delta):
 	if (!visible):
@@ -110,10 +104,10 @@ func _physics_process(delta):
 				player_height = pac_relative
 				set_move_animation() 
 	
-	if (btaserActive):
+	if (btaserActive && !bBeenTased):
 		if (abs(player_node.global_position.x - position.x) < taser_distance):
-			got_tazed_end = OS.get_ticks_msec() + Global.got_tazed_duration
-			#PROBLEM: Need to play some effect for gettting tazed
+			create_callback_timer(Global.got_tazed_duration, "taser_effect_finish")
+			bBeenTased = true
 	
 	
 	if (bCanBeEaten):	#We need to flee our player
@@ -180,7 +174,7 @@ func _physics_process(delta):
 		repulseDistance = repulseDistance / (repulse_distance_max - repulse_distance_min);
 		velocity += repulseDistance * input_vector.normalized() * repulse_max_force
 	
-	if (OS.get_ticks_msec() < got_tazed_end): #We've been tazed, so annul our movement
+	if (bBeenTased): #We've been tazed, so annul our movement
 		velocity.x = 0
 	
 	#move_and_slide(velocity)
@@ -193,7 +187,6 @@ func _physics_process(delta):
 	
 	position = Global.get_screen_position(Vector2(line_position, 300))
 	
-
 
 func _on_Area2D_body_entered(body):
 	#in theory this'll only be the player that we can contact with
@@ -236,7 +229,7 @@ func apply_powerup(new_powerup:String):
 		"pup_taser":
 			set_animation("Shock")
 			pass
-			
+
 func freeze_callback():
 	.freeze_callback()
 	var tween = create_tween()
@@ -251,4 +244,7 @@ func set_confused(duration: float):
 	create_callback_timer(duration, "ghost_confused")
 	invislbe_dir_change_time = OS.get_ticks_msec() + rand_range(750, 1500)
 	invisible_current_dir = 0
-	pass
+
+func taser_effect_finish():
+	bBeenTased = false
+	set_move_animation()

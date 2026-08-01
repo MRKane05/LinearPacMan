@@ -179,6 +179,11 @@ func pellet_pickedup(pickup_item : Node, pickup_effect : String, add_value: int)
 		pickup_item.queue_free()
 	return pickups_remaining
 
+#Called at the end of a level etc.
+func clear_pickups():
+	for child in get_children():
+		child.queue_free()
+
 func _physics_process(delta):
 	#This needs a pause before it begins drifting for the player
 	if (num_spawned_pickups <= min_child_count):

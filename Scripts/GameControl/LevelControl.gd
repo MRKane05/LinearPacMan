@@ -247,12 +247,13 @@ func set_game_state(gamestate):
 	if (Global.game_state == 2):
 		do_level_setup()
 	
-	#Do stuff if player has died
+	#Do stuff if player has died, level ended, etc.
 	if (Global.game_state == 4 || Global.game_state == 3 || Global.game_state == 5):
 		var saved_max_score = SaveManager.get_value("max_score")
 		if (max_score > saved_max_score):
 			#PROBLEM: Need to note that we've set a highscore and the feedback should reflect that!
 			SaveManager.set_value("max_score", max_score)
+		pips_node.clear_pickups()
 	
 	#Do the level complete stuff
 	if (Global.game_state == 3):

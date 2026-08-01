@@ -2286,16 +2286,16 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HighscoreTitle" type="Label" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox"]
-margin_right = 161.0
+margin_right = 144.0
 margin_bottom = 39.0
 custom_colors/font_color = Color( 1, 0.839216, 0.207843, 1 )
 custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.14902, 1 )
 custom_constants/shadow_as_outline = 8
 custom_fonts/font = SubResource( 24 )
-text = "Hoighscore"
+text = "Highscore"
 
 [node name="Control" type="Control" parent="Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox"]
-margin_left = 165.0
+margin_left = 148.0
 margin_right = 377.0
 margin_bottom = 39.0
 size_flags_horizontal = 3
