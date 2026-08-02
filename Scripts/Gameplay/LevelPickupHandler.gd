@@ -129,7 +129,11 @@ func set_boosts(level_fragments: int):
 		return
 	#Need to do a check to see if we can show this
 	#Need to do a random for having this show up
-	if (randf() > 0.8 || true): #Have a boost happen 1 in 5 times
+	var boost_status = SaveManager.get_value("speed_zones")
+	if ((randf() > 0.8 && boost_status > 0 && boost_status != 4) || boost_status == 3): #Have a boost happen 1 in 5 times
+		if (boost_status == 3): #Down set from our hard on option
+			SaveManager.set_value("speed_zones", 1)
+		
 		player_boost.set_sprite_visibility()
 		player_boost.visible = true
 		if (randf() > 0.5):
@@ -139,7 +143,10 @@ func set_boosts(level_fragments: int):
 	else:
 		player_boost.visible = false
 	
-	if (randf() > 0.8 || true):
+	if ((randf() > 0.8 && boost_status > 1 && boost_status != 3) || boost_status == 4):
+		if (boost_status == 4): #Down set from our hard on option
+			SaveManager.set_value("speed_zones", 2)
+		
 		ghost_dampen.set_sprite_visibility()
 		ghost_dampen.visible = true
 		if (randf() > 0.5):

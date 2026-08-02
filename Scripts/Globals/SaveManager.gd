@@ -35,6 +35,7 @@ var save_data = {
 	"pac_reveal":		0,
 	"fragment_enabled":	0,
 	"portals_enabled":	0,
+	"speed_zones":		0,
 }
 
 func _ready():
@@ -94,6 +95,7 @@ func delete_save():
 			"pac_reveal":		0,
 			"fragment_enabled":	0,
 			"portals_enabled":	0,
+			"speed_zones":		0,
 		}
 		print("Save deleted")
 

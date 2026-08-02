@@ -184,6 +184,10 @@ func handle_story_line(line, dialoge_return_var: int):
 				SaveManager.set_value("portals_enabled", 2) #Setting to 2 means "show up next level"
 			if ("fragment" in line.special_unlock):
 				SaveManager.set_value("fragment_enabled", 2)
+			if ("boost" in line.special_unlock): #Unlock player boost lines
+				SaveManager.set_value("speed_zones", 3) #which will set the internal value to 1 when complete
+			if ("dampen" in line.special_unlock):
+				SaveManager.set_value("speed_zones", 4) #which will set the internal value to 2 when complete
 
 # Stage present goal=============================================================
 func _on_ReadyButton_pressed():
