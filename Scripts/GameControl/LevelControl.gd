@@ -213,7 +213,8 @@ func set_game_state(gamestate):
 	effect_freeze.visible = false
 	
 	if (Global.game_state != gamestate):
-		play_sound(window_open_sound)
+		if (gamestate == 1 || gamestate == 3 || gamestate == 4): #PROBLEM: Could have different sounds assigned to windows
+			play_sound(window_open_sound)
 	Global.game_state = gamestate
 	#POBLEM: Handle menu visibility states (this is going to break as this expands I think)
 	for i in range(UI_Menus.size()):
@@ -236,7 +237,7 @@ func set_game_state(gamestate):
 	
 	#handle trigger calls
 	if (Global.game_state == 1):
-		if (SaveManager.get_value("fragment_enabled") > 0 || true):
+		if (SaveManager.get_value("fragment_enabled") > 0):
 			#At this stage we need to know if we're going to do a fragment
 			#so that we can play a little reveal animation also
 			if (randf() > 0.75 || SaveManager.get_value("fragment_enabled") > 1 || true): #1:20 odds of a fragment happening
@@ -556,7 +557,7 @@ func do_level_setup():
 		portal_system.enable_portals(false)
 	
 	change_direction_presses = 0
-	x_prompt.modulate = Color.white	#Turn our prompt panel back on again
+	
 	
 	var line_size = get_viewport().get_visible_rect().size.x
 	
@@ -630,7 +631,8 @@ func do_level_setup():
 	
 	#PROBLEM: We're going to need a clever way to figure out how much time 
 	#the player should get in the level based off of everything that's happening
-	
+	if (level_is_fragment == 0):
+		x_prompt.modulate = Color.white	#Turn our prompt panel back on again
 	#For the moment, fuckit
 	#First level takes 15 seconds, so
 	#target score to start is 200, therefore divide the target score by 10?

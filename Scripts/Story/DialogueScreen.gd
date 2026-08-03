@@ -5,6 +5,12 @@ class_name DialogueScreen
 var current_line = 0
 var story_node;
 
+onready var sound_player = $AudioStreamPlayer2D
+
+const SOUNDS = {
+	"blip"   : preload("res://Sounds/UI/freesound_community-081786_blipwav-89645.mp3")
+}
+
 func handle_inputaction(gamestate: int):
 	if (story_node):	#Logically this'll be the one that was setup in the do_display_dioluge, but if not...
 		if (current_line < story_node.lines.size()-1):
@@ -57,5 +63,11 @@ func display_dialogue():
 			graphic_entry = 0
 		#speaker_name.text = story_node.speaker;
 		set_speaker_icon_name(graphic_entry, speaker_name)
-		
-	#print(line.text)
+		var speaker_sound = story_node.sound
+		if (speaker_sound == null):
+			speaker_sound = "blip"
+		play_sound(SOUNDS[speaker_sound])
+
+func play_sound(stream):
+	sound_player.stream = stream
+	sound_player.play()

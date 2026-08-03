@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/freesound_community-081786_blipwav-89645.mp3-e71b80045c625f8b6e82369eb8cf4d50.mp3str"
+
+[deps]
+
+source_file="res://Sounds/UI/freesound_community-081786_blipwav-89645.mp3"
+dest_files=[ "res://.import/freesound_community-081786_blipwav-89645.mp3-e71b80045c625f8b6e82369eb8cf4d50.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

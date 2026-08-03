@@ -1953,6 +1953,10 @@ text = "Press X
 [node name="ButtonPromptNode" parent="Camera2D/DialogueScreen" instance=ExtResource( 52 )]
 position = Vector2( 415, 137.5 )
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/DialogueScreen"]
+position = Vector2( -610, -376.25 )
+scale = Vector2( 1.25, 1.25 )
+
 [node name="ReadyScreen" type="Node2D" parent="Camera2D"]
 visible = false
 
