@@ -8,7 +8,11 @@ var story_node;
 onready var sound_player = $AudioStreamPlayer2D
 
 const SOUNDS = {
-	"blip"   : preload("res://Sounds/UI/freesound_community-081786_blipwav-89645.mp3")
+	"standard"   : preload("res://Sounds/UI/pac_standard.wav"),
+	"thought"	: preload("res://Sounds/UI/pac_thought.wav"),
+	"sad"	:	preload("res://Sounds/UI/pac_sad.wav"),
+	"unsure" : preload("res://Sounds/UI/pac_unsure.wav"),
+	"attention" :preload("res://Sounds/UI/pac_attention.wav")
 }
 
 func handle_inputaction(gamestate: int):
@@ -56,16 +60,19 @@ func display_dialogue():
 	# Get and iterate dialogue
 	#var line = StoryManager.get_dialogue(record)
 	if (story_node):
-		dialogue_text.text = story_node.lines[current_line]
+		var story_line = story_node.lines[current_line]
+		var line_parts = story_line.split('|')
+		dialogue_text.text = line_parts[0]
 		var speaker_name = story_node.speaker
 		var graphic_entry = 1
 		if ("?" in speaker_name):
 			graphic_entry = 0
 		#speaker_name.text = story_node.speaker;
 		set_speaker_icon_name(graphic_entry, speaker_name)
-		var speaker_sound = story_node.sound
-		if (speaker_sound == null):
-			speaker_sound = "blip"
+		var speaker_sound = "standard"
+		if (line_parts.size() == 2): #We've got a sound attached to this line that's different
+			speaker_sound = line_parts[1].strip_edges()
+			
 		play_sound(SOUNDS[speaker_sound])
 
 func play_sound(stream):

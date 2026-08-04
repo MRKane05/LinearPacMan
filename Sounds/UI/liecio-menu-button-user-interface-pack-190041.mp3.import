@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/liecio-menu-button-user-interface-pack-190041.mp3-11c2e43ff9e6fe03a02077bb3a202396.mp3str"
+
+[deps]
+
+source_file="res://Sounds/UI/liecio-menu-button-user-interface-pack-190041.mp3"
+dest_files=[ "res://.import/liecio-menu-button-user-interface-pack-190041.mp3-11c2e43ff9e6fe03a02077bb3a202396.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

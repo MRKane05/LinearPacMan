@@ -1715,6 +1715,8 @@ text = "Press X
 position = Vector2( 401, 235 )
 scale = Vector2( 0.8, 0.8 )
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/ingameDialogueBoxes"]
+
 [node name="CollectDisplayInformation" type="Node2D" parent="Camera2D"]
 script = ExtResource( 37 )
 
