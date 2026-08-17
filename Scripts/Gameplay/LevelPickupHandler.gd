@@ -9,9 +9,22 @@ onready var powerup_items = get_node(powerup_items_path)
 export(NodePath) var add_score_display_path
 onready var add_score_display = get_node(add_score_display_path)
 
-export (PackedScene) var pip_scene # Assign your pickup scene in inspector
-export(Array, PackedScene) var special_pips = []
+var pip_scene  = preload("res://GameObjects/Pickups/PickupItem.tscn")# Assign your pickup scene in inspector
 
+var special_pips = [
+	preload("res://GameObjects/Pickups/GhostPellet.tscn"),
+	preload("res://GameObjects/Pickups/Fruit_Cherry.tscn"),
+	preload("res://GameObjects/Pickups/Fruit_Apple.tscn"),
+	preload("res://GameObjects/Pickups/Fruit_Orange.tscn"),
+	preload("res://GameObjects/Pickups/Fruit_Watermelon.tscn"),
+	preload("res://GameObjects/Pickups/pup_freeze.tscn"),
+	preload("res://GameObjects/Pickups/pup_repulse.tscn"),
+	preload("res://GameObjects/Pickups/pup_invisible.tscn"),
+	preload("res://GameObjects/Pickups/pup_stop_time.tscn"),
+	preload("res://GameObjects/Pickups/pup_boost.tscn"),
+	preload("res://GameObjects/Pickups/pup_add_time.tscn"),
+	preload("res://GameObjects/Pickups/pup_taser.tscn")
+]
 export(NodePath) var player_boost_path
 onready var player_boost = get_node(player_boost_path)
 
@@ -90,17 +103,13 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 			p = pip_scene.instance()
 		else:
 			#Need to override this with the unlock
-			var max_powerup = 1;
-			max_powerup = max(max_powerup, int(SaveManager.get_value("powerup_unlock")))
+			var max_powerup = int(SaveManager.get_value("powerup_unlock") + 5)
 			max_powerup = min(max_powerup, special_pips.size())
-			
-			#PROBLEM: Hack for testing
-			max_powerup = special_pips.size()
 			
 			var value = randi() % max_powerup
 			if (pickup_reveal != -1): #Make sure our pickup is the one we're supposed to show
 				#PROBLEM: Need to setup to pause game and deliver message
-				value = pickup_reveal
+				value = pickup_reveal + 5
 			if (override_powerup==null):
 				p = special_pips[value].instance()
 			else:
@@ -171,6 +180,10 @@ func pellet_pickedup(pickup_item : Node, pickup_effect : String, add_value: int)
 	match pickup_effect:
 		"eat_ghost":
 			level_controller.do_powerup_eat_ghost()
+		"eat_fruit":
+			#This is a points pickup
+			#We need to trigger the correct label above this pickup
+			pass
 	if (pickup_item != null && pickup_item.pickup_resource != null): #This is something to pass through to our other systems
 		#print("Collected powerup")
 		#PROBLEM: if the powerups are full we need to apply the effect of this powerup immediately

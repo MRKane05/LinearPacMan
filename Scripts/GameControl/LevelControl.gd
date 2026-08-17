@@ -130,6 +130,8 @@ export(Array, Resource) var start_powerups = []
 
 var rng = RandomNumberGenerator.new()
 
+var games_played = 0
+
 func add_start_powerup(thisPowerup: Resource):
 	if (!start_powerups.has(thisPowerup)):
 		start_powerups.append(thisPowerup)
@@ -177,6 +179,7 @@ func handle_story_line(line, dialoge_return_var: int):
 	bAllowInput = false
 	create_callback_timer(debounce, "enable_control_input")
 	set_game_state(5)
+	games_played = 0 #Reset our games played counter to keep everything inline
 	
 	if (line.special_unlock != null):
 		if  (line.special_unlock.length() > 0):
@@ -250,6 +253,7 @@ func set_game_state(gamestate):
 		countdown_screen.start_countdown(current_round, target_pips)
 	
 	if (Global.game_state == 2):
+		SaveManager.save_game() #This is a good point to save the game I think
 		do_level_setup()
 	
 	#Do stuff if player has died, level ended, etc.
@@ -263,19 +267,25 @@ func set_game_state(gamestate):
 	#Do the level complete stuff
 	if (Global.game_state == 3):
 		#PROBLEM: Need to note that we've set a highscore and the feedback should reflect that!
-		var games_played = int(SaveManager.get_value("total_games"))
+		games_played = int(SaveManager.get_value("total_games"))
 		var story_index = SaveManager.get_value("story_index")
+		games_played = games_played + 1
+		#print(games_played)
 		var bShowingStory = false
 		if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
 			var line = StoryManager.get_dialogue(story_index) 
 			if (line != null && line != {} && line.size() != 0):
 				if (line.trigger == "level_complete"):
 					if (games_played >= line.triggernum):
-						if (line.reward_reveal != -1):
-							SaveManager.set_value("reward_reveal", line.reward_reveal)
-							print("Got Story Trigger!")
-							handle_story_line(line, 3)
-							bShowingStory = true
+						if line.has("reward_reval") and line.reward_reval != null:
+							if (line.reward_reveal != -1):
+								SaveManager.set_value("reward_reveal", line.reward_reveal)
+							
+						print("Got Story Trigger!")
+						handle_story_line(line, 3)
+						bShowingStory = true
+		
+		SaveManager.set_value("total_games", games_played)
 		
 		if (!bShowingStory):
 			#We need to do some score handling here
@@ -299,8 +309,7 @@ func set_game_state(gamestate):
 		create_callback_timer(debounce, "enable_control_input")
 		var prize_boxes = int(SaveManager.get_value("reward_reveal"))
 		for i in range(Level_Prize_Paths.size()):
-			#PROBLEM: hacked prize boxes on
-			get_node(Level_Prize_Paths[i]).visible = true # prize_boxes > i
+			get_node(Level_Prize_Paths[i]).visible = prize_boxes > i
 	
 	#This is where we need to keep an eye out to see if we've got to display
 	#a message (or similar)
@@ -580,7 +589,8 @@ func do_level_setup():
 	var speed_multiplier = lerp(1.0, 1.75, float(current_round)/20.0)
 	
 	#player_node.global_position = Vector2(startpos/7.0 * 1024, 300)
-	player_node.set_line_position(startpos/7.0 * line_size)
+	var player_start_pos = rand_range(line_size * 0.125, line_size * 0.875)
+	player_node.set_line_position(player_start_pos)
 	player_node.set_speed_multiplier(speed_multiplier)
 	player_node.set_line_size(line_size)
 	player_node.set_start_invincible()
@@ -595,7 +605,14 @@ func do_level_setup():
 	#Ghost has to be not too close to the player, but we're simply prototyping at this stage
 	#startpos = floor(rand_range(1, start_positions.size()))
 	ghost_node.set_speed_multiplier(speed_multiplier)
-	ghost_node.global_position =  Vector2(enemystartpos/7.0 * line_size, 300)
+	#ghost_node.global_position =  Vector2(enemystartpos/7.0 * line_size, 300)
+	var ghost_offset = rand_range(line_size * 0.25, line_size * 0.5)
+	var ghost_sign = sign(rand_range(-1, 1));
+	if (ghost_sign == 0):
+		ghost_sign = 1
+	var ghost_position = wrapf(player_start_pos + ghost_offset * ghost_sign, 0, line_size)
+
+	ghost_node.set_line_position(ghost_position)
 	ghost_node.reset_ghost()
 	ghost_node.set_line_size(line_size)
 	#print(enemystartpos)
@@ -640,6 +657,7 @@ func do_level_setup():
 	game_timer.stop()
 	#This works a little better for defining our time, in fact it might be a little tight especially when levels get more complicated
 	game_timer.wait_time = int (target_pips/(1.25 * speed_multiplier))	#This gives a good bit of leeway, but we need to pause for message dialogues
+	game_timer.one_shot = true
 	game_timer.start()
 
 func apply_start_pickups():
@@ -666,7 +684,8 @@ func do_powerup_eat_ghost():
 	#for a limited time enable the "can eat ghost" effect
 	#set the necessary flags
 	#add in the ghost behaviour to make it run away
-	ghost_node.bCanBeEaten = true
+	#ghost_node.bCanBeEaten = true
+	ghost_node.ghost_can_be_eaten()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

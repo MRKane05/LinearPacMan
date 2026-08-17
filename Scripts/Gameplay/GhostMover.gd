@@ -1,23 +1,39 @@
 extends MoverBase
 
+export(Array, Resource) var ghost_types = []
+
 var velocity = Vector2.ZERO
 var speed = 220
+var max_speed = 220
 var flee_speed = 250
 var flee_position = 0
 var slow_speed = 180
+
+#I want to start adding in the option of different colours for ghosts
+#and thus altered behavior. What we have for behavior ideas is:
+var reaction_speed = 0.5 #Milliseconds to change direction
+var confuse_time = 0.5
+var acceleration = 1.0 #Something about how quickly we'll change direction
+var max_speed_mod = 1.0 #Maybe one will be faster after accelerating?
+var direction_change_speed = 1.0
+var last_face_dir = 0
+var confuse_chance = 0.5
+var bConfused = false
+var bDirectionChangeDelay = false
 
 export(NodePath) var player_node_path
 onready var player_node = get_node(player_node_path)
 
 export(Color) var color_normal
 export(Color) var color_frozen
+export(Color) var color_flee
 
 var bCanBeEaten = false
 var bGhostFlee = false
 var bGhostRespawning = false
 var bGhost_Confused = false
 
-var respawn_pause = 3000
+var respawn_pause = 2000
 
 var function_time = 0
 
@@ -50,17 +66,36 @@ func set_scroll_direction(direction: float):
 
 
 func reset_ghost():
+	if (bCanBeEaten):
+		var tween = create_tween()
+		tween.tween_property(char_sprite, "modulate", color_normal, 0.5)
 	bCanBeEaten = false;
 	bGhostFlee = false;
 	bGhostRespawning = false
 	bBeenTased = false
 	set_move_animation()
 	char_sprite.modulate = color_normal
+	last_face_dir = 0
 	#Might need to reset any animation state here
+	
+	#Setup our ghost stats!
+	var ghost_resource = rand_range(0, ghost_types.size())
+	char_sprite.modulate = ghost_types[ghost_resource].ghost_tint
+	color_normal = ghost_types[ghost_resource].ghost_tint
+	$GlowSprite.modulate = ghost_types[ghost_resource].ghost_glow
+	
+	reaction_speed = ghost_types[ghost_resource].reaction_time
+	confuse_chance = ghost_types[ghost_resource].confuse_chance
+	confuse_time = ghost_types[ghost_resource].confuse_time
+	direction_change_speed = ghost_types[ghost_resource].direction_change_speed
+	max_speed_mod = ghost_types[ghost_resource].max_speed_mod
 
 func set_move_animation():
 	if (bBeenTased):#A quick little handler here
 		set_animation("Shock")
+		return
+	if (bConfused):
+		set_animation("Search_Still")
 		return
 	
 	if player_height < 0:
@@ -99,7 +134,6 @@ func _physics_process(delta):
 			#A little helper for handling how our ghost animates with a fragmented level
 		if (level_controller.level_is_fragment > 0):
 			var pac_relative = sign(position.y - player_node.position.y)
-			print(pac_relative)
 			if (pac_relative != player_height):
 				player_height = pac_relative
 				set_move_animation() 
@@ -108,12 +142,13 @@ func _physics_process(delta):
 		if (abs(player_node.global_position.x - position.x) < taser_distance):
 			create_callback_timer(Global.got_tazed_duration, "taser_effect_finish")
 			bBeenTased = true
+			set_move_animation()
 	
 	
 	if (bCanBeEaten):	#We need to flee our player
 		set_animation("Flee")
 		input_vector.x *= -1
-	
+		
 	var move_speed = speed
 	#Lazy state machine==================================================
 	if (bCanBeEaten || bInvisibleActive || bGhost_Confused):
@@ -134,45 +169,71 @@ func _physics_process(delta):
 			bGhostRespawning = true
 			set_animation("Respawn")
 			function_time = Time.get_ticks_msec() + respawn_pause	#When will we finish respawning?
-			print(function_time)
 			
 	if (bGhostRespawning):
-		
 		move_speed = 0 #Stay where we are for the respawn
 		if (Time.get_ticks_msec() > function_time):
 			bGhostRespawning = false
 			bCanBeEaten = false
-			
-	
-	#Apply speed modifier
-	#move_speed = move_speed * speed_multiplier
+			var tween = create_tween()
+			tween.tween_property(char_sprite, "modulate", color_normal, 0.5)
+
+	#Create some sort of acceleration behavior for our ghost:
+	if (input_vector.x != last_face_dir && last_face_dir != 0):
+		last_face_dir = input_vector.x
+		bConfused = rand_range(0.0, 1.0) < confuse_chance
+		
+		if (!bConfused && reaction_speed > 0):
+			bDirectionChangeDelay = true
+			create_callback_timer(reaction_speed, "direction_change_delay")
+		elif (confuse_time > 0):
+			bDirectionChangeDelay = true
+			create_callback_timer(confuse_time, "direction_change_delay")
+		
+		set_move_animation() 
 	
 	#Send information through for our animation systems
-	#set_scroll_direction(input_vector.x) #Scroll direction is sorted by the mirroring
-	set_moveDir(sign(input_vector.x))
-	velocity = input_vector.normalized() * move_speed * speed_multiplier
+	#This is where we'd put in our little behavioral quirks:
+	if (bDirectionChangeDelay):
+		input_vector.x = -last_face_dir
+		if (bConfused): #Be confused on the spot
+			move_speed = 0
+	else:
+		last_face_dir = input_vector.x
 	
-	print(boost_type)
+	var target_velocity = input_vector.normalized() * move_speed * speed_multiplier
+	
+	
+	set_moveDir(sign(input_vector.x))
+	
+	
 	match boost_type:
 		-1: #Don't do anything
 			#velocity = speed
 			pass
 		0: #Only going right
 			if (moveDir > 0):
-				velocity = velocity * speed_dampen
+				target_velocity = target_velocity * speed_dampen
 		1:	#Only going left
 			if (moveDir < 0):
-				velocity = velocity * speed_dampen
+				target_velocity = target_velocity * speed_dampen
 		2: #Bidirectional
-			velocity = velocity * speed_dampen
+			target_velocity = target_velocity * speed_dampen
 	
 	
 	#======Handle repuse Powerup=======================
 	if (bRepulseActive && abs(player_node.global_position.x - position.x) < repulse_distance_max):
 		#Need to push the ghost back and away from the player, somehow...
 		var repulseDistance = abs(player_node.global_position.x - position.x) - repulse_distance_min;
+		#repulseDistance = clamp(repulseDistance, 0.0, 1.0)
 		repulseDistance = repulseDistance / (repulse_distance_max - repulse_distance_min);
-		velocity += repulseDistance * input_vector.normalized() * repulse_max_force
+		target_velocity += repulseDistance * input_vector.normalized() * repulse_max_force * speed_multiplier
+		#target_velocity = velocity #Try clamping this to prevent the ghost from overrunning the player now that we've got velocities
+	
+	velocity = lerp(velocity, target_velocity * max_speed_mod, delta * direction_change_speed * speed_multiplier)
+	
+	
+	
 	
 	if (bBeenTased): #We've been tazed, so annul our movement
 		velocity.x = 0
@@ -187,6 +248,16 @@ func _physics_process(delta):
 	
 	position = Global.get_screen_position(Vector2(line_position, 300))
 	
+
+func ghost_can_be_eaten():
+	bCanBeEaten = true
+	var tween = create_tween()
+	tween.tween_property(char_sprite, "modulate", color_flee, 0.5)
+
+func direction_change_delay():
+	bConfused = false;
+	bDirectionChangeDelay = false;
+	set_move_animation() 
 
 func _on_Area2D_body_entered(body):
 	#in theory this'll only be the player that we can contact with
@@ -227,7 +298,6 @@ func apply_powerup(new_powerup:String):
 		"pup_repulse":
 			pass
 		"pup_taser":
-			set_animation("Shock")
 			pass
 
 func freeze_callback():

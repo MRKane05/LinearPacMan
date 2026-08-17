@@ -67,6 +67,7 @@ func display_dialogue():
 		var graphic_entry = 1
 		if ("?" in speaker_name):
 			graphic_entry = 0
+		SaveManager.set_value("pac_reveal", graphic_entry) #so that our system will show the correct icon while giving support text to the player
 		#speaker_name.text = story_node.speaker;
 		set_speaker_icon_name(graphic_entry, speaker_name)
 		var speaker_sound = "standard"

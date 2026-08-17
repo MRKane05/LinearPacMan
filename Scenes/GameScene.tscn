@@ -1,13 +1,11 @@
-[gd_scene load_steps=111 format=2]
+[gd_scene load_steps=106 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
 [ext_resource path="res://Textures/GameElements/GhostAnimationSheet.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Gameplay/GhostMover.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/GameControl/LevelControl.gd" type="Script" id=5]
-[ext_resource path="res://GameObjects/Pickups/PickupItem.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scripts/Gameplay/LevelPickupHandler.gd" type="Script" id=7]
-[ext_resource path="res://GameObjects/Pickups/pup_invisible.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Textures/Environment/BeamLine.png" type="Texture" id=9]
 [ext_resource path="res://Fonts/JohnnyFever.tres" type="DynamicFont" id=10]
 [ext_resource path="res://Textures/UIElements/ScreenPanel.png" type="Texture" id=11]
@@ -17,15 +15,12 @@
 [ext_resource path="res://Scripts/Gameplay/UI/UI_Menu.gd" type="Script" id=15]
 [ext_resource path="res://Scripts/GameControl/PowerupDisplayHandler.gd" type="Script" id=16]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_freeze.tres" type="Resource" id=17]
-[ext_resource path="res://GameObjects/Pickups/pup_freeze.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Square.png" type="Texture" id=19]
 [ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Circle.png" type="Texture" id=20]
 [ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Triangle.png" type="Texture" id=21]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_invisible.tres" type="Resource" id=22]
-[ext_resource path="res://GameObjects/Pickups/pup_repulse.tscn" type="PackedScene" id=23]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_repulse.tres" type="Resource" id=24]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_taser.tres" type="Resource" id=25]
-[ext_resource path="res://GameObjects/Pickups/pup_taser.tscn" type="PackedScene" id=26]
 [ext_resource path="res://Textures/Particles/RepulseEffect.png" type="Texture" id=27]
 [ext_resource path="res://Textures/Particles/TazerEffectSphere.png" type="Texture" id=28]
 [ext_resource path="res://Textures/Environment/BackingImage.png" type="Texture" id=29]
@@ -34,7 +29,6 @@
 [ext_resource path="res://Textures/Environment/PlayAreaBacking.png" type="Texture" id=32]
 [ext_resource path="res://Textures/GameElements/PAC_DieAnim.png" type="Texture" id=33]
 [ext_resource path="res://Textures/GameElements/GhostWavyMask.png" type="Texture" id=34]
-[ext_resource path="res://GameObjects/Pickups/GhostPellet.tscn" type="PackedScene" id=35]
 [ext_resource path="res://Scripts/Story/DialogueScreen.gd" type="Script" id=36]
 [ext_resource path="res://Scripts/Gameplay/UI/CollectScoreDisplayer.gd" type="Script" id=37]
 [ext_resource path="res://Scripts/GameControl/LevelCompleteScreen.gd" type="Script" id=38]
@@ -53,22 +47,24 @@
 [ext_resource path="res://Textures/UIElements/DialoguePanel_Skinny.png" type="Texture" id=51]
 [ext_resource path="res://GameObjects/UI/ButtonPromptNode.tscn" type="PackedScene" id=52]
 [ext_resource path="res://Fonts/JohnnyFever_72.tres" type="DynamicFont" id=53]
-[ext_resource path="res://GameObjects/Pickups/pup_boost.tscn" type="PackedScene" id=54]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_boost.tres" type="Resource" id=55]
 [ext_resource path="res://GameObjects/UI/SurpriseBoxElement.tscn" type="PackedScene" id=56]
 [ext_resource path="res://Textures/GameIcons/Boost.png" type="Texture" id=57]
 [ext_resource path="res://GameObjects/PortalBase.tscn" type="PackedScene" id=58]
-[ext_resource path="res://GameObjects/Pickups/pup_stop_time.tscn" type="PackedScene" id=59]
-[ext_resource path="res://GameObjects/Pickups/pup_add_time.tscn" type="PackedScene" id=60]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_add_time.tres" type="Resource" id=61]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_stop_time.tres" type="Resource" id=62]
 [ext_resource path="res://Scripts/GameControl/GamePlayElements.gd" type="Script" id=63]
 [ext_resource path="res://Scripts/Globals/PointIndicatorManager.gd" type="Script" id=64]
-[ext_resource path="res://GameObjects/UI/AddScoreIndicator.tscn" type="PackedScene" id=65]
 [ext_resource path="res://Fonts/JohnnyFever_58.tres" type="DynamicFont" id=66]
 [ext_resource path="res://Scripts/Gameplay/UI/UI_PanelVisuals.gd" type="Script" id=67]
 [ext_resource path="res://Shaders/UIBrighten.gdshader" type="Shader" id=68]
 [ext_resource path="res://GameObjects/BoostZone.tscn" type="PackedScene" id=69]
+[ext_resource path="res://GameObjects/GhostTypes/ghost_blue.tres" type="Resource" id=70]
+[ext_resource path="res://GameObjects/GhostTypes/ghost_red.tres" type="Resource" id=71]
+[ext_resource path="res://GameObjects/GhostTypes/ghost_pink.tres" type="Resource" id=72]
+[ext_resource path="res://GameObjects/GhostTypes/ghost_orange.tres" type="Resource" id=73]
+
+[sub_resource type="CanvasItemMaterial" id=46]
 
 [sub_resource type="CanvasItemMaterial" id=28]
 blend_mode = 1
@@ -118,7 +114,7 @@ shader_param/frame_rows = 5
 shader_param/mask_texture = ExtResource( 34 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 18.5, 10 )
+extents = Vector2( 10.5, 10 )
 
 [sub_resource type="RectangleShape2D" id=4]
 
@@ -302,6 +298,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 1.24528, 0, 0, Vector2( 1, 0.978409 ), 0.660318,
 extents = Vector2( 1, 10 )
 
 [sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 5.5, 10 )
 
 [sub_resource type="Animation" id=11]
 resource_name = "Die"
@@ -1334,6 +1331,7 @@ effect_freeze_path = NodePath("Camera2D/PowerupOverlays/Effect_Freeze")
 [node name="Background" type="Node2D" parent="."]
 
 [node name="BackgroundFill" type="Sprite" parent="Background"]
+material = SubResource( 46 )
 position = Vector2( 474, 266.499 )
 scale = Vector2( 1.90625, 1.11133 )
 texture = ExtResource( 29 )
@@ -1445,8 +1443,6 @@ script = ExtResource( 7 )
 level_controller_path = NodePath("..")
 powerup_items_path = NodePath("../Camera2D/PowerupItems/PowerupItems")
 add_score_display_path = NodePath("../Camera2D/GameplayElements/AddPointsBase")
-pip_scene = ExtResource( 6 )
-special_pips = [ ExtResource( 35 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 8 ), ExtResource( 59 ), ExtResource( 54 ), ExtResource( 60 ), ExtResource( 26 ) ]
 player_boost_path = NodePath("../PlayerBoostZone")
 ghost_dampen_path = NodePath("../GhostDampenZone")
 sound_player_path = NodePath("../PipsAudioStreamPlayer2D")
@@ -1459,9 +1455,11 @@ script = ExtResource( 4 )
 level_controller_path = NodePath("..")
 char_sprite_path = NodePath("Sprite")
 _animation_player = NodePath("AnimationPlayer")
+ghost_types = [ ExtResource( 71 ), ExtResource( 72 ), ExtResource( 73 ), ExtResource( 70 ) ]
 player_node_path = NodePath("../PacMan")
 color_normal = Color( 1, 0.384314, 0.384314, 1 )
 color_frozen = Color( 0.384314, 1, 0.870588, 1 )
+color_flee = Color( 0, 0, 1, 1 )
 
 [node name="GlowSprite" type="Sprite" parent="Ghost"]
 self_modulate = Color( 1, 0.615686, 0.615686, 0.509804 )
@@ -1482,6 +1480,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ghost/Area2D"]
+position = Vector2( 0.5, 0 )
 shape = SubResource( 3 )
 
 [node name="CollisionShape2D_WorldStopper" type="CollisionShape2D" parent="Ghost"]
@@ -1560,6 +1559,7 @@ collision_mask = 8
 shape = SubResource( 1 )
 
 [node name="PipCollector" type="CollisionShape2D" parent="PacMan"]
+position = Vector2( -0.5, 0 )
 shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PacMan"]
@@ -1574,7 +1574,6 @@ position = Vector2( 480, 272 )
 current = true
 
 [node name="PowerupOverlays" type="Node2D" parent="Camera2D"]
-visible = false
 
 [node name="Effect_Freeze" type="Sprite" parent="Camera2D/PowerupOverlays"]
 visible = false
@@ -1668,6 +1667,8 @@ custom_fonts/font = SubResource( 26 )
 text = "In game message to player goes here. Hopefully it's useful!"
 align = 3
 autowrap = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
 
 [node name="IngameDialoguePowerupHint" type="Node2D" parent="Camera2D/ingameDialogueBoxes"]
 position = Vector2( -183, -145 )
@@ -1892,7 +1893,6 @@ anims/RESET = SubResource( 35 )
 visible = false
 position = Vector2( 331, -168 )
 script = ExtResource( 64 )
-PointIndicator = ExtResource( 65 )
 
 [node name="DialogueScreen" type="Node2D" parent="Camera2D"]
 visible = false
@@ -1906,7 +1906,7 @@ dialogue_text_path = NodePath("Node2D/DialogueContent")
 speaker_name_path = NodePath("Node2D/SpeakerName")
 
 [node name="SpeakerIcon" type="Sprite" parent="Camera2D/DialogueScreen"]
-position = Vector2( -406.25, -78.75 )
+position = Vector2( -406.25, -143.729 )
 texture = ExtResource( 44 )
 
 [node name="Sprite" type="Sprite" parent="Camera2D/DialogueScreen"]
@@ -2422,6 +2422,8 @@ custom_fonts/normal_font = ExtResource( 10 )
 [node name="PipsAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [node name="SceneAudioEffects" type="AudioStreamPlayer2D" parent="."]
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 
 [connection signal="timeout" from="GameLevelTimer" to="." method="_on_GameLevelTimer_timeout"]
 [connection signal="body_entered" from="Ghost/Area2D" to="Ghost" method="_on_Area2D_body_entered"]

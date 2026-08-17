@@ -53,9 +53,12 @@ func _on_GenericPip_body_entered(body):
 			var pickup_color = pickup_resource.get("powerup_color")
 			PointIndicatorManager.show_indicator(global_position, pickup_name, pickup_color)
 		else:
-			#I want to know how many points are remaining after this has been collected...
-			#PointIndicatorManager.show_indicator(global_position, "+" + str(pickup_value) + "\n" + str(collects_remaining))
-			PointIndicatorManager.show_indicator(global_position, str(collects_remaining))
+			if (pickup_effect == "eat_fruit"):
+				PointIndicatorManager.show_indicator(global_position, str(-pickup_value))
+			else:
+				#I want to know how many points are remaining after this has been collected...
+				#PointIndicatorManager.show_indicator(global_position, "+" + str(pickup_value) + "\n" + str(collects_remaining))
+				PointIndicatorManager.show_indicator(global_position, str(collects_remaining))
 			
 			
 	# do our collect animation
