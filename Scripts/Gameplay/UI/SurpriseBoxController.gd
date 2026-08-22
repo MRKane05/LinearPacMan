@@ -73,9 +73,11 @@ func reward_starting_powerup():
 	# We need to know what rewards are unlocked
 	# and have a system by and which this can be passed through
 	# Then this needs to be passed onto somewhere
-	var powerup_int = int(rand_range(1.0, PowerupItemList.size()))
+	var powerup_unlock = int(SaveManager.get_value("powerup_unlock"))
+	#Make sure we don't get a powerup that's outside of scope
+	var powerup_int = int(rand_range(1.0, min(PowerupItemList.size(), powerup_unlock + 1)))
 	var powerup_item = PowerupItemList[powerup_int]
-	
+
 	powerup_icon.texture = powerup_item.powerup_icon
 	powerup_icon.visible = true
 	$AnimationPlayer.play("get_powerup")

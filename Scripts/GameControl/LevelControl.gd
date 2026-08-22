@@ -132,6 +132,8 @@ var rng = RandomNumberGenerator.new()
 
 var games_played = 0
 
+var bTestingSkip = true #Used for rushing through the story to test
+
 func add_start_powerup(thisPowerup: Resource):
 	if (!start_powerups.has(thisPowerup)):
 		start_powerups.append(thisPowerup)
@@ -180,8 +182,9 @@ func handle_story_line(line, dialoge_return_var: int):
 	create_callback_timer(debounce, "enable_control_input")
 	set_game_state(5)
 	games_played = 0 #Reset our games played counter to keep everything inline
+	SaveManager.set_value("total_games", games_played)
 	
-	if (line.special_unlock != null):
+	if (line.has("special_unlock") && line.special_unlock != null):
 		if  (line.special_unlock.length() > 0):
 			if ("portal" in line.special_unlock):	#we've unlocked portals!
 				SaveManager.set_value("portals_enabled", 2) #Setting to 2 means "show up next level"
@@ -276,11 +279,11 @@ func set_game_state(gamestate):
 			var line = StoryManager.get_dialogue(story_index) 
 			if (line != null && line != {} && line.size() != 0):
 				if (line.trigger == "level_complete"):
-					if (games_played >= line.triggernum):
-						if line.has("reward_reval") and line.reward_reval != null:
+					if (games_played >= line.triggernum || (bTestingSkip && games_played >= 1)):
+						if line.has("reward_reveal") and line.reward_reveal != null:
 							if (line.reward_reveal != -1):
 								SaveManager.set_value("reward_reveal", line.reward_reveal)
-							
+								
 						print("Got Story Trigger!")
 						handle_story_line(line, 3)
 						bShowingStory = true
@@ -309,7 +312,7 @@ func set_game_state(gamestate):
 		create_callback_timer(debounce, "enable_control_input")
 		var prize_boxes = int(SaveManager.get_value("reward_reveal"))
 		for i in range(Level_Prize_Paths.size()):
-			get_node(Level_Prize_Paths[i]).visible = prize_boxes > i
+			get_node(Level_Prize_Paths[i]).visible = prize_boxes >= i
 	
 	#This is where we need to keep an eye out to see if we've got to display
 	#a message (or similar)
@@ -330,7 +333,7 @@ func set_game_state(gamestate):
 			var line = StoryManager.get_dialogue(story_index) 
 			if (line != null && line != {} && line.size() != 0):
 				if (line.trigger == "deaths"):
-					if (story_games >= line.triggernum):
+					if (story_games >= line.triggernum || (bTestingSkip && games_played >= 1)):
 						print("Got Story Trigger!")
 						handle_story_line(line, 4)
 		pass
@@ -345,7 +348,8 @@ var close_to_high_score = ["So close to a new highscore! Just do that again, exc
 "You were robbed! That run should have ended with a new highscore!"]
 
 var lower_quartile = ["You were only just getting warmed up!", "Don't let that run get you down, you need to prepare for a good one!",
-"Whoops! Lets just keep going and forget that run", "Perhaps you need a little more sleep before trying again"]
+"Whoops! Lets just keep going and forget that run", "Perhaps you need a little more sleep before trying again", "Advice: eat the pips, avoid the ghost, don't run out of time!", 
+"Did you go to make a cup of tea?", "So this one time...at band camp...", "Not going to lie, I thought we'd do better that time!"]
 
 var half_quartile = ["Over half way to a new highscore, practice makes perfect!", 
 "I call that a ditto-run, it's what gets the work done without being pompus",
@@ -555,16 +559,6 @@ func set_fragments():
 
 
 func do_level_setup():
-	if (SaveManager.get_value("portals_enabled") > 0):
-		if (randf() > 0.80 && level_is_fragment == 0) || SaveManager.get_value("portals_enabled") > 1:
-			portal_system.enable_portals(true)
-			if (SaveManager.get_value("portals_enabled") > 1): #Set this back to 1 so as to not keep triggering this
-				SaveManager.set_value("portals_enabled", 1)
-		else:
-			portal_system.enable_portals(false)
-	else:
-		portal_system.enable_portals(false)
-	
 	change_direction_presses = 0
 	
 	
@@ -593,7 +587,7 @@ func do_level_setup():
 	player_node.set_line_position(player_start_pos)
 	player_node.set_speed_multiplier(speed_multiplier)
 	player_node.set_line_size(line_size)
-	player_node.set_start_invincible()
+	#player_node.set_start_invincible() #Hopefully this is fixed now
 	
 	#Based off of our start pos we can now look at positioning our enemy
 	var direction = [-1, 1][randi() % 2]
@@ -631,12 +625,41 @@ func do_level_setup():
 	var necessary_pickup = -1
 	
 	if (line != null && line != {} && line.size() != 0):
-		if (line.trigger == "powerup" && int(SaveManager.get_value("story_games")) >= line.triggernum):
-			necessary_pickup = line.powerup_reveal
-			#Make sure we update our save manager so that this'll be unlocked from this point forward
-			SaveManager.set_value("powerup_unlock", max(int(SaveManager.get_value("powerup_unlock")), necessary_pickup+1))
-			create_callback_timer(0.75, "display_ingame_dialogue") # Remember to pull up our ingame dialogue
+		if (line.trigger == "powerup" && (int(SaveManager.get_value("story_games")) >= line.triggernum|| (bTestingSkip && int(SaveManager.get_value("story_games")) >= 1))):
+			# We still need to look at our cases as this particular dialogue skips the main handler
 			
+			if (line.has("special_unlock") && line.special_unlock != null):
+				if  (line.special_unlock.length() > 0):
+					if ("portal" in line.special_unlock):	#we've unlocked portals!
+						SaveManager.set_value("portals_enabled", 2) #Setting to 2 means "show up next level"
+					if ("fragment" in line.special_unlock):
+						SaveManager.set_value("fragment_enabled", 2)
+					if ("boost" in line.special_unlock): #Unlock player boost lines
+						SaveManager.set_value("speed_zones", 3) #which will set the internal value to 1 when complete
+					if ("dampen" in line.special_unlock):
+						SaveManager.set_value("speed_zones", 4) #which will set the internal value to 2 when complete
+						
+			#Reset our games played so that we don't simply fall through
+			games_played = 0 #Reset our games played counter to keep everything inline
+			SaveManager.set_value("total_games", games_played)
+			if (line.has("powerup_reveal")):
+				necessary_pickup = line.powerup_reveal
+				#Make sure we update our save manager so that this'll be unlocked from this point forward
+				SaveManager.set_value("powerup_unlock", max(int(SaveManager.get_value("powerup_unlock")), necessary_pickup+1))
+			create_callback_timer(0.75, "display_ingame_dialogue") # Remember to pull up our ingame dialogue
+	
+	var portals_enabled = int(SaveManager.get_value("portals_enabled"))
+	
+	if (SaveManager.get_value("portals_enabled") > 0):
+		if (randf() > 0.80 && level_is_fragment == 0) || SaveManager.get_value("portals_enabled") > 1 || true:
+			portal_system.enable_portals(true)
+			if (SaveManager.get_value("portals_enabled") > 1): #Set this back to 1 so as to not keep triggering this
+				SaveManager.set_value("portals_enabled", 1)
+		else:
+			portal_system.enable_portals(false)
+	else:
+		portal_system.enable_portals(false)
+	
 	var pickup_spawned = pips_node.spawn_pickups(true, true, player_node.global_position.x, necessary_pickup)
 	pips_node.set_boosts(level_is_fragment)
 	#really we need a pause while the game presents the powerups that we might have unlocked
@@ -673,6 +696,7 @@ func display_ingame_dialogue():
 	ingame_dialogue_active = true
 	ingame_dialogue_handler.visible = true
 	ingame_dialogue_handler.display_dialogue_powerup() #This'll need some arguments
+	
 	get_tree().paused = true #Not totally sure how we'll unpause given the current setup...
 
 func pips_exhausted():

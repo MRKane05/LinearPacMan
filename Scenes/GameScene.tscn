@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=2]
+[gd_scene load_steps=107 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -395,14 +395,6 @@ blend_mode = 1
 size = 32
 font_data = ExtResource( 40 )
 
-[sub_resource type="DynamicFont" id=26]
-size = 26
-font_data = ExtResource( 40 )
-
-[sub_resource type="DynamicFont" id=25]
-size = 22
-font_data = ExtResource( 40 )
-
 [sub_resource type="Animation" id=34]
 resource_name = "AddTimeToClock"
 length = 1.75
@@ -780,6 +772,46 @@ tracks/12/keys = {
 "method": "play_tone"
 } ]
 }
+tracks/13/type = "bezier"
+tracks/13/path = NodePath("CountDownClock/TextureProgress:modulate:r")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"points": PoolRealArray( 0.576471, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.576471, -0.25, 0, 0.25, 0, 0.576471, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.584314, -0.25, 0, 0.25, 0, 0.576471, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.4, 0.8, 1.3, 1.6, 1.8, 2.4, 2.6, 2.8 )
+}
+tracks/14/type = "bezier"
+tracks/14/path = NodePath("CountDownClock/TextureProgress:modulate:g")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"points": PoolRealArray( 0.576471, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.576471, -0.25, 0, 0.25, 0, 0.576471, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.584314, -0.25, 0, 0.25, 0, 0.576471, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.4, 0.8, 1.3, 1.6, 1.8, 2.4, 2.6, 2.8 )
+}
+tracks/15/type = "bezier"
+tracks/15/path = NodePath("CountDownClock/TextureProgress:modulate:b")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"points": PoolRealArray( 0.576471, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.576471, -0.25, 0, 0.25, 0, 0.576471, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.584314, -0.25, 0, 0.25, 0, 0.576471, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.4, 0.8, 1.3, 1.6, 1.8, 2.4, 2.6, 2.8 )
+}
+tracks/16/type = "bezier"
+tracks/16/path = NodePath("CountDownClock/TextureProgress:modulate:a")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"points": PoolRealArray( 0.933333, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.933333, -0.25, 0, 0.25, 0, 0.933333, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.933333, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.4, 0.8, 1.3, 1.6, 1.8, 2.4, 2.6, 2.8 )
+}
 
 [sub_resource type="Animation" id=33]
 length = 0.001
@@ -963,6 +995,49 @@ tracks/17/keys = {
 "points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
+tracks/18/type = "bezier"
+tracks/18/path = NodePath("CountDownClock/TextureProgress:modulate:r")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/19/type = "bezier"
+tracks/19/path = NodePath("CountDownClock/TextureProgress:modulate:g")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/20/type = "bezier"
+tracks/20/path = NodePath("CountDownClock/TextureProgress:modulate:b")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/21/type = "bezier"
+tracks/21/path = NodePath("CountDownClock/TextureProgress:modulate:a")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="CanvasItemMaterial" id=47]
+blend_mode = 1
 
 [sub_resource type="ShaderMaterial" id=41]
 shader = ExtResource( 68 )
@@ -1300,6 +1375,14 @@ tracks/13/keys = {
 [sub_resource type="Animation" id=37]
 resource_name = "StartAnim"
 
+[sub_resource type="DynamicFont" id=26]
+size = 26
+font_data = ExtResource( 40 )
+
+[sub_resource type="DynamicFont" id=25]
+size = 22
+font_data = ExtResource( 40 )
+
 [node name="SceneBase" type="Node2D"]
 script = ExtResource( 5 )
 UI_Menus = [ NodePath("Camera2D/ReadyScreen"), NodePath("Camera2D/CountdownScreen"), NodePath(""), NodePath("Camera2D/LevelCompleteScreen"), NodePath("Camera2D/DieScreen"), NodePath("Camera2D/DialogueScreen") ]
@@ -1500,6 +1583,7 @@ anims/Search_Still = SubResource( 16 )
 anims/Shock = SubResource( 43 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Ghost"]
+bus = "Effects"
 
 [node name="PacMan" type="KinematicBody2D" parent="."]
 position = Vector2( 492, 300 )
@@ -1568,6 +1652,7 @@ anims/Eat = SubResource( 9 )
 anims/RESET = SubResource( 10 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="PacMan"]
+bus = "Effects"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 480, 272 )
@@ -1607,116 +1692,6 @@ custom_fonts/font = SubResource( 24 )
 text = "Change direction"
 align = 3
 autowrap = true
-
-[node name="ingameDialogueBoxes" type="Node2D" parent="Camera2D"]
-pause_mode = 2
-visible = false
-script = ExtResource( 39 )
-return_var = 2
-speaker_icon_path = NodePath("IngameDialogueScreen/SpeakerIcon")
-speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
-dialogue_text_path = NodePath("IngameDialogueScreen/Node2D/DialogueText")
-speaker_name_path = NodePath("IngameDialogueScreen/Node2D/SpeakerName")
-dialogue_box_path = NodePath("IngameDialogueScreen")
-powerup_hint_path = NodePath("IngameDialoguePowerupHint")
-
-[node name="IngameDialogueScreen" type="Node2D" parent="Camera2D/ingameDialogueBoxes"]
-position = Vector2( 0, 200 )
-script = ExtResource( 36 )
-return_var = 4
-speaker_icon_path = NodePath("SpeakerIcon")
-speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
-dialogue_text_path = NodePath("Node2D/DialogueText")
-speaker_name_path = NodePath("Node2D/SpeakerName")
-
-[node name="SpeakerIcon" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
-position = Vector2( -323, -90.5 )
-scale = Vector2( 0.727273, 0.765625 )
-texture = ExtResource( 44 )
-
-[node name="Sprite" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
-position = Vector2( 8.50002, -28.5 )
-scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 51 )
-
-[node name="Node2D" type="Node2D" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
-
-[node name="SpeakerName" type="Label" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen/Node2D"]
-margin_left = -287.0
-margin_top = -110.0
-margin_right = -112.0
-margin_bottom = -29.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/shadow_offset_y = 1
-custom_fonts/font = SubResource( 24 )
-text = "Speaker
-"
-align = 3
-autowrap = true
-
-[node name="DialogueText" type="Label" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen/Node2D"]
-margin_left = -344.0
-margin_top = -66.0
-margin_right = 359.0
-margin_bottom = 52.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/shadow_offset_y = 1
-custom_fonts/font = SubResource( 26 )
-text = "In game message to player goes here. Hopefully it's useful!"
-align = 3
-autowrap = true
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
-
-[node name="IngameDialoguePowerupHint" type="Node2D" parent="Camera2D/ingameDialogueBoxes"]
-position = Vector2( -183, -145 )
-
-[node name="Sprite" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint"]
-position = Vector2( 89.5, -28.5 )
-scale = Vector2( 0.810547, 0.369141 )
-texture = ExtResource( 11 )
-
-[node name="Node2D" type="Node2D" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint"]
-
-[node name="Label" type="Label" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint/Node2D"]
-margin_left = -82.0
-margin_top = -93.0
-margin_right = 241.0
-margin_bottom = 52.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/shadow_offset_y = 1
-custom_fonts/font = SubResource( 25 )
-text = "Collected powerups are stored here. Press the associated button to use one. You can only hold three"
-align = 3
-autowrap = true
-
-[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint/Node2D"]
-visible = false
-margin_left = -68.0
-margin_top = -91.0
-margin_right = 228.0
-margin_bottom = 44.0
-custom_fonts/normal_font = ExtResource( 10 )
-text = "Powerups are stored here. Press the associated button to use them. You can only store 3"
-
-[node name="Prompt" type="RichTextLabel" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint/Node2D"]
-visible = false
-margin_left = 348.0
-margin_top = 30.0
-margin_right = 719.0
-margin_bottom = 112.0
-custom_fonts/normal_font = ExtResource( 10 )
-text = "Press X
-"
-
-[node name="ButtonPromptNode" parent="Camera2D/ingameDialogueBoxes" instance=ExtResource( 52 )]
-position = Vector2( 401, 235 )
-scale = Vector2( 0.8, 0.8 )
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/ingameDialogueBoxes"]
 
 [node name="CollectDisplayInformation" type="Node2D" parent="Camera2D"]
 script = ExtResource( 37 )
@@ -1894,71 +1869,6 @@ visible = false
 position = Vector2( 331, -168 )
 script = ExtResource( 64 )
 
-[node name="DialogueScreen" type="Node2D" parent="Camera2D"]
-visible = false
-position = Vector2( 8, 29 )
-scale = Vector2( 0.8, 0.8 )
-script = ExtResource( 36 )
-return_var = 4
-speaker_icon_path = NodePath("SpeakerIcon")
-speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
-dialogue_text_path = NodePath("Node2D/DialogueContent")
-speaker_name_path = NodePath("Node2D/SpeakerName")
-
-[node name="SpeakerIcon" type="Sprite" parent="Camera2D/DialogueScreen"]
-position = Vector2( -406.25, -143.729 )
-texture = ExtResource( 44 )
-
-[node name="Sprite" type="Sprite" parent="Camera2D/DialogueScreen"]
-position = Vector2( 8.50002, 0 )
-texture = ExtResource( 43 )
-
-[node name="Node2D" type="Node2D" parent="Camera2D/DialogueScreen"]
-
-[node name="SpeakerName" type="Label" parent="Camera2D/DialogueScreen/Node2D"]
-margin_left = -365.0
-margin_top = -166.25
-margin_right = -190.0
-margin_bottom = -85.25
-theme = SubResource( 27 )
-custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 2
-custom_constants/shadow_offset_y = 3
-custom_fonts/font = ExtResource( 42 )
-text = "Speaker
-"
-align = 3
-autowrap = true
-
-[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/DialogueScreen/Node2D"]
-margin_left = -425.0
-margin_top = -96.0
-margin_right = 444.0
-margin_bottom = 165.0
-custom_colors/default_color = Color( 0.980392, 1, 0.768627, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/shadow_offset_y = 2
-custom_fonts/normal_font = ExtResource( 47 )
-text = "Dialogue content goes here and hopefully everything displays correctly!"
-
-[node name="Prompt" type="RichTextLabel" parent="Camera2D/DialogueScreen/Node2D"]
-margin_left = 109.0
-margin_top = 138.0
-margin_right = 480.0
-margin_bottom = 220.0
-custom_fonts/normal_font = ExtResource( 10 )
-text = "Press X
-"
-
-[node name="ButtonPromptNode" parent="Camera2D/DialogueScreen" instance=ExtResource( 52 )]
-position = Vector2( 415, 137.5 )
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/DialogueScreen"]
-position = Vector2( -610, -376.25 )
-scale = Vector2( 1.25, 1.25 )
-
 [node name="ReadyScreen" type="Node2D" parent="Camera2D"]
 visible = false
 
@@ -2008,6 +1918,7 @@ scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 14 )
 
 [node name="TextureProgress" type="TextureProgress" parent="Camera2D/CountdownScreen/CountDownClock"]
+material = SubResource( 47 )
 margin_left = -128.0
 margin_top = -128.0
 margin_right = 384.0
@@ -2064,6 +1975,7 @@ text = "Target 100"
 align = 1
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/CountdownScreen"]
+bus = "Effects"
 
 [node name="DieScreen" type="Node2D" parent="Camera2D"]
 visible = false
@@ -2344,6 +2256,7 @@ anims/RESET = SubResource( 38 )
 anims/StartAnim = SubResource( 37 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/LevelCompleteScreen"]
+bus = "Effects"
 
 [node name="AnimationTimer" type="Timer" parent="Camera2D/LevelCompleteScreen"]
 
@@ -2354,6 +2267,184 @@ position = Vector2( 4, 61 )
 [node name="PowerupIndicator01" type="Sprite" parent="Camera2D/LevelWonPowerups"]
 visible = false
 texture = ExtResource( 57 )
+
+[node name="ingameDialogueBoxes" type="Node2D" parent="Camera2D"]
+pause_mode = 2
+visible = false
+script = ExtResource( 39 )
+return_var = 2
+speaker_icon_path = NodePath("IngameDialogueScreen/SpeakerIcon")
+speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
+dialogue_text_path = NodePath("IngameDialogueScreen/Node2D/DialogueText")
+speaker_name_path = NodePath("IngameDialogueScreen/Node2D/SpeakerName")
+dialogue_box_path = NodePath("IngameDialogueScreen")
+powerup_hint_path = NodePath("IngameDialoguePowerupHint")
+
+[node name="IngameDialogueScreen" type="Node2D" parent="Camera2D/ingameDialogueBoxes"]
+position = Vector2( 0, 200 )
+script = ExtResource( 36 )
+return_var = 4
+speaker_icon_path = NodePath("SpeakerIcon")
+speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
+dialogue_text_path = NodePath("Node2D/DialogueText")
+speaker_name_path = NodePath("Node2D/SpeakerName")
+
+[node name="SpeakerIcon" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
+position = Vector2( -323, -90.5 )
+scale = Vector2( 0.727273, 0.765625 )
+texture = ExtResource( 44 )
+
+[node name="Sprite" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
+position = Vector2( 8.50002, -28.5 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 51 )
+
+[node name="Node2D" type="Node2D" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
+
+[node name="SpeakerName" type="Label" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen/Node2D"]
+margin_left = -287.0
+margin_top = -110.0
+margin_right = -112.0
+margin_bottom = -29.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
+custom_fonts/font = SubResource( 24 )
+text = "Speaker
+"
+align = 3
+autowrap = true
+
+[node name="DialogueText" type="Label" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen/Node2D"]
+margin_left = -344.0
+margin_top = -66.0
+margin_right = 359.0
+margin_bottom = 52.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
+custom_fonts/font = SubResource( 26 )
+text = "In game message to player goes here. Hopefully it's useful!"
+align = 3
+autowrap = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
+bus = "Effects"
+
+[node name="IngameDialoguePowerupHint" type="Node2D" parent="Camera2D/ingameDialogueBoxes"]
+position = Vector2( -183, -145 )
+
+[node name="Sprite" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint"]
+position = Vector2( 89.5, -28.5 )
+scale = Vector2( 0.810547, 0.369141 )
+texture = ExtResource( 11 )
+
+[node name="Node2D" type="Node2D" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint"]
+
+[node name="Label" type="Label" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint/Node2D"]
+margin_left = -82.0
+margin_top = -93.0
+margin_right = 241.0
+margin_bottom = 52.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
+custom_fonts/font = SubResource( 25 )
+text = "Collected powerups are stored here. Press the associated button to use one. You can only hold three"
+align = 3
+autowrap = true
+
+[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint/Node2D"]
+visible = false
+margin_left = -68.0
+margin_top = -91.0
+margin_right = 228.0
+margin_bottom = 44.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Powerups are stored here. Press the associated button to use them. You can only store 3"
+
+[node name="Prompt" type="RichTextLabel" parent="Camera2D/ingameDialogueBoxes/IngameDialoguePowerupHint/Node2D"]
+visible = false
+margin_left = 348.0
+margin_top = 30.0
+margin_right = 719.0
+margin_bottom = 112.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Press X
+"
+
+[node name="ButtonPromptNode" parent="Camera2D/ingameDialogueBoxes" instance=ExtResource( 52 )]
+position = Vector2( 401, 235 )
+scale = Vector2( 0.8, 0.8 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/ingameDialogueBoxes"]
+bus = "Effects"
+
+[node name="DialogueScreen" type="Node2D" parent="Camera2D"]
+visible = false
+position = Vector2( 8, 29 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 36 )
+return_var = 4
+speaker_icon_path = NodePath("SpeakerIcon")
+speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
+dialogue_text_path = NodePath("Node2D/DialogueContent")
+speaker_name_path = NodePath("Node2D/SpeakerName")
+
+[node name="SpeakerIcon" type="Sprite" parent="Camera2D/DialogueScreen"]
+position = Vector2( -406.25, -143.729 )
+texture = ExtResource( 44 )
+
+[node name="Sprite" type="Sprite" parent="Camera2D/DialogueScreen"]
+position = Vector2( 8.50002, 0 )
+texture = ExtResource( 43 )
+
+[node name="Node2D" type="Node2D" parent="Camera2D/DialogueScreen"]
+
+[node name="SpeakerName" type="Label" parent="Camera2D/DialogueScreen/Node2D"]
+margin_left = -365.0
+margin_top = -166.25
+margin_right = -190.0
+margin_bottom = -85.25
+theme = SubResource( 27 )
+custom_colors/font_color = Color( 0.980392, 1, 0.768627, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 3
+custom_fonts/font = ExtResource( 42 )
+text = "Speaker
+"
+align = 3
+autowrap = true
+
+[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/DialogueScreen/Node2D"]
+margin_left = -425.0
+margin_top = -96.0
+margin_right = 444.0
+margin_bottom = 165.0
+custom_colors/default_color = Color( 0.980392, 1, 0.768627, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 2
+custom_fonts/normal_font = ExtResource( 47 )
+text = "Dialogue content goes here and hopefully everything displays correctly!"
+
+[node name="Prompt" type="RichTextLabel" parent="Camera2D/DialogueScreen/Node2D"]
+margin_left = 109.0
+margin_top = 138.0
+margin_right = 480.0
+margin_bottom = 220.0
+custom_fonts/normal_font = ExtResource( 10 )
+text = "Press X
+"
+
+[node name="ButtonPromptNode" parent="Camera2D/DialogueScreen" instance=ExtResource( 52 )]
+position = Vector2( 415, 137.5 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/DialogueScreen"]
+position = Vector2( -610, -376.25 )
+scale = Vector2( 1.25, 1.25 )
+bus = "Effects"
 
 [node name="PowerupItems" type="Node2D" parent="Camera2D"]
 
@@ -2420,8 +2511,10 @@ margin_bottom = 74.0
 custom_fonts/normal_font = ExtResource( 10 )
 
 [node name="PipsAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+bus = "Music"
 
 [node name="SceneAudioEffects" type="AudioStreamPlayer2D" parent="."]
+bus = "Music"
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 

@@ -103,13 +103,14 @@ func spawn_pickups(bHasGhostPellet : bool, bHasSpecialPellet: bool, playerPositi
 			p = pip_scene.instance()
 		else:
 			#Need to override this with the unlock
-			var max_powerup = int(SaveManager.get_value("powerup_unlock") + 5)
+			var powerup_unlock = int(SaveManager.get_value("powerup_unlock"))
+			var max_powerup = powerup_unlock + 4
 			max_powerup = min(max_powerup, special_pips.size())
 			
 			var value = randi() % max_powerup
 			if (pickup_reveal != -1): #Make sure our pickup is the one we're supposed to show
 				#PROBLEM: Need to setup to pause game and deliver message
-				value = pickup_reveal + 5
+				value = pickup_reveal + 4 #Because we start from zero use 4 not 5 to offset from the fruit and ghost pip
 			if (override_powerup==null):
 				p = special_pips[value].instance()
 			else:

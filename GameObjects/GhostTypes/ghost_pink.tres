@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Gameplay/GhostTypeResource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+ghost_tint = Color( 1, 0.384314, 0.960784, 1 )
+ghost_glow = Color( 0.988235, 0.615686, 1, 0.509804 )
+reaction_time = 0.25
+confuse_time = 0.6
+direction_change_speed = 100.0
+max_speed_mod = 1.1
+confuse_chance = 0.8
