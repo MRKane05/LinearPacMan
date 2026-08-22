@@ -73,6 +73,8 @@ func reset_ghost():
 	bGhostFlee = false;
 	bGhostRespawning = false
 	bBeenTased = false
+	bGhost_Confused = false
+	bInvisibleActive = false
 	set_move_animation()
 	char_sprite.modulate = color_normal
 	last_face_dir = 0

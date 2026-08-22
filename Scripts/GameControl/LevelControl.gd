@@ -651,7 +651,7 @@ func do_level_setup():
 	var portals_enabled = int(SaveManager.get_value("portals_enabled"))
 	
 	if (SaveManager.get_value("portals_enabled") > 0):
-		if (randf() > 0.80 && level_is_fragment == 0) || SaveManager.get_value("portals_enabled") > 1 || true:
+		if (randf() > 0.80 && level_is_fragment == 0) || SaveManager.get_value("portals_enabled") > 1:
 			portal_system.enable_portals(true)
 			if (SaveManager.get_value("portals_enabled") > 1): #Set this back to 1 so as to not keep triggering this
 				SaveManager.set_value("portals_enabled", 1)
