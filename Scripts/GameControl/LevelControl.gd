@@ -13,6 +13,29 @@ class LineSection:
 onready var scene_audio_effects = $SceneAudioEffects
 onready var game_timer = $GameLevelTimer
 
+var game_menu_state = 1 #0 is nothing, otherwise it's relating directly to the index that it's set at -1
+var game_type = 0 #0 is the standard story, 1 is arcadd mode
+
+func set_game_menu_state(menu_state: int):
+	#Our setups are:
+	#1: Story
+	#2: Arcade
+	#3: Options
+	#4: Credits
+	if (menu_state == 1 || menu_state == 2):
+		#This is a game state command
+		if (game_type == menu_state -1):
+			#unpause and return because we're simply coming back from the menu
+			return
+		else: #We need to start a new gametype here
+			pass
+	else:
+		#we're opening a different menu up
+		pass
+	pass
+
+export(Array, NodePath) var Game_Menus = []
+
 export(Array, NodePath) var UI_Menus = []
 
 export(Array, NodePath) var Level_Prize_Paths = []
@@ -153,17 +176,6 @@ func add_score(by_this):
 		var level_count = int(SaveManager.get_value("level_count"))
 		level_count = level_count + 1
 		SaveManager.set_value("level_count", level_count)
-		
-		#var story_index = SaveManager.get_value("story_index")
-		#if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
-		#	var line = StoryManager.get_dialogue(story_index) 
-		#	if (line != null && line != {} && line.size() != 0):
-		#		if (line.trigger == "deaths" && line.leveltriggers > 0):
-		#			if (level_count >= line.leveltriggers):
-		#				level_count = 0 #Reset this
-		#				SaveManager.set_value("level_count", level_count)
-						#Display a dialogue for the player to read. Somehow
-		#				handle_story_line(line, 3)
 	
 	if (aggregate_score > max_score):
 		max_score = aggregate_score
@@ -266,30 +278,31 @@ func set_game_state(gamestate):
 			#PROBLEM: Need to note that we've set a highscore and the feedback should reflect that!
 			SaveManager.set_value("max_score", max_score)
 		pips_node.clear_pickups()
-	
+		
+	var bShowingStory = false
 	#Do the level complete stuff
 	if (Global.game_state == 3):
 		#PROBLEM: Need to note that we've set a highscore and the feedback should reflect that!
-		games_played = int(SaveManager.get_value("total_games"))
-		var story_index = SaveManager.get_value("story_index")
-		games_played = games_played + 1
-		#print(games_played)
-		var bShowingStory = false
-		if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
-			var line = StoryManager.get_dialogue(story_index) 
-			if (line != null && line != {} && line.size() != 0):
-				if (line.trigger == "level_complete"):
-					if (games_played >= line.triggernum || (bTestingSkip && games_played >= 1)):
-						if line.has("reward_reveal") and line.reward_reveal != null:
-							if (line.reward_reveal != -1):
-								SaveManager.set_value("reward_reveal", line.reward_reveal)
-								
-						print("Got Story Trigger!")
-						handle_story_line(line, 3)
-						bShowingStory = true
+		if (game_type == 0):
+			games_played = int(SaveManager.get_value("total_games"))
+			var story_index = SaveManager.get_value("story_index")
+			games_played = games_played + 1
+			
+			if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
+				var line = StoryManager.get_dialogue(story_index) 
+				if (line != null && line != {} && line.size() != 0):
+					if (line.trigger == "level_complete"):
+						if (games_played >= line.triggernum || (bTestingSkip && games_played >= 1)):
+							if line.has("reward_reveal") and line.reward_reveal != null:
+								if (line.reward_reveal != -1):
+									SaveManager.set_value("reward_reveal", line.reward_reveal)
+									
+							print("Got Story Trigger!")
+							handle_story_line(line, 3)
+							bShowingStory = true
 		
-		SaveManager.set_value("total_games", games_played)
-		
+			SaveManager.set_value("total_games", games_played)
+			
 		if (!bShowingStory):
 			#We need to do some score handling here
 			var time_remaining = game_timer.time_left
@@ -320,23 +333,24 @@ func set_game_state(gamestate):
 	#die_screen.visible = (Global.game_state == 4)
 	if (Global.game_state == 4):
 		select_support_statement()
-		var games_played = int(SaveManager.get_value("total_games"))
-		var story_games = int(SaveManager.get_value("story_games"))
-		games_played = games_played + 1
-		story_games = story_games + 1
-		current_round = 0 #Clear our current round because we died
-		
-		SaveManager.set_value("total_games", games_played)
-		SaveManager.set_value("story_games", story_games)
-		var story_index = SaveManager.get_value("story_index")
-		if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
-			var line = StoryManager.get_dialogue(story_index) 
-			if (line != null && line != {} && line.size() != 0):
-				if (line.trigger == "deaths"):
-					if (story_games >= line.triggernum || (bTestingSkip && games_played >= 1)):
-						print("Got Story Trigger!")
-						handle_story_line(line, 4)
-		pass
+		if (game_type == 0):
+			var games_played = int(SaveManager.get_value("total_games"))
+			var story_games = int(SaveManager.get_value("story_games"))
+			games_played = games_played + 1
+			story_games = story_games + 1
+			current_round = 0 #Clear our current round because we died
+			
+			SaveManager.set_value("total_games", games_played)
+			SaveManager.set_value("story_games", story_games)
+			var story_index = SaveManager.get_value("story_index")
+			if (story_index < StoryManager.get_node_number()): #So we don't run out the end of our story lines
+				var line = StoryManager.get_dialogue(story_index) 
+				if (line != null && line != {} && line.size() != 0):
+					if (line.trigger == "deaths"):
+						if (story_games >= line.triggernum || (bTestingSkip && games_played >= 1)):
+							print("Got Story Trigger!")
+							handle_story_line(line, 4)
+			pass
 
 var high_score_support = ["You set a new high score! That's fantastic! Keep trying to see how high you can get!",
 "A new high score! There's no stopping you now!", "Don't skip this screen too quickly, because you set a new high score!",
@@ -417,7 +431,30 @@ func _ready():
 	# Loads and plays the music with a crossfade
 	#MusicManager.play_music(preload("res://Music/mfcc-retro-arcade-game-music-297305.mp3"))
 	MusicManager.play_music()
+	
+	#We need to setup our volumes as the user had them
+	apply_audio_settings()
 	pass # Replace with function body.
+
+func apply_audio_settings():
+	AudioServer.set_bus_volume_db(
+		AudioServer.get_bus_index("Master"),
+		linear_to_db(float(SaveManager.get_value("vol_master")))
+	)
+	AudioServer.set_bus_volume_db(
+		AudioServer.get_bus_index("Music"),
+		linear_to_db(float(SaveManager.get_value("vol_music")))
+	)
+	AudioServer.set_bus_volume_db(
+		AudioServer.get_bus_index("Effects"),
+		linear_to_db(float(SaveManager.get_value("vol_sfx")))
+	)
+
+#This is a non-standard volume control that simply seems better
+func linear_to_db(linear: float) -> float:
+	var db_volume = lerp(-50, 0, linear/100.0)
+	print(db_volume)
+	return db_volume
 
 var change_direction_presses = 0
 
@@ -619,36 +656,37 @@ func do_level_setup():
 		
 	player_node.set_moveDir(player_sign)
 	
-	#Grab some details from our story manager to see if we should be doing an unlock
-	var story_index = SaveManager.get_value("story_index")
-	var line = StoryManager.get_dialogue(story_index)
-	var necessary_pickup = -1
+	if (game_type == 0):
+		#Grab some details from our story manager to see if we should be doing an unlock
+		var story_index = SaveManager.get_value("story_index")
+		var line = StoryManager.get_dialogue(story_index)
+		var necessary_pickup = -1
+		
+		if (line != null && line != {} && line.size() != 0):
+			if (line.trigger == "powerup" && (int(SaveManager.get_value("story_games")) >= line.triggernum|| (bTestingSkip && int(SaveManager.get_value("story_games")) >= 1))):
+				# We still need to look at our cases as this particular dialogue skips the main handler
+				
+				if (line.has("special_unlock") && line.special_unlock != null):
+					if  (line.special_unlock.length() > 0):
+						if ("portal" in line.special_unlock):	#we've unlocked portals!
+							SaveManager.set_value("portals_enabled", 2) #Setting to 2 means "show up next level"
+						if ("fragment" in line.special_unlock):
+							SaveManager.set_value("fragment_enabled", 2)
+						if ("boost" in line.special_unlock): #Unlock player boost lines
+							SaveManager.set_value("speed_zones", 3) #which will set the internal value to 1 when complete
+						if ("dampen" in line.special_unlock):
+							SaveManager.set_value("speed_zones", 4) #which will set the internal value to 2 when complete
+							
+				#Reset our games played so that we don't simply fall through
+				games_played = 0 #Reset our games played counter to keep everything inline
+				SaveManager.set_value("total_games", games_played)
+				if (line.has("powerup_reveal")):
+					necessary_pickup = line.powerup_reveal
+					#Make sure we update our save manager so that this'll be unlocked from this point forward
+					SaveManager.set_value("powerup_unlock", max(int(SaveManager.get_value("powerup_unlock")), necessary_pickup+1))
+				create_callback_timer(0.75, "display_ingame_dialogue") # Remember to pull up our ingame dialogue
 	
-	if (line != null && line != {} && line.size() != 0):
-		if (line.trigger == "powerup" && (int(SaveManager.get_value("story_games")) >= line.triggernum|| (bTestingSkip && int(SaveManager.get_value("story_games")) >= 1))):
-			# We still need to look at our cases as this particular dialogue skips the main handler
-			
-			if (line.has("special_unlock") && line.special_unlock != null):
-				if  (line.special_unlock.length() > 0):
-					if ("portal" in line.special_unlock):	#we've unlocked portals!
-						SaveManager.set_value("portals_enabled", 2) #Setting to 2 means "show up next level"
-					if ("fragment" in line.special_unlock):
-						SaveManager.set_value("fragment_enabled", 2)
-					if ("boost" in line.special_unlock): #Unlock player boost lines
-						SaveManager.set_value("speed_zones", 3) #which will set the internal value to 1 when complete
-					if ("dampen" in line.special_unlock):
-						SaveManager.set_value("speed_zones", 4) #which will set the internal value to 2 when complete
-						
-			#Reset our games played so that we don't simply fall through
-			games_played = 0 #Reset our games played counter to keep everything inline
-			SaveManager.set_value("total_games", games_played)
-			if (line.has("powerup_reveal")):
-				necessary_pickup = line.powerup_reveal
-				#Make sure we update our save manager so that this'll be unlocked from this point forward
-				SaveManager.set_value("powerup_unlock", max(int(SaveManager.get_value("powerup_unlock")), necessary_pickup+1))
-			create_callback_timer(0.75, "display_ingame_dialogue") # Remember to pull up our ingame dialogue
-	
-	var portals_enabled = int(SaveManager.get_value("portals_enabled"))
+	var portals_enabled = int(SaveManager.get_value("portals_enabled")) || game_type == 1
 	
 	if (SaveManager.get_value("portals_enabled") > 0):
 		if (randf() > 0.80 && level_is_fragment == 0) || SaveManager.get_value("portals_enabled") > 1:
@@ -713,7 +751,14 @@ func do_powerup_eat_ghost():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	
+	if (game_menu_state == 0):
+		process_game_logic(delta)
+	else:
+		#We're in menu logic and this should be a case statement
+		pass
+
+func process_game_logic(delta):
+	#This is all game logic:
 	if Input.is_action_just_pressed("ui_accept"):
 		#Keep a ticker on our control prompt
 		change_direction_presses = change_direction_presses + 1

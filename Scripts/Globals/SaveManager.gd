@@ -24,6 +24,7 @@ func get_platform_name() -> String:
 # Define your save data structure with defaults
 var save_data = {
 	"max_score":       0,
+	"max_arcade_score": 0,
 	"total_games":     0,
 	"story_games":     0, #Because games played is used as a trigger :)
 	"level_count":     0,
@@ -36,6 +37,10 @@ var save_data = {
 	"fragment_enabled":	0,
 	"portals_enabled":	0,
 	"speed_zones":		0,
+		# Audio settings
+	"vol_master":     100.0,
+	"vol_music":      100.0,
+	"vol_sfx":        100.0,
 }
 
 func _ready():
@@ -84,6 +89,7 @@ func delete_save():
 		dir.remove(target_save_path)
 		save_data = {
 			"max_score":       0,
+			"max_arcade_score": 0,
 			"total_games":     0,
 			"story_games":     0, #Because games played is used as a trigger :)
 			"level_count":     0,
@@ -96,6 +102,10 @@ func delete_save():
 			"fragment_enabled":	0,
 			"portals_enabled":	0,
 			"speed_zones":		0,
+			# Audio settings
+			"vol_master":     100.0,
+			"vol_music":      100.0,
+			"vol_sfx":        100.0,
 		}
 		print("Save deleted")
 

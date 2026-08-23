@@ -1,11 +1,13 @@
-[gd_scene load_steps=107 format=2]
+[gd_scene load_steps=113 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
 [ext_resource path="res://Textures/GameElements/GhostAnimationSheet.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Gameplay/GhostMover.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/GameControl/LevelControl.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Gameplay/UI/UI_ButtonHandler.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/Gameplay/LevelPickupHandler.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/Gameplay/UI/UI_VolumeControlSlider.gd" type="Script" id=8]
 [ext_resource path="res://Textures/Environment/BeamLine.png" type="Texture" id=9]
 [ext_resource path="res://Fonts/JohnnyFever.tres" type="DynamicFont" id=10]
 [ext_resource path="res://Textures/UIElements/ScreenPanel.png" type="Texture" id=11]
@@ -1383,8 +1385,22 @@ font_data = ExtResource( 40 )
 size = 22
 font_data = ExtResource( 40 )
 
+[sub_resource type="ShaderMaterial" id=51]
+shader = ExtResource( 68 )
+shader_param/brightness = 1.0
+
+[sub_resource type="StyleBoxFlat" id=48]
+bg_color = Color( 0.286275, 0.121569, 0.45098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=49]
+bg_color = Color( 0.619608, 0.301961, 0.941176, 1 )
+
+[sub_resource type="StyleBoxFlat" id=50]
+bg_color = Color( 0.45098, 0.196078, 0.709804, 1 )
+
 [node name="SceneBase" type="Node2D"]
 script = ExtResource( 5 )
+Game_Menus = [ NodePath("Camera2D/GameMenus/MainMenu") ]
 UI_Menus = [ NodePath("Camera2D/ReadyScreen"), NodePath("Camera2D/CountdownScreen"), NodePath(""), NodePath("Camera2D/LevelCompleteScreen"), NodePath("Camera2D/DieScreen"), NodePath("Camera2D/DialogueScreen") ]
 Level_Prize_Paths = [ NodePath("Camera2D/LevelCompleteScreen/SurpriseBoxElement"), NodePath("Camera2D/LevelCompleteScreen/SurpriseBoxElement2"), NodePath("Camera2D/LevelCompleteScreen/SurpriseBoxElement3") ]
 player_node_path = NodePath("PacMan")
@@ -1900,6 +1916,7 @@ text = "Press X
 position = Vector2( 181, 183 )
 
 [node name="CountdownScreen" type="Node2D" parent="Camera2D"]
+visible = false
 script = ExtResource( 13 )
 levelcontrol_node_path = NodePath("../..")
 target_score_path = NodePath("TargetScore")
@@ -2510,6 +2527,219 @@ margin_right = 538.0
 margin_bottom = 74.0
 custom_fonts/normal_font = ExtResource( 10 )
 
+[node name="GameMenus" type="Node2D" parent="Camera2D"]
+
+[node name="MainMenu" type="Node2D" parent="Camera2D/GameMenus"]
+visible = false
+
+[node name="Sprite" type="Sprite" parent="Camera2D/GameMenus/MainMenu"]
+material = SubResource( 51 )
+texture = ExtResource( 11 )
+script = ExtResource( 67 )
+
+[node name="PanelName" type="RichTextLabel" parent="Camera2D/GameMenus/MainMenu/Sprite"]
+margin_left = -196.0
+margin_top = -212.0
+margin_right = 180.0
+margin_bottom = -130.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 66 )
+text = "MENU"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/GameMenus/MainMenu/Sprite"]
+margin_left = -197.0
+margin_top = -140.0
+margin_right = 200.0
+margin_bottom = 203.0
+
+[node name="Button_StoryMode" type="Button" parent="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer"]
+pause_mode = 2
+margin_right = 397.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 47 )
+custom_styles/pressed = SubResource( 48 )
+custom_styles/focus = SubResource( 49 )
+custom_styles/normal = SubResource( 50 )
+text = "STORY MODE"
+script = ExtResource( 6 )
+bNeedsFocus = true
+level_controller_path = NodePath("../../../../../..")
+disable_node_path = NodePath("../../..")
+button_action_index = 1
+
+[node name="Button_Arcade" type="Button" parent="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer"]
+margin_top = 43.0
+margin_right = 397.0
+margin_bottom = 82.0
+custom_fonts/font = ExtResource( 47 )
+custom_styles/pressed = SubResource( 48 )
+custom_styles/focus = SubResource( 49 )
+custom_styles/normal = SubResource( 50 )
+text = "ARCADE"
+script = ExtResource( 6 )
+level_controller_path = NodePath("../../../../../..")
+disable_node_path = NodePath("../../..")
+button_action_index = 2
+
+[node name="Button_Options" type="Button" parent="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer"]
+margin_top = 86.0
+margin_right = 397.0
+margin_bottom = 125.0
+custom_fonts/font = ExtResource( 47 )
+custom_styles/pressed = SubResource( 48 )
+custom_styles/focus = SubResource( 49 )
+custom_styles/normal = SubResource( 50 )
+text = "Options"
+script = ExtResource( 6 )
+level_controller_path = NodePath("../../../../../..")
+disable_node_path = NodePath("../../..")
+enable_node_path = NodePath("../../../../Options")
+button_action_index = 3
+
+[node name="Button_Credits" type="Button" parent="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer"]
+margin_top = 129.0
+margin_right = 397.0
+margin_bottom = 168.0
+custom_fonts/font = ExtResource( 47 )
+custom_styles/pressed = SubResource( 48 )
+custom_styles/focus = SubResource( 49 )
+custom_styles/normal = SubResource( 50 )
+text = "Credits"
+script = ExtResource( 6 )
+level_controller_path = NodePath("../../../../../..")
+disable_node_path = NodePath("../../..")
+button_action_index = 4
+
+[node name="Options" type="Node2D" parent="Camera2D/GameMenus"]
+
+[node name="Sprite" type="Sprite" parent="Camera2D/GameMenus/Options"]
+material = SubResource( 51 )
+texture = ExtResource( 11 )
+script = ExtResource( 67 )
+
+[node name="PanelName" type="RichTextLabel" parent="Camera2D/GameMenus/Options/Sprite"]
+margin_left = -196.0
+margin_top = -212.0
+margin_right = 180.0
+margin_bottom = -130.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 66 )
+text = "OPTIONS"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/GameMenus/Options/Sprite"]
+margin_left = -197.0
+margin_top = -140.0
+margin_right = 200.0
+margin_bottom = 203.0
+
+[node name="Button_Return" type="Button" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer"]
+pause_mode = 2
+margin_right = 397.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 47 )
+custom_styles/pressed = SubResource( 48 )
+custom_styles/focus = SubResource( 49 )
+custom_styles/normal = SubResource( 50 )
+text = "RETURN"
+script = ExtResource( 6 )
+bNeedsFocus = true
+level_controller_path = NodePath("../../../../../..")
+disable_node_path = NodePath("../../..")
+enable_node_path = NodePath("../../../../MainMenu")
+
+[node name="MainVolumeControl" type="Control" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer"]
+margin_top = 43.0
+margin_right = 397.0
+margin_bottom = 103.0
+rect_min_size = Vector2( 0, 60 )
+script = ExtResource( 8 )
+
+[node name="ColorRect" type="ColorRect" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/MainVolumeControl"]
+margin_right = 396.0
+margin_bottom = 60.0
+color = Color( 0.45098, 0.196078, 0.709804, 1 )
+
+[node name="SliderName" type="RichTextLabel" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/MainVolumeControl"]
+margin_left = 10.0
+margin_right = 386.0
+margin_bottom = 82.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 41 )
+text = "main Volume"
+
+[node name="HSlider" type="HSlider" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/MainVolumeControl"]
+margin_left = 12.0
+margin_top = 30.0
+margin_right = 387.0
+margin_bottom = 46.0
+step = 10.0
+value = 100.0
+
+[node name="EffectsVolumeControl" type="Control" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer"]
+margin_top = 107.0
+margin_right = 397.0
+margin_bottom = 167.0
+rect_min_size = Vector2( 0, 60 )
+script = ExtResource( 8 )
+volume_channel = "vol_sfx"
+bus_channel = "Effects"
+
+[node name="ColorRect" type="ColorRect" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/EffectsVolumeControl"]
+margin_right = 396.0
+margin_bottom = 60.0
+color = Color( 0.45098, 0.196078, 0.709804, 1 )
+
+[node name="SliderName" type="RichTextLabel" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/EffectsVolumeControl"]
+margin_left = 10.0
+margin_right = 386.0
+margin_bottom = 82.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 41 )
+text = "Effects Volume"
+
+[node name="HSlider" type="HSlider" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/EffectsVolumeControl"]
+margin_left = 12.0
+margin_top = 30.0
+margin_right = 387.0
+margin_bottom = 46.0
+step = 10.0
+value = 100.0
+
+[node name="MusicVolumeControl" type="Control" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer"]
+margin_top = 171.0
+margin_right = 397.0
+margin_bottom = 231.0
+rect_min_size = Vector2( 0, 60 )
+script = ExtResource( 8 )
+volume_channel = "vol_music"
+bus_channel = "Music"
+
+[node name="ColorRect" type="ColorRect" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/MusicVolumeControl"]
+margin_right = 396.0
+margin_bottom = 60.0
+color = Color( 0.45098, 0.196078, 0.709804, 1 )
+
+[node name="SliderName" type="RichTextLabel" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/MusicVolumeControl"]
+margin_left = 10.0
+margin_right = 386.0
+margin_bottom = 82.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 41 )
+text = "Music Volume"
+
+[node name="HSlider" type="HSlider" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/MusicVolumeControl"]
+margin_left = 12.0
+margin_top = 30.0
+margin_right = 387.0
+margin_bottom = 46.0
+step = 10.0
+value = 100.0
+
 [node name="PipsAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 bus = "Music"
 
@@ -2523,3 +2753,8 @@ bus = "Music"
 [connection signal="timeout" from="PacMan/GhostTimer" to="PacMan" method="_on_GhostTimer_timeout"]
 [connection signal="area_entered" from="PacMan/CenterPointTrigger" to="PacMan" method="_on_CenterPointTrigger_area_entered"]
 [connection signal="timeout" from="Camera2D/LevelCompleteScreen/AnimationTimer" to="Camera2D/LevelCompleteScreen" method="_on_AnimationTimer_timeout"]
+[connection signal="pressed" from="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_StoryMode" to="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_StoryMode" method="_on_Button_StoryMode_pressed"]
+[connection signal="pressed" from="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Arcade" to="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Arcade" method="_on_Button_Arcade_pressed"]
+[connection signal="pressed" from="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Options" to="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Options" method="_on_Button_Options_pressed"]
+[connection signal="pressed" from="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Credits" to="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Credits" method="_on_Button_Credits_pressed"]
+[connection signal="pressed" from="Camera2D/GameMenus/Options/Sprite/VBoxContainer/Button_Return" to="Camera2D/GameMenus/Options/Sprite/VBoxContainer/Button_Return" method="_on_Button_Return_pressed"]

@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Story/DialogueScreen.gd"
 }, {
+"base": "Resource",
+"class": "GhostTypeResource",
+"language": "GDScript",
+"path": "res://Scripts/Gameplay/GhostTypeResource.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "MoverBase",
 "language": "GDScript",
@@ -56,6 +61,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "DialogueScreen": "",
+"GhostTypeResource": "",
 "MoverBase": "",
 "PacMover": "",
 "PointAffectorBase": "",
@@ -70,7 +76,7 @@ _global_script_class_icons={
 
 config/name="Linear Pac Man"
 run/main_scene="res://Scenes/GameScene.tscn"
-boot_splash/show_image=false
+boot_splash/image="res://VitaBuildGraphics/FinalGameGraphics/Application_BootSplash.png"
 config/icon="res://icon.png"
 
 [autoload]
@@ -93,6 +99,7 @@ left=false
 window=false
 logging=false
 "file logging"=false
+splash=false
 
 [gui]
 
