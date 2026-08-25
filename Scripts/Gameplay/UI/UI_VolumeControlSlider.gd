@@ -8,13 +8,18 @@ onready var slider = $HSlider
 func _ready():
 	#This will need to update it's posisition based off of memory cached values
 	connect("visibility_changed", self, "_on_visibility_changed")
+	slider.connect("focus_entered", self, "_on_focus_entered")
 	load_volume_settings()
+
+func _on_focus_entered():
+	MusicManager.play_menu_move_sound()
 
 func load_volume_settings():
 	var vol_master = float(SaveManager.get_value(volume_channel))
 	set_bus_volume(bus_channel, vol_master)
 	#Set the sliders without triggering a volume change
-	slider.disconnect("value_changed", self, "_on_HSlider_value_changed")
+	if (slider.is_connected("value_changed", self, "_on_HSlider_value_changed")):
+		slider.disconnect("value_changed", self, "_on_HSlider_value_changed")
 	slider.value = vol_master
 	slider.connect("value_changed", self, "_on_HSlider_value_changed")
 	
@@ -46,3 +51,5 @@ func _on_HSlider_value_changed(value: float):
 	set_bus_volume(bus_channel, value)
 	SaveManager.set_value(volume_channel, value)
 	SaveManager.save_game()
+	MusicManager.play_slider_move_sound()
+	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=113 format=2]
+[gd_scene load_steps=117 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -17,10 +17,12 @@
 [ext_resource path="res://Scripts/Gameplay/UI/UI_Menu.gd" type="Script" id=15]
 [ext_resource path="res://Scripts/GameControl/PowerupDisplayHandler.gd" type="Script" id=16]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_freeze.tres" type="Resource" id=17]
+[ext_resource path="res://Scripts/Gameplay/UI/UI_PanelController.gd" type="Script" id=18]
 [ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Square.png" type="Texture" id=19]
 [ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Circle.png" type="Texture" id=20]
 [ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Triangle.png" type="Texture" id=21]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_invisible.tres" type="Resource" id=22]
+[ext_resource path="res://Textures/UIElements/logo.png" type="Texture" id=23]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_repulse.tres" type="Resource" id=24]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_taser.tres" type="Resource" id=25]
 [ext_resource path="res://Textures/Particles/RepulseEffect.png" type="Texture" id=27]
@@ -1398,6 +1400,84 @@ bg_color = Color( 0.619608, 0.301961, 0.941176, 1 )
 [sub_resource type="StyleBoxFlat" id=50]
 bg_color = Color( 0.45098, 0.196078, 0.709804, 1 )
 
+[sub_resource type="Animation" id=52]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Sprite/GameLogo:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0.1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Sprite/GameLogo:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0.1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Sprite/GameLogo:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Sprite/GameLogo:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 136, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=53]
+resource_name = "Reveal"
+length = 0.7
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Sprite/GameLogo:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1e-05, -0.25, 0, 0.25, 0, 0.1, -0.25, 0, 0.25, 0, 0.1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 0.7 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Sprite/GameLogo:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1e-05, -0.25, 0, 0.25, 0, 0.1, -0.25, 0, 0.25, 0, 0.1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 0.7 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Sprite/GameLogo:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 210, -0.25, 0, 0.25, 0, 110, -0.25, 0, 0.25, 0, 136, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.25, 0.7 )
+}
+
 [node name="SceneBase" type="Node2D"]
 script = ExtResource( 5 )
 Game_Menus = [ NodePath("Camera2D/GameMenus/MainMenu") ]
@@ -2530,7 +2610,9 @@ custom_fonts/normal_font = ExtResource( 10 )
 [node name="GameMenus" type="Node2D" parent="Camera2D"]
 
 [node name="MainMenu" type="Node2D" parent="Camera2D/GameMenus"]
-visible = false
+script = ExtResource( 18 )
+level_controller_path = NodePath("../../..")
+reveal_animation = "Reveal"
 
 [node name="Sprite" type="Sprite" parent="Camera2D/GameMenus/MainMenu"]
 material = SubResource( 51 )
@@ -2567,6 +2649,7 @@ bNeedsFocus = true
 level_controller_path = NodePath("../../../../../..")
 disable_node_path = NodePath("../../..")
 button_action_index = 1
+special_action = "story_game"
 
 [node name="Button_Arcade" type="Button" parent="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer"]
 margin_top = 43.0
@@ -2581,6 +2664,7 @@ script = ExtResource( 6 )
 level_controller_path = NodePath("../../../../../..")
 disable_node_path = NodePath("../../..")
 button_action_index = 2
+special_action = "arcade_game"
 
 [node name="Button_Options" type="Button" parent="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer"]
 margin_top = 86.0
@@ -2611,7 +2695,21 @@ level_controller_path = NodePath("../../../../../..")
 disable_node_path = NodePath("../../..")
 button_action_index = 4
 
+[node name="GameLogo" type="Sprite" parent="Camera2D/GameMenus/MainMenu/Sprite"]
+position = Vector2( 1, 136 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 23 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/GameMenus/MainMenu"]
+anims/RESET = SubResource( 52 )
+anims/Reveal = SubResource( 53 )
+
 [node name="Options" type="Node2D" parent="Camera2D/GameMenus"]
+visible = false
+script = ExtResource( 18 )
+level_controller_path = NodePath("../../..")
+disable_node_path = NodePath(".")
+enable_node_path = NodePath("../MainMenu")
 
 [node name="Sprite" type="Sprite" parent="Camera2D/GameMenus/Options"]
 material = SubResource( 51 )
@@ -2740,6 +2838,88 @@ margin_bottom = 46.0
 step = 10.0
 value = 100.0
 
+[node name="Button_ClearStory" type="Button" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer"]
+pause_mode = 2
+margin_top = 235.0
+margin_right = 397.0
+margin_bottom = 274.0
+custom_fonts/font = ExtResource( 47 )
+custom_styles/pressed = SubResource( 48 )
+custom_styles/focus = SubResource( 49 )
+custom_styles/normal = SubResource( 50 )
+text = "reset story game"
+script = ExtResource( 6 )
+level_controller_path = NodePath("../../../../../..")
+disable_node_path = NodePath("../../..")
+enable_node_path = NodePath("../../../../ClearStoryGameConfirm")
+
+[node name="ClearStoryGameConfirm" type="Node2D" parent="Camera2D/GameMenus"]
+visible = false
+script = ExtResource( 18 )
+level_controller_path = NodePath("../../..")
+disable_node_path = NodePath(".")
+enable_node_path = NodePath("../MainMenu")
+
+[node name="Sprite" type="Sprite" parent="Camera2D/GameMenus/ClearStoryGameConfirm"]
+material = SubResource( 51 )
+texture = ExtResource( 11 )
+script = ExtResource( 67 )
+
+[node name="PanelName" type="RichTextLabel" parent="Camera2D/GameMenus/ClearStoryGameConfirm/Sprite"]
+margin_left = -196.0
+margin_top = -212.0
+margin_right = 180.0
+margin_bottom = -130.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 66 )
+text = "reset story?"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/GameMenus/ClearStoryGameConfirm/Sprite"]
+margin_left = -197.0
+margin_top = -140.0
+margin_right = 200.0
+margin_bottom = 203.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/GameMenus/ClearStoryGameConfirm/Sprite"]
+margin_left = -206.0
+margin_top = -38.0
+margin_right = 205.0
+margin_bottom = 40.0
+
+[node name="Button_ClearStory" type="Button" parent="Camera2D/GameMenus/ClearStoryGameConfirm/Sprite/HBoxContainer"]
+pause_mode = 2
+margin_right = 203.0
+margin_bottom = 78.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 47 )
+custom_styles/pressed = SubResource( 48 )
+custom_styles/focus = SubResource( 49 )
+custom_styles/normal = SubResource( 50 )
+text = "RESET"
+script = ExtResource( 6 )
+bNeedsFocus = true
+level_controller_path = NodePath("../../../../../..")
+disable_node_path = NodePath("../../..")
+enable_node_path = NodePath("../../../../Options")
+special_action = "clear_story"
+
+[node name="Button_Return" type="Button" parent="Camera2D/GameMenus/ClearStoryGameConfirm/Sprite/HBoxContainer"]
+pause_mode = 2
+margin_left = 207.0
+margin_right = 411.0
+margin_bottom = 78.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 47 )
+custom_styles/pressed = SubResource( 48 )
+custom_styles/focus = SubResource( 49 )
+custom_styles/normal = SubResource( 50 )
+text = "REturn"
+script = ExtResource( 6 )
+level_controller_path = NodePath("../../../../../..")
+disable_node_path = NodePath("../../..")
+enable_node_path = NodePath("../../../../Options")
+
 [node name="PipsAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 bus = "Music"
 
@@ -2753,8 +2933,3 @@ bus = "Music"
 [connection signal="timeout" from="PacMan/GhostTimer" to="PacMan" method="_on_GhostTimer_timeout"]
 [connection signal="area_entered" from="PacMan/CenterPointTrigger" to="PacMan" method="_on_CenterPointTrigger_area_entered"]
 [connection signal="timeout" from="Camera2D/LevelCompleteScreen/AnimationTimer" to="Camera2D/LevelCompleteScreen" method="_on_AnimationTimer_timeout"]
-[connection signal="pressed" from="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_StoryMode" to="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_StoryMode" method="_on_Button_StoryMode_pressed"]
-[connection signal="pressed" from="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Arcade" to="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Arcade" method="_on_Button_Arcade_pressed"]
-[connection signal="pressed" from="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Options" to="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Options" method="_on_Button_Options_pressed"]
-[connection signal="pressed" from="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Credits" to="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Credits" method="_on_Button_Credits_pressed"]
-[connection signal="pressed" from="Camera2D/GameMenus/Options/Sprite/VBoxContainer/Button_Return" to="Camera2D/GameMenus/Options/Sprite/VBoxContainer/Button_Return" method="_on_Button_Return_pressed"]

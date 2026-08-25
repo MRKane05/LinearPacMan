@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/krnbeatz-8bit_ui_confirm-586741.mp3-7443e083dbd361e15a72e5f04dceef74.mp3str"
+
+[deps]
+
+source_file="res://Sounds/Menu/krnbeatz-8bit_ui_confirm-586741.mp3"
+dest_files=[ "res://.import/krnbeatz-8bit_ui_confirm-586741.mp3-7443e083dbd361e15a72e5f04dceef74.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -164,7 +164,7 @@ func end_start_invincible():
 #because there are some things I just can't seem to fix the easy way...
 func set_start_invincible():
 	bInvincible = true
-	create_callback_timer(1.0, "end_start_invincible")
+	create_callback_timer(0.5, "end_start_invincible")
 
 var motion_ghost_scene = preload("res://GameObjects/PowerupFX/MotionGhost.tscn")
 func instance_motion_ghost():

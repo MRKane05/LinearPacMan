@@ -11,3 +11,6 @@ bus = "Music"
 
 [node name="Track2" type="AudioStreamPlayer2D" parent="."]
 bus = "Music"
+
+[node name="MenuSFX" type="AudioStreamPlayer2D" parent="."]
+bus = "Effects"

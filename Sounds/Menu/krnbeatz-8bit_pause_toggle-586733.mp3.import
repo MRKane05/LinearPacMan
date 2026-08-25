@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/krnbeatz-8bit_pause_toggle-586733.mp3-5fb0c5d9aa7d6316d0042cac813b3ba7.mp3str"
+
+[deps]
+
+source_file="res://Sounds/Menu/krnbeatz-8bit_pause_toggle-586733.mp3"
+dest_files=[ "res://.import/krnbeatz-8bit_pause_toggle-586733.mp3-5fb0c5d9aa7d6316d0042cac813b3ba7.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

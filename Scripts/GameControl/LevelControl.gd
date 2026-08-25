@@ -456,6 +456,9 @@ func linear_to_db(linear: float) -> float:
 	print(db_volume)
 	return db_volume
 
+func run_special_action(special_action: String):
+	print(special_action)
+
 var change_direction_presses = 0
 
 var fragment_line_scene = load("res://GameObjects/UI/FragmentLine.tscn")
@@ -624,7 +627,7 @@ func do_level_setup():
 	player_node.set_line_position(player_start_pos)
 	player_node.set_speed_multiplier(speed_multiplier)
 	player_node.set_line_size(line_size)
-	#player_node.set_start_invincible() #Hopefully this is fixed now
+	player_node.set_start_invincible() #Hopefully this is fixed now
 	
 	#Based off of our start pos we can now look at positioning our enemy
 	var direction = [-1, 1][randi() % 2]
@@ -656,11 +659,12 @@ func do_level_setup():
 		
 	player_node.set_moveDir(player_sign)
 	
+	var necessary_pickup = -1
 	if (game_type == 0):
 		#Grab some details from our story manager to see if we should be doing an unlock
 		var story_index = SaveManager.get_value("story_index")
 		var line = StoryManager.get_dialogue(story_index)
-		var necessary_pickup = -1
+		
 		
 		if (line != null && line != {} && line.size() != 0):
 			if (line.trigger == "powerup" && (int(SaveManager.get_value("story_games")) >= line.triggernum|| (bTestingSkip && int(SaveManager.get_value("story_games")) >= 1))):

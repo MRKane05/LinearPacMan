@@ -6,6 +6,8 @@ export(Array, String, FILE, "*.mp3") var playlist_paths = []
 onready var track1 = $Track1
 onready var track2 = $Track2
 
+onready var MenuSFX = $MenuSFX
+
 export var fade_duration = 1.0
 
 var current_track_player : AudioStreamPlayer2D
@@ -14,6 +16,11 @@ var tween : Tween
 
 var _shuffled_paths = []
 var _current_index = 0
+
+onready var menu_move_sound = preload("res://Sounds/Menu/vadim_makes_sound-retro-arcade-menu-navigate-554505.mp3")
+onready var menu_confirm_sound = preload("res://Sounds/Menu/krnbeatz-8bit_ui_confirm-586741.mp3")
+onready var menu_slider_move = preload ("res://Sounds/Menu/krnbeatz-8bit_menu_shift.wav")
+
 
 func _ready():
 	randomize()
@@ -112,3 +119,18 @@ func stop_music():
 func pause_music(paused: bool):
 	track1.stream_paused = paused
 	track2.stream_paused = paused
+
+func play_menu_move_sound():
+	play_sound(menu_move_sound)
+
+func play_menu_confirm_sound():
+	play_sound(menu_confirm_sound)
+
+func play_slider_move_sound():
+	play_sound(menu_slider_move)
+
+func play_sound(stream):
+	if (MenuSFX.is_playing()): #Throw this interaction sound out
+		return
+	MenuSFX.stream = stream
+	MenuSFX.play()
