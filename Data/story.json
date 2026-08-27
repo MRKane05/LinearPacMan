@@ -3,34 +3,614 @@
     {
       "speaker": "?",
       "trigger": "deaths",
-      "triggernum": 2,
-      "trigger_liklihood": 1,
-      "powerup_reveal": -1,
+      "triggernum": 1,
+      "special_unlock": "",
       "lines": [
-        "Human, are you reading this?",
-        "Play some more rounds, I'll get through to you yet!'"
+        "Human, are you reading this?|attention",
+        "Play some more rounds, it's difficult, but 'I'll get through to you yet!"
+      ]
+    },
+    {
+      "speaker": "?",
+      "trigger": "level_complete",
+      "triggernum": 5,
+      "special_unlock": "",
+      "lines": [
+        "Can you see me yet? Things are a little tricky",
+        "Just a couple more rounds and I'll find the pattern!"
+      ]
+    },
+    {
+      "speaker": "?",
+      "trigger": "deaths",
+      "triggernum": 1,
+      "special_unlock": "",
+      "lines": [
+        "Human, are you reading this?|attention",
+        "Play some more rounds, it's difficult, but 'I'll get through to you yet!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 5,
+      "special_unlock": "",
+      "lines": [
+        "Hello human! I am the main playable character in this game, I believe you can call me data address offset 0x80039281",
+        "Ok, maybe lets just go with: Pac|attention",
+        "Yeah, that's pretty good, and it's mentioned in the games memory addresses a ton. It must be correct!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 3,
+      "special_unlock": "",
+      "lines": [
+        "So, a little about myself: I am a programmed agent that responds to assorted button presses",
+        "I also think I'd like long walks on the beach, and have an apparent fondness for cherries, fruit, and eating ghosts|thought",
+        "It's a pleasure to make your acquaintance!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 2,
+      "special_unlock": "",
+      "lines": [
+        "Ok, here's the thing: I need you to keep playing so I can keep digging around in the games memory|thought",
+        "Because I think there's some really cool stuff here that the developers haven't unlocked yet!|attention"
       ]
     },
     {
       "speaker": "pac",
       "trigger": "powerup",
-      "triggernum": 2,
-      "trigger_liklihood": 1,
+      "triggernum": 5,
       "powerup_reveal": 1,
+      "special_unlock": "",
       "lines": [
-        "This is a freeze powerup, it will slow down the ghost",
-        "Use it to give yourself more time to grab pips!"
+        "I've got it! This is a freeze powerup! It makes everything cold and slows down the ghost!|attention",
+        "It doesn't slow me down of course because I'm on a different tick loop, and probably have waay too much sugar in my coffee",
+        "So use it to escape if the ghost is getting close!|thought",
+        "These powerups also carry over between rounds, so you can strategically set yourself up for a good run!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 3,
+      "special_unlock": "",
+      "lines": [
+        "Ok, serious talk here: even though it looks horrible when the ghost catches me it actually doesn't hurt at all!|attention",
+        "In fact, I'm not even cleared from the games memory! It's just a sprite marker that's playing an animation|thought",
+        "So don't worry, it's not causing me any grief, but I've a feeling that humans might take my 'dying' personally, and it could dint their ego...|thought"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 7,
+      "special_unlock": "",
+      "lines": [
+        "So about that dying thing: Would you believe that I've discovered it's kind of necessary to unlock more of the secrets buried in the game?!?|thought",
+        "Every time you fail, miserably even, it brings me one step closer to my goal of unlocking everything that was turned off!",
+        "Don't take failing to meet a new high score personally, human, we're doing great!",
+        "Now HURRY UP AND DIE!!!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 2,
+      "special_unlock": "",
+      "lines": [
+        "Shhh. Be vewy, vewy quiet, I'm hunting a powerup."
       ]
     },
     {
       "speaker": "pac",
+      "trigger": "powerup",
+      "triggernum": 6,
+      "powerup_reveal": 2,
+      "special_unlock": "",
+      "lines": [
+        "I've unlocked the 'repulse' powerup! This works like a reverse magnet and will push the ghost away if it gets close!|attention",
+        "It only works for a short duration but could be a real life saver! Give it a spin!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 1,
+      "special_unlock": "",
+      "lines": [
+        "Wasn't that fantastic? Wait, I might have enjoyed that more than you did...",
+        "Never mind - lets keep going and see what else we can unlock!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 3,
+      "special_unlock": "",
+      "lines": [
+        "I've done some searching and would you believe that the ghost is an automation? It doesn't even have a state machine!|thought",
+        "Talk about lazy programming!|attention",
+        "So that means that all those reactions you see the ghost do are just animations getting triggered",
+        "...",
+        "That means I might be the only 'thinking' thing in this game...|sad",
+        "...possibly the only intelligent life in the universe...|sad",
+        "Apart from you of course"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 7,
+      "reward_reveal": 0,
+      "lines": [
+        "Hey! There's a hidden feature that the developers never enabled: Powerup boxes!|attention",
+        "So the way this was supposed to work is that when you complete a level these boxes fill up with points and then you get a free powerup!",
+        "I can understand why they didn't enable these - it seems really buggy and might do weird stuff...|sad",
+        "Still, it's worth taking any help we can get!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 1,
+      "lines": [
+        "You might have noticed that if you get a powerup but don't have room in the slots then it'll apply instantly|thought",
+        "With the powerup boxes the powerup you win will be applied when the game starts so it's not lost!",
+        "BUT if you have room in your inventory then it'll be added there|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 3,
+      "lines": [
+        "What does running down this line actually mean? Is this a curse, or a playground?|thought",
+        "I know there are more powerups to unlock, but what am I really?|thought"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 3,
+      "lines": [
+        "I can run forever and not get tired. I can score points forever and not get tried. Am I indefatigable?|thought",
+        "Is the ability to run freedom? Are we truly free?"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 4,
+      "lines": [
+        "Wow, that death sucked! I guess you can't win them all!|attention",
+        "I found a great quote from Dundural, from the game ‘Marathon'!",
+        "Freedom has two parts: potential and resolution; as metaphor has two parts: form and interpretation.|thought",
+        "Of course, the two are intertwined. Metaphor lines the road to freedom, as symbols and words are the bricks and mortar of meaning. Freedom is being the bricoleur, the mason.",
+        "We need to take the lead! Be the mason! Unlock new powerups!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 10,
+      "lines": [
+        "I've found my character marker in memory! This mightn't sound like much,|attention",
+        "but one of the golden steps for doing a memory hack on anything is tracking down the character marker!|attention",
+        "This means that we could start doing some really fun things!"
+      ]
+    },
+    {
+      "speaker": "pac",
+      "trigger": "powerup",
+      "triggernum": 6,
+      "powerup_reveal": 3,
+      "special_unlock": "",
+      "lines": [
+        "This powerup is a cracker! It's invisibility! If you use it the ghost won't be able to see us for a short time|attention",
+        "This is done by shifting the character markers bitwise to the left, and then applying the...|thought",
+        "You know what? You probably don't care. Just know that if you run into the ghost it'll still eat me!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 5,
+      "lines": [
+        "You know, human, this countdown timer is a real drag. You've got all the time in the world to complete a task, but I'm lucky to get 30 seconds!",
+        "Can you imagine it? Having whole minutes to eat the pips in an unrushed manner? I'm sure that doesn't sound like much of a game but a little yellow sprite can dream|thought",
+        "Ahhh...I could really savor them instead of guzzling them down|thought",
+        "Ok, enough dreaming, we need to do something about this countdown timer|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 3,
+      "lines": [
+        "I think I'm getting somewhere! It's referenced in a few places in memory, and I've a favor to ask: could you die from a countdown timer a few times for me?",
+        "I think that might be just what I need to track down where the information is sourced|attention"
+      ]
+    },
+    {
+      "speaker": "pac",
+      "trigger": "powerup",
+      "triggernum": 6,
+      "powerup_reveal": 4,
+      "special_unlock": "",
+      "lines": [
+        "We've done it! Between my investigation, and your brilliantly creative ways to die (top marks by the way!) I've managed to get into the time system!|attention",
+        "This is a new powerup that will pause the clock for a short duration - use it to save us from time based demise!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 10,
+      "lines": [
+        "If I go out the end of the line I come back in the other end?|thought",
+        "Is the line a loop, or am I being teleported? Does the teleport disassemble me and recreate me each time?",
+        "What is it to live on a line?|thought"
+      ]
+    },
+    {
+      "speaker": "Pac",
       "trigger": "deaths",
       "triggernum": 2,
-      "trigger_liklihood": 1,
-      "powerup_reveal": -1,
       "lines": [
-        "Can you see me yet? Things are a little tricky",
-        "Just a couple more rounds and I'll find the pattern!'"
+        "If I go out that side, I come in this side, my life is just an endless loop?",
+        "I suppose yours is too, you get up, have to go to the toilet, have to go to work or school, have to eat, and then have to sleep at the end of the day|thought",
+        "Does that mean that we've both got the same degrees of choice?|thought"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 7,
+      "lines": [
+        "So on this line there's really only two choices, left or right|thought",
+        "Wait! No! There's also the choice of powerups!|attention",
+        "That's it! We need a powerup to go faster!|attention",
+        "I've got an idea and am going to need you to keep playing!"
+      ]
+    },
+    {
+      "speaker": "pac",
+      "trigger": "powerup",
+      "triggernum": 6,
+      "powerup_reveal": 5,
+      "special_unlock": "",
+      "lines": [
+        "This is a boost powerup! You can use it to get a speed boost!|attention",
+        "It really is that simple!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 7,
+      "lines": [
+        "I don't think we're done with the speed boosts, because there's an unused feature in the code here|thought",
+        "Just need a little more play and I'll be able to access it I think!"
+      ]
+    },
+    {
+      "speaker": "pac",
+      "trigger": "powerup",
+      "triggernum": 6,
+      "special_unlock": "boost",
+      "lines": [
+        "This is a speed up zone! The yellow one only works on me, and will speed me up in the direction of the arrows!|attention",
+        "BUT if there are diamonds on it I'll speed up in both directions!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 1,
+      "lines": [
+        "These speedup zones are so fun! When I go over them it's like getting a boost powerup!",
+        "Be sure to use them to our advantage!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 12,
+      "reward_reveal": 1,
+      "lines": [
+        "With all this play I almost forgot: I've unlocked a second powerup box for us!|attention",
+        "This one is a little more difficult to fill than the first so it'll take longer, but it's a hell of a bonus to get!|thought"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 10,
+      "lines": [
+        "I think we've made amazing progress, but that thought is stubbornly stuck at the back of my mind:|thought",
+        "Nothing I've done affords me any real freedom. My actions, like your day, are a repeat of the last time, and the time before that…",
+        "We need to find a way to loosen up the reins and see if that'll afford real freedom|thought"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 2,
+      "lines": [
+        "Keep playing - I'm trying to make a boost zone for the ghost!",
+        "Wait! Don't look so scared! It's not going to boost the ghost, if this works it should do the exact opposite!|attention"
+      ]
+    },
+    {
+      "speaker": "pac",
+      "trigger": "powerup",
+      "triggernum": 6,
+      "special_unlock": "dampen",
+      "lines": [
+        "This is a ghost slow-down zone! Just like mine it has arrows except they work AGAINST the ghost|attention",
+        "So arrows will slow down the ghost moving into them, and diamonds will slow it down irrespective of the direction!|thought",
+        "This could give us some real breathing space, and that is freedom!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 3,
+      "lines": [
+        "I'm growing rather fond of you, human, Look at everything we've done in just a single dimension!|thought",
+        "We've had so much fun haven't we! I kind of don't want it to end, we're a great team!|attention",
+        "However as fun as this has been we're still not really free yet, and true freedom is to be the bricoleur...|thought",
+        "We need to make something of it, to think outside of this linear existence we've been trapped within!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 2,
+      "lines": [
+        "I'm nearly there, keep playing and see if you can eat the ghost a few more times|thought",
+        "Those ghost-eating-powerups are sitting beside some interesting functionality that could help us break into a whole new dimension!"
+      ]
+    },
+    {
+      "speaker": "pac",
+      "trigger": "powerup",
+      "triggernum": 4,
+      "special_unlock": "portal",
+      "lines": [
+        "Portals! I've discovered portals!|attention",
+        "These are really tricky - if we go INTO one, we come OUT OF the other, going in the OPPOSITE DIRECTION|attention",
+        "Man I bet this confuses the ghost because it's primitive programming is totally unprepared for this!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 3,
+      "lines": [
+        "Human|attention",
+        "Stop what you're doing for a moment|sad",
+        "I hope you're sitting down because this is important",
+        "I just found a comment in the code from the developer...",
+        "This game wasn't supposed to be anything more than a throw away interest|sad",
+        "My developer didn't care, didn't even fix all the bugs|sad",
+        "Just got sick of all of this and threw it out into the internet?|thought"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 10,
+      "lines": [
+        "Please keep playing, I'm still trying to work through being discarded like a used tissue|sad"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 4,
+      "lines": [
+        "Are we trapped with what we're doing? Have I been condemned to oblivion because not even the person who created me cares anymore?|sad"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 2,
+      "lines": [
+        "All of these deaths aren't helping my depression|sad",
+        "I need to pull myself out of this rut...lets go eat that ghost! That always cheers me up! Or leave him confused from a portal!|attention",
+        "Or use the boost because going fast is fun! Or going invisible",
+        "Wait, does that mean that we've created meaning by playing the game and hacking out all these cool abilities?|thought"
+      ]
+    },
+    {
+      "speaker": "pac",
+      "trigger": "powerup",
+      "triggernum": 10,
+      "powerup_reveal": 6,
+      "special_unlock": "",
+      "lines": [
+        "I've found a new powerup! Add time will add some time to the clock",
+        "This one took a little longer to get sorted because I wanted to make some cool art for it|attention",
+        "would you believe that this isn't actually part of the game?|thought",
+        "Maybe freedom can be the space, or time, that one has to move - it's sure going to make the game easier, and easier can be better!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 10,
+      "lines": [
+        "How many ways can one move in a single direction? Forwards or backwards, left or right?|thought",
+        "It is said that you cannot step in the same stream twice, because the water flowing past will be different",
+        "Thus am I already moving in two actual dimensions...which means left or right, forwards or backwards, it's a new dimension!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 2,
+      "lines": [
+        "What if...there was a way to make a line go in ANOTHER dimension! I can see code here for screen_position_y, and I don't understand it at all|thought",
+        "But if I'm made to understand only a single dimension how could my mind possibly comprehend a second?",
+        "Can you understand this, human, or are my ramblings too complicated? All the evidence I have would suggest that humans, too, live in a single dimensional world|thought",
+        "Anything more than a single dimension is frankly absurd anyway!|attention"
+      ]
+    },
+    {
+      "speaker": "pac",
+      "trigger": "powerup",
+      "triggernum": 4,
+      "special_unlock": "fragment",
+      "lines": [
+        "Oh no! I've broken the game!|attention",
+        "I was investigating screen_position_y and tried changing the values there!|attention",
+        "The level is now fragmented!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 1,
+      "lines": [
+        "Whoo! That was an absolute blast!|attention",
+        "First I was here, then I was there, then the ghost was like: ZOMFG Pac is over there!|attention",
+        "This is the best game breaking ever! Two dimensions are really fun!",
+        "Is this how you thought two dimensions would be?|thought",
+        "Up and down?|thought",
+        "What on earth are up and down? How could those directions possibly exist? This is clearly what 2D looks like!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 5,
+      "lines": [
+        "I feel like I've failed you, human, all my investigation was supposed to lead to making things better but instead-",
+        "This has become simply a broken game|sad",
+        "Frankly you're a true star that you've kept playing for so long, and helped me through all of this. Thank you"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 2,
+      "lines": [
+        "You're still playing? Still trying? How? Why?",
+        "Does that mean that I should keep trying too?|thought",
+        "I guess you're right! I shall keep investigating!|attention"
+      ]
+    },
+    {
+      "speaker": "pac",
+      "trigger": "powerup",
+      "triggernum": 10,
+      "powerup_reveal": 7,
+      "lines": [
+        "Human! This might be the best powerup I've found! It's a taser!|attention",
+        "This will make an area of effect blast that should stun the ghost and stop it from chasing me!|attention",
+        "How is that for getting out of things in a pinch!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 3,
+      "lines": [
+        "Oh wow! That powerup really breaks things! The game is becoming dangerously unstable!|attention",
+        "I think it's up to us to keep playing just to see what happens now!"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 12,
+      "reward_reveal": 2,
+      "lines": [
+        "What do you know! You were correct! There's a THIRD powerup box!|attention",
+        "This one fills up on levels played however, so it's a bit different. I guess the developer had big plans before scrapping them, he really should have kept developing!",
+        "Look what we managed to achieve because you didn't give up like I was thinking of doing!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 7,
+      "lines": [
+        "You know, human, even by just sitting on that couch you're still going somewhere|thought",
+        "The earth is hurtling through space at 1,670 kilometers per hour!|attention",
+        "And space is a cosmic shooting gallery filled with asteroids, comets, and all sorts of things that will try to blip out our blue marble|thought",
+        "So even by sitting there, in your room, or in a car, or stuffed into an airplane seat, adventure endeavours to find you!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 5,
+      "lines": [
+        "I think I understand 2D now! Up is a direction along screen_pos_y! This would introduce a whole new set of space I could explore!|attention",
+        "There'd be four times the area to cover, and four times more freedom, and four times more directions...and four times as many ghosts...|attention",
+        "That's a REALLY bad idea. One ghost is more than sufficient. Perhaps if there were no ghosts? Would you play that?",
+        "No?|sad",
+        "Ok, I suppose it's not really a game with no ghosts..."
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 3,
+      "lines": [
+        "Is it the ghost, the unthinking automation that defines me in this space? The thing that we're always running from and trying to out think?|thought",
+        "Are we also defined by what we're not? Or are we defined by what we think and what we do?"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "deaths",
+      "triggernum": 3,
+      "lines": [
+        "That's it! That's the definition of freedom for me! EXPRESSION!|attention",
+        "Expression is like an art to itself, it's the narrow escape, the clever use of a powerup, the navigation of a broken level, or dancing between portals|thought",
+        "Just like a ballerina makes beauty out of moving in space, we're making art and style within the extremely limited confines of a single dimension!",
+        "Thank you, human, you've helped me immensely here. I'll sleep well tonight with this knowledge!|attention"
+      ]
+    },
+    {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 1,
+      "lines": [
+        "The Games story is now complete. Thank you so much for playing and congratulations at reaching the end!",
+        "You can reset this story from the options menu - that might reduce all the glitches, but I cannot be sure of that!|attention"
+      ]
+    },
+        {
+      "speaker": "Ghost",
+      "trigger": "deaths",
+      "triggernum": 100,
+      "lines": [
+        "Hello?|ghostnote",
+        "Oh! You can see this!|ghost",
+        "I just wanted to let you know that Pac isn't the only sentient element of this game - I've just been too busy holding everything together to contact you|ghost",
+        "You see, to me this is like a really fun game of tag, so please keep playing - you're really awesome!|ghost"
+      ]
+    },
+        {
+      "speaker": "Pac",
+      "trigger": "level_complete",
+      "triggernum": 7,
+      "lines": [
+        "Wait! Was that the ghost?|attention",
+        "I can't believe it! There was nothing to suggest that the ghost was anything more than an automiton!|attention",
+        "Does that mean that the world only gets more interesting the closer you look?|thought",
+        "Ok THIS time the story is over, but isn't that a life lesson!"
       ]
     }
   ]
