@@ -16,7 +16,9 @@ const SOUNDS = {
 	"thought"	: preload("res://Sounds/UI/pac_thought.wav"),
 	"sad"	:	preload("res://Sounds/UI/pac_sad.wav"),
 	"unsure" : preload("res://Sounds/UI/pac_unsure.wav"),
-	"attention" :preload("res://Sounds/UI/pac_attention.wav")
+	"attention" :preload("res://Sounds/UI/pac_attention.wav"),
+	"ghost": preload("res://Sounds/UI/krnbeatz-8bit_unlock_door-586728.mp3"),
+	"ghostnote": preload("res://Sounds/UI/krnbeatz-8bit_error_buzz-586736.mp3")
 }
 
 func handle_inputaction(gamestate: int):
@@ -73,7 +75,9 @@ func display_dialogue():
 		var graphic_entry = 1
 		if ("?" in speaker_name):
 			graphic_entry = 0
-		SaveManager.set_value("pac_reveal", graphic_entry) #so that our system will show the correct icon while giving support text to the player
+		if ("G" in speaker_name || "g" in speaker_name):	#This is a line from our ghost
+			graphic_entry = 2
+		SaveManager.set_value("pac_reveal", clamp(graphic_entry, 0, 1)) #so that our system will show the correct icon while giving support text to the player
 		#speaker_name.text = story_node.speaker;
 		set_speaker_icon_name(graphic_entry, speaker_name)
 		var speaker_sound = "standard"

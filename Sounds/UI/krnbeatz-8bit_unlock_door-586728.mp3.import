@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/krnbeatz-8bit_unlock_door-586728.mp3-ab5e9f067a1fdcb70bbecf97354ad155.mp3str"
+
+[deps]
+
+source_file="res://Sounds/UI/krnbeatz-8bit_unlock_door-586728.mp3"
+dest_files=[ "res://.import/krnbeatz-8bit_unlock_door-586728.mp3-ab5e9f067a1fdcb70bbecf97354ad155.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

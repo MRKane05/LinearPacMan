@@ -258,7 +258,7 @@ func set_game_state(gamestate):
 		if (SaveManager.get_value("fragment_enabled") > 0):
 			#At this stage we need to know if we're going to do a fragment
 			#so that we can play a little reveal animation also
-			if (randf() > 0.75 || SaveManager.get_value("fragment_enabled") > 1 || true): #1:20 odds of a fragment happening
+			if (randf() > 0.75 || SaveManager.get_value("fragment_enabled") > 1): #1:20 odds of a fragment happening
 				level_is_fragment = rng.randi_range(1, 2)
 				SaveManager.set_value("fragment_enabled", 1) #Set this back so that we don't put this down for sure
 			else:
@@ -737,6 +737,8 @@ func do_level_setup():
 	#the player should get in the level based off of everything that's happening
 	if (level_is_fragment == 0):
 		x_prompt.modulate = Color.white	#Turn our prompt panel back on again
+	else:
+		x_prompt.modulate = Color.transparent
 	#For the moment, fuckit
 	#First level takes 15 seconds, so
 	#target score to start is 200, therefore divide the target score by 10?

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/krnbeatz-8bit_error_buzz-586736.mp3-5fcced369f1f601cfd440e72a10ba668.mp3str"
+
+[deps]
+
+source_file="res://Sounds/UI/krnbeatz-8bit_error_buzz-586736.mp3"
+dest_files=[ "res://.import/krnbeatz-8bit_error_buzz-586736.mp3-5fcced369f1f601cfd440e72a10ba668.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

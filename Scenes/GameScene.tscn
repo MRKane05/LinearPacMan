@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=2]
+[gd_scene load_steps=118 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://Textures/UIElements/logo.png" type="Texture" id=23]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_repulse.tres" type="Resource" id=24]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_taser.tres" type="Resource" id=25]
+[ext_resource path="res://Textures/UIElements/CharacterIcons/GhostIcon.png" type="Texture" id=26]
 [ext_resource path="res://Textures/Particles/RepulseEffect.png" type="Texture" id=27]
 [ext_resource path="res://Textures/Particles/TazerEffectSphere.png" type="Texture" id=28]
 [ext_resource path="res://Textures/Environment/BackingImage.png" type="Texture" id=29]
@@ -1682,7 +1683,7 @@ anims/Shock = SubResource( 43 )
 bus = "Effects"
 
 [node name="PacMan" type="KinematicBody2D" parent="."]
-position = Vector2( 492, 300 )
+position = Vector2( 879, 765 )
 collision_layer = 2
 collision_mask = 3
 script = ExtResource( 1 )
@@ -2486,7 +2487,7 @@ scale = Vector2( 0.8, 0.8 )
 script = ExtResource( 36 )
 return_var = 4
 speaker_icon_path = NodePath("SpeakerIcon")
-speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
+speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ), ExtResource( 26 ) ]
 dialogue_text_path = NodePath("Node2D/DialogueContent")
 speaker_name_path = NodePath("Node2D/SpeakerName")
 level_controller_path = NodePath("../..")
