@@ -2,6 +2,10 @@ extends UI_Menu
 
 class_name DialogueScreen
 
+
+export(NodePath) var level_controller_path
+onready var level_controller = get_node(level_controller_path)
+
 var current_line = 0
 var story_node;
 
@@ -40,7 +44,8 @@ func handle_inputaction(gamestate: int):
 			
 			#There's a possibility that our game could be paused at this point
 			#so we might need to unpause it to continue with normal function (if it's a ingame dialogue)
-			get_tree().paused = false
+			level_controller.dialogue_pause = false
+			level_controller.set_game_paused(false)
 			return return_var
 	else:
 		do_display_dilogue()
@@ -54,6 +59,7 @@ func do_display_dilogue():
 	current_line = 0
 	var story_index = int(SaveManager.get_value("story_index"))
 	story_node = StoryManager.get_dialogue(story_index)
+	level_controller.dialogue_pause = true
 	display_dialogue()
 
 func display_dialogue():

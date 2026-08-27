@@ -65,6 +65,7 @@ var bBoostActive = false
 var screen_size = 1024
 
 var line_position = 0
+var segment_number = -1 #Used to message back when we go through a fragment shift
 
 func set_line_size(new_line_size: int):
 	screen_size = new_line_size

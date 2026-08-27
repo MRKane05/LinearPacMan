@@ -43,8 +43,8 @@ func get_screen_position(position: Vector2):
 				if (position.x > line_sections[i].z):
 					current_section = i
 		else:
-			return position
+			return Vector3(position.x, position.y, current_section)
 	else:
-		return position
+		return Vector3(position.x, position.y, current_section)
 	#Finally apply and return our offset
-	return Vector2(position.x + line_sections[current_section].x, line_sections[current_section].y)
+	return Vector3(position.x + line_sections[current_section].x, line_sections[current_section].y, current_section)

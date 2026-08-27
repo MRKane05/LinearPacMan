@@ -40,6 +40,7 @@ func _ready():
 	set_animation("Eat")
 	
 func reset_character():
+	segment_number = -1
 	set_animation("Eat")
 	bPlayer_alive = true
 
@@ -87,7 +88,16 @@ func _physics_process(delta):
 		#new_pos.y = fposmod(new_pos.y, screen_size.y)
 	
 	#And NOW get our screen position given offsets :)
-	position = Global.get_screen_position(Vector2(line_position, 300))
+	var vecPos = Global.get_screen_position(Vector2(line_position, 300))
+	if (vecPos.z != segment_number):
+		if (segment_number != -1):
+			#level controller about it
+			level_controller.do_fragment_shift(segment_number, vecPos.z)
+			pass
+		segment_number = vecPos.z
+	
+	position = Vector2(vecPos.x, vecPos.y)
+	#position = Global.get_screen_position(Vector2(line_position, 300))
 
 #So with this we've gone over something that can affect us in some way
 func _on_CenterPointTrigger_area_entered(area):

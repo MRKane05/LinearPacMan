@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/u_0p72p6y63g-electric-swing-559703.mp3-2ec0e09d4f5395b65db06daffbfad853.mp3str"
+
+[deps]
+
+source_file="res://Sounds/GameEffects/u_0p72p6y63g-electric-swing-559703.mp3"
+dest_files=[ "res://.import/u_0p72p6y63g-electric-swing-559703.mp3-2ec0e09d4f5395b65db06daffbfad853.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

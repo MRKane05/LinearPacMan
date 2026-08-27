@@ -13,28 +13,12 @@ class LineSection:
 onready var scene_audio_effects = $SceneAudioEffects
 onready var game_timer = $GameLevelTimer
 
+var menu_pause = true
+var dialogue_pause = false
 var game_menu_state = 1 #0 is nothing, otherwise it's relating directly to the index that it's set at -1
 var game_type = 0 #0 is the standard story, 1 is arcadd mode
 
-func set_game_menu_state(menu_state: int):
-	#Our setups are:
-	#1: Story
-	#2: Arcade
-	#3: Options
-	#4: Credits
-	if (menu_state == 1 || menu_state == 2):
-		#This is a game state command
-		if (game_type == menu_state -1):
-			#unpause and return because we're simply coming back from the menu
-			return
-		else: #We need to start a new gametype here
-			pass
-	else:
-		#we're opening a different menu up
-		pass
-	pass
-
-export(Array, NodePath) var Game_Menus = []
+export(NodePath) var Game_Menu
 
 export(Array, NodePath) var UI_Menus = []
 
@@ -255,6 +239,22 @@ func set_game_state(gamestate):
 	
 	#handle trigger calls
 	if (Global.game_state == 1):
+		#We need to see if our save game has a fragment flag in it
+		var story_index = SaveManager.get_value("story_index")
+		var line = StoryManager.get_dialogue(story_index)
+		
+		
+		if (line != null && line != {} && line.size() != 0):
+			if (line.trigger == "powerup" && (int(SaveManager.get_value("story_games")) >= line.triggernum|| (bTestingSkip && int(SaveManager.get_value("story_games")) >= 1))):
+				# We still need to look at our cases as this particular dialogue skips the main handler
+				
+				if (line.has("special_unlock") && line.special_unlock != null):
+					if  (line.special_unlock.length() > 0):
+						if ("fragment" in line.special_unlock):
+							SaveManager.set_value("fragment_enabled", 2)
+						
+		
+		
 		if (SaveManager.get_value("fragment_enabled") > 0):
 			#At this stage we need to know if we're going to do a fragment
 			#so that we can play a little reveal animation also
@@ -458,6 +458,28 @@ func linear_to_db(linear: float) -> float:
 
 func run_special_action(special_action: String):
 	print(special_action)
+	match special_action:
+		"story_game":
+			if (game_type == 0):
+				pass
+			else:
+				game_type = 0
+				set_game_state(0)
+			menu_pause = false
+			set_game_paused(false)
+				#do a reset
+		"arcade_game":
+			if (game_type == 1):
+				pass
+			else:
+				game_type = 1
+				set_game_state(0)
+			menu_pause = false
+			set_game_paused(false)
+				#Need some sort of reset
+		"clear_story":
+			#Need to get the save manager to blank the single player progress and save
+			pass
 
 var change_direction_presses = 0
 
@@ -739,7 +761,15 @@ func display_ingame_dialogue():
 	ingame_dialogue_handler.visible = true
 	ingame_dialogue_handler.display_dialogue_powerup() #This'll need some arguments
 	
-	get_tree().paused = true #Not totally sure how we'll unpause given the current setup...
+	#get_tree().paused = true #Not totally sure how we'll unpause given the current setup...
+	set_game_paused(true)
+
+func set_game_paused(state: bool):
+	if (state):
+		get_tree().paused = true
+	else:
+		if (!menu_pause && !dialogue_pause): #Only release if we're not falling back into something else
+			get_tree().paused = false
 
 func pips_exhausted():
 	#Have some clever stuff here that'll sort out what our rewards might be
@@ -755,11 +785,14 @@ func do_powerup_eat_ghost():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if (game_menu_state == 0):
+	if (!menu_pause):
 		process_game_logic(delta)
-	else:
-		#We're in menu logic and this should be a case statement
-		pass
+		
+		if (Input.is_action_just_pressed("ui_start")): #Bring up our menu!
+			menu_pause = true
+			set_game_paused(true)
+			get_node(Game_Menu).visible = true
+		
 
 func process_game_logic(delta):
 	#This is all game logic:
@@ -964,3 +997,11 @@ func play_sound(stream: AudioStream):
 func _play_deferred():
 	scene_audio_effects.play()
 
+func do_fragment_shift(section_from: int, section_to: int):
+	#Need to be sure we're not looping around the screen, but aside from that...
+	#Find the fragment that'l span our movement, so 0-1, 1-2 etc...
+	#Logically our lowest number should be our fragment...
+	if (abs(section_to - section_from) > 1):
+		return #Don't do anything because we've looped the screen
+	var frag_number = min(section_from, section_to)
+	fragment_indictors[frag_number].play_teleport_effect()

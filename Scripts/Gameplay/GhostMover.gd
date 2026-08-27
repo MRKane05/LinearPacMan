@@ -75,6 +75,7 @@ func reset_ghost():
 	bBeenTased = false
 	bGhost_Confused = false
 	bInvisibleActive = false
+	segment_number = -1
 	set_move_animation()
 	char_sprite.modulate = color_normal
 	last_face_dir = 0
@@ -248,7 +249,15 @@ func _physics_process(delta):
 	if (line_position > screen_size - sprite_side_buffer):
 		line_position = screen_size - sprite_side_buffer
 	
-	position = Global.get_screen_position(Vector2(line_position, 300))
+	#position = Global.get_screen_position(Vector2(line_position, 300))
+	var vecPos = Global.get_screen_position(Vector2(line_position, 300))
+	if (vecPos.z != segment_number):
+		if (segment_number != -1):
+			#level controller about it
+			level_controller.do_fragment_shift(segment_number, vecPos.z)
+		segment_number = vecPos.z
+	
+	position = Vector2(vecPos.x, vecPos.y)
 	
 
 func ghost_can_be_eaten():

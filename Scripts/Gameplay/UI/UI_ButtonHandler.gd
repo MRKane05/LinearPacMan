@@ -59,8 +59,6 @@ func on_Button_Pressed():
 	#Need to pass an argument through as a function with this
 	#In our case it's simply sending a command index through to the game controller
 	_on_pressed()
-	if (button_action_index > 0):
-		level_controller.set_game_menu_state(button_action_index)
 	
 	if (special_action.length() > 3):
 		level_controller.run_special_action(special_action)

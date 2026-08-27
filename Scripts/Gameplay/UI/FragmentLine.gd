@@ -1,5 +1,24 @@
 extends Node
 
+onready var animator = $AnimationPlayer
+onready var audio_source = $AudioStreamPlayer2D
+
+var rng = RandomNumberGenerator.new()
+
+func _ready():
+	randomize()
+	rng.randomize()
+
+var teleport_sound = [preload("res://Sounds/GameEffects/FragmentChangeA.wav"),
+					preload("res://Sounds/GameEffects/FragmentChangeB.wav"),
+					preload("res://Sounds/GameEffects/FragmentChangeC.wav"),
+					preload("res://Sounds/GameEffects/FragmentChangeD.wav")]
+
+func play_teleport_effect():
+	animator.play("TeleportFlare")
+	audio_source.stream = teleport_sound[rng.randi_range(0, teleport_sound.size()-1)]
+	audio_source.play()
+
 func set_point_positions(end_offset: Vector2):
 	$EndPoint.position = end_offset;
 	# Set the start and end Vector2 positions

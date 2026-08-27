@@ -1480,7 +1480,7 @@ tracks/2/keys = {
 
 [node name="SceneBase" type="Node2D"]
 script = ExtResource( 5 )
-Game_Menus = [ NodePath("Camera2D/GameMenus/MainMenu") ]
+Game_Menu = NodePath("Camera2D/GameMenus/MainMenu")
 UI_Menus = [ NodePath("Camera2D/ReadyScreen"), NodePath("Camera2D/CountdownScreen"), NodePath(""), NodePath("Camera2D/LevelCompleteScreen"), NodePath("Camera2D/DieScreen"), NodePath("Camera2D/DialogueScreen") ]
 Level_Prize_Paths = [ NodePath("Camera2D/LevelCompleteScreen/SurpriseBoxElement"), NodePath("Camera2D/LevelCompleteScreen/SurpriseBoxElement2"), NodePath("Camera2D/LevelCompleteScreen/SurpriseBoxElement3") ]
 player_node_path = NodePath("PacMan")
@@ -2374,6 +2374,7 @@ speaker_icon_path = NodePath("IngameDialogueScreen/SpeakerIcon")
 speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
 dialogue_text_path = NodePath("IngameDialogueScreen/Node2D/DialogueText")
 speaker_name_path = NodePath("IngameDialogueScreen/Node2D/SpeakerName")
+level_controller_path = NodePath("../..")
 dialogue_box_path = NodePath("IngameDialogueScreen")
 powerup_hint_path = NodePath("IngameDialoguePowerupHint")
 
@@ -2385,6 +2386,7 @@ speaker_icon_path = NodePath("SpeakerIcon")
 speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
 dialogue_text_path = NodePath("Node2D/DialogueText")
 speaker_name_path = NodePath("Node2D/SpeakerName")
+level_controller_path = NodePath("../../..")
 
 [node name="SpeakerIcon" type="Sprite" parent="Camera2D/ingameDialogueBoxes/IngameDialogueScreen"]
 position = Vector2( -323, -90.5 )
@@ -2487,6 +2489,7 @@ speaker_icon_path = NodePath("SpeakerIcon")
 speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
 dialogue_text_path = NodePath("Node2D/DialogueContent")
 speaker_name_path = NodePath("Node2D/SpeakerName")
+level_controller_path = NodePath("../..")
 
 [node name="SpeakerIcon" type="Sprite" parent="Camera2D/DialogueScreen"]
 position = Vector2( -406.25, -143.729 )

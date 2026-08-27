@@ -28,13 +28,16 @@ func _ready():
 func set_line_position(new_position: Vector2):
 	#Somehow we've got to get our positioning information here
 	line_position = new_position
-	position = Global.get_screen_position(Vector2(line_position.x, 300))
+	var vecPos = Global.get_screen_position(Vector2(line_position.x, 300))
+	position = Vector2(vecPos.x, vecPos.y)
 	pass
 
 func apply_velocity(velocity: Vector2):
 	#Apply a move velocity, and then the set_position
 	line_position += velocity
-	position = Global.get_screen_position(Vector2(line_position.x, 300))
+	#position = Global.get_screen_position(Vector2(line_position.x, 300))
+	var vecPos = Global.get_screen_position(Vector2(line_position.x, 300))
+	position = Vector2(vecPos.x, vecPos.y)
 	pass
 
 func do_reveal():

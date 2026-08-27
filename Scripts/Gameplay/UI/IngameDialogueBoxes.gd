@@ -24,10 +24,12 @@ func display_dialogue_character():
 	pass
 
 func _process(delta):
-	if Input.is_action_just_pressed("ui_accept") && self.visible:
+	if Input.is_action_just_pressed("ui_accept") && self.visible && !level_controller.menu_pause:
 		#Step forward with our screen setup
 		#This will cycle our dialogue box more than anything else
 		var handle_input = handle_inputaction(0)
 		if (handle_input == 2):
-			get_tree().paused = false #Not totally sure how we'll unpause given the current setup...
+			#get_tree().paused = false #Not totally sure how we'll unpause given the current setup...
+			level_controller.dialogue_pause = false
+			level_controller.set_game_paused(false)
 			self.visible = false
