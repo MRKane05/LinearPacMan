@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=2]
+[gd_scene load_steps=120 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -22,7 +22,7 @@
 [ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Circle.png" type="Texture" id=20]
 [ext_resource path="res://Textures/UIElements/PlaystationIcons/Button_Triangle.png" type="Texture" id=21]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_invisible.tres" type="Resource" id=22]
-[ext_resource path="res://Textures/UIElements/logo.png" type="Texture" id=23]
+[ext_resource path="res://Textures/UIElements/logo_Scaled.png" type="Texture" id=23]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_repulse.tres" type="Resource" id=24]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_taser.tres" type="Resource" id=25]
 [ext_resource path="res://Textures/UIElements/CharacterIcons/GhostIcon.png" type="Texture" id=26]
@@ -34,6 +34,7 @@
 [ext_resource path="res://Textures/Environment/PlayAreaBacking.png" type="Texture" id=32]
 [ext_resource path="res://Textures/GameElements/PAC_DieAnim.png" type="Texture" id=33]
 [ext_resource path="res://Textures/GameElements/GhostWavyMask.png" type="Texture" id=34]
+[ext_resource path="res://Textures/UIElements/UI_SliderPip_Dark.png" type="Texture" id=35]
 [ext_resource path="res://Scripts/Story/DialogueScreen.gd" type="Script" id=36]
 [ext_resource path="res://Scripts/Gameplay/UI/CollectScoreDisplayer.gd" type="Script" id=37]
 [ext_resource path="res://Scripts/GameControl/LevelCompleteScreen.gd" type="Script" id=38]
@@ -52,10 +53,12 @@
 [ext_resource path="res://Textures/UIElements/DialoguePanel_Skinny.png" type="Texture" id=51]
 [ext_resource path="res://GameObjects/UI/ButtonPromptNode.tscn" type="PackedScene" id=52]
 [ext_resource path="res://Fonts/JohnnyFever_72.tres" type="DynamicFont" id=53]
+[ext_resource path="res://Textures/UIElements/UI_SliderPip_Highlited.png" type="Texture" id=54]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_boost.tres" type="Resource" id=55]
 [ext_resource path="res://GameObjects/UI/SurpriseBoxElement.tscn" type="PackedScene" id=56]
 [ext_resource path="res://Textures/GameIcons/Boost.png" type="Texture" id=57]
 [ext_resource path="res://GameObjects/PortalBase.tscn" type="PackedScene" id=58]
+[ext_resource path="res://Textures/UIElements/UI_SliderPip.png" type="Texture" id=59]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_add_time.tres" type="Resource" id=61]
 [ext_resource path="res://GameObjects/PowerupDataResources/pup_stop_time.tres" type="Resource" id=62]
 [ext_resource path="res://Scripts/GameControl/GamePlayElements.gd" type="Script" id=63]
@@ -1127,8 +1130,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 1e-05, -0.25, 0, 0.25, 0, 0.1, -0.25, 0, 0.25, 0, 0.1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.5, 0.7 )
+"points": PoolRealArray( 1e-05, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 0.7 )
 }
 tracks/1/type = "bezier"
 tracks/1/path = NodePath("Sprite/GameLogo:scale:y")
@@ -1137,8 +1140,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( 1e-05, -0.25, 0, 0.25, 0, 0.1, -0.25, 0, 0.25, 0, 0.1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.5, 0.7 )
+"points": PoolRealArray( 1e-05, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 0.7 )
 }
 tracks/2/type = "bezier"
 tracks/2/path = NodePath("Sprite/GameLogo:position:y")
@@ -2832,9 +2835,12 @@ text = "main Volume"
 
 [node name="HSlider" type="HSlider" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/MainVolumeControl"]
 margin_left = 12.0
-margin_top = 30.0
+margin_top = 23.0
 margin_right = 387.0
-margin_bottom = 46.0
+margin_bottom = 62.0
+custom_icons/grabber_disabled = ExtResource( 35 )
+custom_icons/grabber_highlight = ExtResource( 54 )
+custom_icons/grabber = ExtResource( 59 )
 step = 10.0
 value = 100.0
 
@@ -2863,9 +2869,12 @@ text = "Effects Volume"
 
 [node name="HSlider" type="HSlider" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/EffectsVolumeControl"]
 margin_left = 12.0
-margin_top = 30.0
+margin_top = 21.0
 margin_right = 387.0
-margin_bottom = 46.0
+margin_bottom = 62.0
+custom_icons/grabber_disabled = ExtResource( 35 )
+custom_icons/grabber_highlight = ExtResource( 54 )
+custom_icons/grabber = ExtResource( 59 )
 step = 10.0
 value = 100.0
 
@@ -2894,9 +2903,12 @@ text = "Music Volume"
 
 [node name="HSlider" type="HSlider" parent="Camera2D/GameMenus/Options/Sprite/VBoxContainer/MusicVolumeControl"]
 margin_left = 12.0
-margin_top = 30.0
+margin_top = 20.0
 margin_right = 387.0
-margin_bottom = 46.0
+margin_bottom = 62.0
+custom_icons/grabber_disabled = ExtResource( 35 )
+custom_icons/grabber_highlight = ExtResource( 54 )
+custom_icons/grabber = ExtResource( 59 )
 step = 10.0
 value = 100.0
 
@@ -2951,6 +2963,8 @@ text = "Esteemed Patreons:
 Satraj Bajaj, AJ OneSeventy, masteroga
 
 Ticctocc461, Zealous Chuck, An , Tirnemar, mstr_matthew, highland booch
+
+Amazing Additional art by: Standard-REpublic
 "
 
 [node name="SupportingPatreons" type="RichTextLabel" parent="Camera2D/GameMenus/Credits"]

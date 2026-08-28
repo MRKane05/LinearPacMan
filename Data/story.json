@@ -594,7 +594,7 @@
         {
       "speaker": "Ghost",
       "trigger": "deaths",
-      "triggernum": 100,
+      "triggernum": 20,
       "lines": [
         "Hello?|ghostnote",
         "Oh! You can see this!|ghost",
