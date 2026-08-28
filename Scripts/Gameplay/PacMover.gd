@@ -125,7 +125,7 @@ func apply_powerup(new_powerup:String):
 			var tween = create_tween()
 			tween.tween_property(char_sprite, "modulate", color_invisible, 0.5)
 			play_sound(SOUNDS["invisible_start"])
-			create_callback_timer(Global.invisible_duration - 1.3, "play_invisible_end_sound")
+			create_callback_timer(Global.invisible_duration - 0.7, "play_invisible_end_sound")
 			pass
 		"pup_repulse":
 			repel_effect.emitting = true

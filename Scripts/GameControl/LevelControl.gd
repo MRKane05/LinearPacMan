@@ -16,9 +16,11 @@ onready var game_timer = $GameLevelTimer
 var menu_pause = true
 var dialogue_pause = false
 var game_menu_state = 1 #0 is nothing, otherwise it's relating directly to the index that it's set at -1
-var game_type = 0 #0 is the standard story, 1 is arcadd mode
+var game_type = -1 #0 is the standard story, 1 is arcadd mode
 
 export(NodePath) var Game_Menu
+
+export(NodePath) var ArcadeGameNotice
 
 export(Array, NodePath) var UI_Menus = []
 
@@ -261,6 +263,7 @@ func set_game_state(gamestate):
 			if (randf() > 0.75 || SaveManager.get_value("fragment_enabled") > 1): #1:20 odds of a fragment happening
 				level_is_fragment = rng.randi_range(1, 2)
 				SaveManager.set_value("fragment_enabled", 1) #Set this back so that we don't put this down for sure
+				x_prompt.modulate = Color.transparent
 			else:
 				level_is_fragment = 0
 			
@@ -274,9 +277,14 @@ func set_game_state(gamestate):
 	#Do stuff if player has died, level ended, etc.
 	if (Global.game_state == 4 || Global.game_state == 3 || Global.game_state == 5):
 		var saved_max_score = SaveManager.get_value("max_score")
+		if (game_type == 1): #This is an arcade game
+			saved_max_score = SaveManager.get_value("max_arcade_score")
 		if (max_score > saved_max_score):
 			#PROBLEM: Need to note that we've set a highscore and the feedback should reflect that!
-			SaveManager.set_value("max_score", max_score)
+			if (game_type == 0):
+				SaveManager.set_value("max_score", max_score)
+			else:
+				SaveManager.set_value("max_arcade_score", max_score)
 		pips_node.clear_pickups()
 		
 	var bShowingStory = false
@@ -464,21 +472,28 @@ func run_special_action(special_action: String):
 				pass
 			else:
 				game_type = 0
+				max_score = 0
 				set_game_state(0)
 			menu_pause = false
 			set_game_paused(false)
 				#do a reset
 		"arcade_game":
-			if (game_type == 1):
-				pass
+			if (SaveManager.get_value("notices") == 0):
+				get_node(ArcadeGameNotice).visible = true
+				SaveManager.set_value("notices", 1)
 			else:
-				game_type = 1
-				set_game_state(0)
-			menu_pause = false
-			set_game_paused(false)
+				if (game_type == 1):
+					pass
+				else:
+					game_type = 1
+					max_score = 0
+					set_game_state(0)
+				menu_pause = false
+				set_game_paused(false)
 				#Need some sort of reset
 		"clear_story":
 			#Need to get the save manager to blank the single player progress and save
+			SaveManager.clear_story_progress()
 			pass
 
 var change_direction_presses = 0
@@ -564,7 +579,8 @@ func set_fragments():
 			tween.stop_all()
 			tween.remove_all()
 			tween.interpolate_property($Background/BarBackingFragmentA, "modulate", Color.white, Color.transparent, 0.75, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-			tween.connect("tween_all_completed", $Background/BarBackingATween, "set_visible", [false])
+			if !tween.is_connected("tween_all_completed", $Background/BarBackingATween, "set_visible"):
+				tween.connect("tween_all_completed", $Background/BarBackingATween, "set_visible", [false])
 
 			tween.start()
 		
@@ -573,7 +589,8 @@ func set_fragments():
 			tweenB.stop_all()
 			tweenB.remove_all()
 			tweenB.interpolate_property($Background/BarBackingFragmentB, "modulate", Color.white, Color.transparent, 0.75, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-			tweenB.connect("tween_all_completed", $Background/BarBackingBTween, "set_visible", [false])
+			if !tweenB.is_connect("tween_all_completed", $Background/BarBackingBTween, "set_visible"):
+				tweenB.connect("tween_all_completed", $Background/BarBackingBTween, "set_visible", [false])
 			
 			tweenB.start()
 		
@@ -623,13 +640,8 @@ func set_fragments():
 func do_level_setup():
 	change_direction_presses = 0
 	
-	
 	var line_size = get_viewport().get_visible_rect().size.x
 	
-	#So now I need a few more things
-	#Lines to indicate where a section is jumpting to and from where
-	#Some clever function to come up with a ton of different "fragments" for our system
-	#A system that reflects this in the displayed lines on screen
 	line_size = setup_line_fragment(line_size)
 	
 	max_score = int(SaveManager.get_value("max_score"))
@@ -712,7 +724,7 @@ func do_level_setup():
 					SaveManager.set_value("powerup_unlock", max(int(SaveManager.get_value("powerup_unlock")), necessary_pickup+1))
 				create_callback_timer(0.75, "display_ingame_dialogue") # Remember to pull up our ingame dialogue
 	
-	var portals_enabled = int(SaveManager.get_value("portals_enabled")) || game_type == 1
+	var portals_enabled = int(SaveManager.get_value("portals_enabled"))
 	
 	if (SaveManager.get_value("portals_enabled") > 0):
 		if (randf() > 0.80 && level_is_fragment == 0) || SaveManager.get_value("portals_enabled") > 1:
@@ -897,17 +909,20 @@ func apply_powerup(new_powerup:String):
 			#invisible_start = OS.get_ticks_msec()
 			#bInvisibleActive = true
 			#Need to display a ? icon over the ghost to indicate that it's searching
-			create_callback_timer(Global.invisible_duration, "invisible_callback")
+			#create_callback_timer(Global.invisible_duration, "invisible_callback")
+			pass
 		"pup_repulse":
 			#print("Doint repulse action")
 			#repulse_action_end = OS.get_ticks_msec() + Global.repulse_action_duration
 			#bRepulseActive = true
-			create_callback_timer(Global.repulse_action_duration, "repulse_callback")
+			#create_callback_timer(Global.repulse_action_duration, "repulse_callback")
+			pass
 		"pup_taser":
 			#print("Doing taser action")
 			#taser_action_end = OS.get_ticks_msec() + Global.taser_action_duration
 			#btaserActive = true
-			create_callback_timer(Global.taser_action_duration, "taser_callback")
+			#create_callback_timer(Global.taser_action_duration, "taser_callback")
+			pass
 		"pup_add_time":
 			#Simply add time to our clock
 			var time_remaining = game_timer.time_left + Global.additional_time_duration

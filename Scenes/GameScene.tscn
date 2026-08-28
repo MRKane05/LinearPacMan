@@ -1,4 +1,4 @@
-[gd_scene load_steps=118 format=2]
+[gd_scene load_steps=117 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/PacMover.gd" type="Script" id=1]
 [ext_resource path="res://Textures/GameElements/PAC_Animations.png" type="Texture" id=2]
@@ -1052,334 +1052,6 @@ shader_param/brightness = 1.0
 shader = ExtResource( 68 )
 shader_param/brightness = 1.0
 
-[sub_resource type="Animation" id=36]
-resource_name = "DoScoreDisplay"
-length = 5.0
-step = 0.05
-tracks/0/type = "method"
-tracks/0/path = NodePath("Camera2D/LevelCompleteScreen")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.5, 1.2, 1.8, 2.5, 3.45, 3.75 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [ 0 ],
-"method": "display_score_structure"
-}, {
-"args": [ 1 ],
-"method": "display_score_structure"
-}, {
-"args": [ 2 ],
-"method": "display_score_structure"
-}, {
-"args": [ 3 ],
-"method": "display_score_structure"
-}, {
-"args": [ 4 ],
-"method": "display_score_structure"
-}, {
-"args": [ 5 ],
-"method": "display_score_structure"
-} ]
-}
-tracks/1/type = "bezier"
-tracks/1/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_scale:x")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.05, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0.5, 0.7, 0.9 )
-}
-tracks/2/type = "bezier"
-tracks/2/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_scale:y")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0.5, 0.7, 0.9 )
-}
-tracks/3/type = "bezier"
-tracks/3/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_scale:x")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.05, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.05, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 1.2, 1.4, 1.6, 1.8, 2, 2.2 )
-}
-tracks/4/type = "bezier"
-tracks/4/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_scale:y")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 1.2, 1.4, 1.6, 1.8, 2, 2.2 )
-}
-tracks/5/type = "bezier"
-tracks/5/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_scale:x")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.05, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 2.5, 2.7, 2.9 )
-}
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_scale:y")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 2.5, 2.7, 2.9 )
-}
-tracks/7/type = "bezier"
-tracks/7/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_position:x")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -10, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0.5, 0.7, 0.9 )
-}
-tracks/8/type = "bezier"
-tracks/8/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_position:y")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0.5, 0.7, 0.9 )
-}
-tracks/9/type = "bezier"
-tracks/9/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_position:x")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -10, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, -10, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 1.2, 1.4, 1.6, 1.8, 2, 2.2 )
-}
-tracks/10/type = "bezier"
-tracks/10/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_position:y")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"points": PoolRealArray( 43, -0.25, 0, 0.25, 0, 43, -0.25, 0, 0.25, 0, 43, -0.25, 0, 0.25, 0, 43, -0.25, 0, 0.25, 0, 43, -0.25, 0, 0.25, 0, 43, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 1.2, 1.4, 1.6, 1.8, 2, 2.2 )
-}
-tracks/11/type = "bezier"
-tracks/11/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_position:x")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -10, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 2.5, 2.7, 2.9 )
-}
-tracks/12/type = "bezier"
-tracks/12/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_position:y")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/keys = {
-"points": PoolRealArray( 86, -0.25, 0, 0.25, 0, 86, -0.25, 0, 0.25, 0, 86, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 2.5, 2.7, 2.9 )
-}
-tracks/13/type = "value"
-tracks/13/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox:rect_position")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
-"times": PoolRealArray( 3.3, 3.45, 3.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 129 ), Vector2( -10, 129 ), Vector2( 0, 129 ) ]
-}
-tracks/14/type = "value"
-tracks/14/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox:rect_scale")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/keys = {
-"times": PoolRealArray( 3.3, 3.45, 3.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1.05, 1.2 ), Vector2( 1, 1 ) ]
-}
-
-[sub_resource type="Animation" id=38]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_scale:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/1/type = "bezier"
-tracks/1/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_scale:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/2/type = "bezier"
-tracks/2/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_scale:x")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/3/type = "bezier"
-tracks/3/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_scale:y")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/4/type = "bezier"
-tracks/4/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_scale:x")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/5/type = "bezier"
-tracks/5/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_scale:y")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_position:x")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/7/type = "bezier"
-tracks/7/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/PointsHBox:rect_position:y")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/8/type = "bezier"
-tracks/8/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_position:x")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/9/type = "bezier"
-tracks/9/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TimeRemainingHBox:rect_position:y")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"points": PoolRealArray( 43, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/10/type = "bezier"
-tracks/10/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_position:x")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/11/type = "bezier"
-tracks/11/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/TotalPointsHBox:rect_position:y")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/keys = {
-"points": PoolRealArray( 86, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/12/type = "value"
-tracks/12/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox:rect_position")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 129 ) ]
-}
-tracks/13/type = "value"
-tracks/13/path = NodePath("Camera2D/LevelCompleteScreen/Sprite/VBoxContainer/HighscoreBox:rect_scale")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ) ]
-}
-
-[sub_resource type="Animation" id=37]
-resource_name = "StartAnim"
-
 [sub_resource type="DynamicFont" id=26]
 size = 26
 font_data = ExtResource( 40 )
@@ -1479,9 +1151,330 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.25, 0.7 )
 }
 
+[sub_resource type="Animation" id=54]
+resource_name = "PlayCredits"
+length = 26.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("EsteemedPatreons:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5.3, 6.3, 24.4, 25.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, true, false, true, true ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("EsteemedPatreons:modulate:r")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.27451, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 5.3, 5.8, 6.3, 24.4, 24.9, 25.4 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("EsteemedPatreons:modulate:g")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.94902, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.976471, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 5.3, 5.8, 6.3, 24.4, 24.9, 25.4 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("EsteemedPatreons:modulate:b")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 5.3, 5.8, 6.3, 24.4, 24.9, 25.4 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("EsteemedPatreons:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.607843, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0.462745, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 5.3, 5.8, 6.3, 24.4, 24.9, 25.4 )
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("SupportingPatreons:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 5.3, 18.4, 19.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("SupportingPatreons:modulate:r")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.992157, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.968627, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 5.3, 5.9, 6.3, 18.4, 19, 19.5 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("SupportingPatreons:modulate:g")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 5.3, 5.9, 6.3, 18.4, 19, 19.5 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("SupportingPatreons:modulate:b")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 5.3, 5.9, 6.3, 18.4, 19, 19.5 )
+}
+tracks/9/type = "bezier"
+tracks/9/path = NodePath("SupportingPatreons:modulate:a")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0.572549, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.462745, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 5.3, 5.9, 6.3, 18.4, 19, 19.5 )
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("MusicAndSound:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 17.7, 18.4, 19.5, 24.4, 25.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, true, true, false ]
+}
+tracks/11/type = "bezier"
+tracks/11/path = NodePath("MusicAndSound:modulate:r")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.921569, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.992157, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 18.4, 19, 19.5, 24.4, 24.9, 25.4 )
+}
+tracks/12/type = "bezier"
+tracks/12/path = NodePath("MusicAndSound:modulate:g")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 18.4, 19, 19.5, 24.4, 24.9, 25.4 )
+}
+tracks/13/type = "bezier"
+tracks/13/path = NodePath("MusicAndSound:modulate:b")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 18.4, 19, 19.5, 24.4, 24.9, 25.4 )
+}
+tracks/14/type = "bezier"
+tracks/14/path = NodePath("MusicAndSound:modulate:a")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0.537255, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.537255, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 18.4, 19, 19.5, 24.4, 24.9, 25.4 )
+}
+
+[sub_resource type="Animation" id=55]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("EsteemedPatreons:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("EsteemedPatreons:modulate:r")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("EsteemedPatreons:modulate:g")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("EsteemedPatreons:modulate:b")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("EsteemedPatreons:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("SupportingPatreons:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("SupportingPatreons:modulate:r")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("SupportingPatreons:modulate:g")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("SupportingPatreons:modulate:b")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/9/type = "bezier"
+tracks/9/path = NodePath("SupportingPatreons:modulate:a")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("MusicAndSound:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/11/type = "bezier"
+tracks/11/path = NodePath("MusicAndSound:modulate:r")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/12/type = "bezier"
+tracks/12/path = NodePath("MusicAndSound:modulate:g")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/13/type = "bezier"
+tracks/13/path = NodePath("MusicAndSound:modulate:b")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/14/type = "bezier"
+tracks/14/path = NodePath("MusicAndSound:modulate:a")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
 [node name="SceneBase" type="Node2D"]
 script = ExtResource( 5 )
 Game_Menu = NodePath("Camera2D/GameMenus/MainMenu")
+ArcadeGameNotice = NodePath("Camera2D/GameMenus/ArcadeGameNotice")
 UI_Menus = [ NodePath("Camera2D/ReadyScreen"), NodePath("Camera2D/CountdownScreen"), NodePath(""), NodePath("Camera2D/LevelCompleteScreen"), NodePath("Camera2D/DieScreen"), NodePath("Camera2D/DialogueScreen") ]
 Level_Prize_Paths = [ NodePath("Camera2D/LevelCompleteScreen/SurpriseBoxElement"), NodePath("Camera2D/LevelCompleteScreen/SurpriseBoxElement2"), NodePath("Camera2D/LevelCompleteScreen/SurpriseBoxElement3") ]
 player_node_path = NodePath("PacMan")
@@ -2347,12 +2340,6 @@ level_controller_path = NodePath("../../..")
 max_score = 7.0
 uses_score = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/LevelCompleteScreen"]
-root_node = NodePath("../../..")
-anims/DoScoreDisplay = SubResource( 36 )
-anims/RESET = SubResource( 38 )
-anims/StartAnim = SubResource( 37 )
-
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Camera2D/LevelCompleteScreen"]
 bus = "Effects"
 
@@ -2612,26 +2599,19 @@ margin_bottom = 74.0
 custom_fonts/normal_font = ExtResource( 10 )
 
 [node name="GameMenus" type="Node2D" parent="Camera2D"]
+pause_mode = 2
 
 [node name="MainMenu" type="Node2D" parent="Camera2D/GameMenus"]
 script = ExtResource( 18 )
 level_controller_path = NodePath("../../..")
 reveal_animation = "Reveal"
+continue_story = NodePath("Sprite/VBoxContainer/Button_StoryMode/Continue")
+continue_arcade = NodePath("Sprite/VBoxContainer/Button_Arcade/Continue")
 
 [node name="Sprite" type="Sprite" parent="Camera2D/GameMenus/MainMenu"]
 material = SubResource( 51 )
 texture = ExtResource( 11 )
 script = ExtResource( 67 )
-
-[node name="PanelName" type="RichTextLabel" parent="Camera2D/GameMenus/MainMenu/Sprite"]
-margin_left = -196.0
-margin_top = -212.0
-margin_right = 180.0
-margin_bottom = -130.0
-custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
-custom_constants/shadow_as_outline = 8
-custom_fonts/normal_font = ExtResource( 66 )
-text = "MENU"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/GameMenus/MainMenu/Sprite"]
 margin_left = -197.0
@@ -2655,6 +2635,17 @@ disable_node_path = NodePath("../../..")
 button_action_index = 1
 special_action = "story_game"
 
+[node name="Continue" type="RichTextLabel" parent="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_StoryMode"]
+visible = false
+margin_left = 11.0
+margin_top = 7.0
+margin_right = 387.0
+margin_bottom = 89.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 41 )
+text = "continue"
+
 [node name="Button_Arcade" type="Button" parent="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer"]
 margin_top = 43.0
 margin_right = 397.0
@@ -2669,6 +2660,17 @@ level_controller_path = NodePath("../../../../../..")
 disable_node_path = NodePath("../../..")
 button_action_index = 2
 special_action = "arcade_game"
+
+[node name="Continue" type="RichTextLabel" parent="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer/Button_Arcade"]
+visible = false
+margin_left = 11.0
+margin_top = 6.0
+margin_right = 387.0
+margin_bottom = 88.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 41 )
+text = "continue"
 
 [node name="Button_Options" type="Button" parent="Camera2D/GameMenus/MainMenu/Sprite/VBoxContainer"]
 margin_top = 86.0
@@ -2697,6 +2699,7 @@ text = "Credits"
 script = ExtResource( 6 )
 level_controller_path = NodePath("../../../../../..")
 disable_node_path = NodePath("../../..")
+enable_node_path = NodePath("../../../../Credits")
 button_action_index = 4
 
 [node name="GameLogo" type="Sprite" parent="Camera2D/GameMenus/MainMenu/Sprite"]
@@ -2707,6 +2710,61 @@ texture = ExtResource( 23 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/GameMenus/MainMenu"]
 anims/RESET = SubResource( 52 )
 anims/Reveal = SubResource( 53 )
+
+[node name="ArcadeGameNotice" type="Node2D" parent="Camera2D/GameMenus"]
+visible = false
+script = ExtResource( 18 )
+level_controller_path = NodePath("../../..")
+reveal_animation = "Reveal"
+
+[node name="Sprite" type="Sprite" parent="Camera2D/GameMenus/ArcadeGameNotice"]
+material = SubResource( 51 )
+texture = ExtResource( 11 )
+script = ExtResource( 67 )
+
+[node name="PanelName" type="RichTextLabel" parent="Camera2D/GameMenus/ArcadeGameNotice/Sprite"]
+margin_left = -196.0
+margin_top = -212.0
+margin_right = 180.0
+margin_bottom = -130.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 66 )
+text = "ready?"
+
+[node name="PanelContents" type="RichTextLabel" parent="Camera2D/GameMenus/ArcadeGameNotice/Sprite"]
+margin_left = -195.0
+margin_top = -142.0
+margin_right = 181.0
+margin_bottom = 157.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 41 )
+text = "In this arcade game mode you will only have access to powerups/features unlocked in the main story. 
+
+Have fun discovering and unlocking everything!!"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/GameMenus/ArcadeGameNotice/Sprite"]
+margin_left = -195.0
+margin_top = 168.0
+margin_right = 202.0
+margin_bottom = 511.0
+
+[node name="Button_Play" type="Button" parent="Camera2D/GameMenus/ArcadeGameNotice/Sprite/VBoxContainer"]
+pause_mode = 2
+margin_right = 397.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 47 )
+custom_styles/pressed = SubResource( 48 )
+custom_styles/focus = SubResource( 49 )
+custom_styles/normal = SubResource( 50 )
+text = "Play!"
+script = ExtResource( 6 )
+bNeedsFocus = true
+level_controller_path = NodePath("../../../../../..")
+disable_node_path = NodePath("../../..")
+button_action_index = 1
+special_action = "arcade_game"
 
 [node name="Options" type="Node2D" parent="Camera2D/GameMenus"]
 visible = false
@@ -2857,6 +2915,106 @@ level_controller_path = NodePath("../../../../../..")
 disable_node_path = NodePath("../../..")
 enable_node_path = NodePath("../../../../ClearStoryGameConfirm")
 
+[node name="Credits" type="Node2D" parent="Camera2D/GameMenus"]
+visible = false
+script = ExtResource( 18 )
+level_controller_path = NodePath("../../..")
+disable_node_path = NodePath(".")
+enable_node_path = NodePath("../MainMenu")
+reveal_animation = "PlayCredits"
+
+[node name="Sprite" type="Sprite" parent="Camera2D/GameMenus/Credits"]
+material = SubResource( 51 )
+scale = Vector2( 2, 1 )
+texture = ExtResource( 11 )
+script = ExtResource( 67 )
+
+[node name="PanelName" type="RichTextLabel" parent="Camera2D/GameMenus/Credits"]
+margin_left = -432.0
+margin_top = -216.0
+margin_right = -56.0
+margin_bottom = -134.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 66 )
+text = "Credits"
+
+[node name="EsteemedPatreons" type="RichTextLabel" parent="Camera2D/GameMenus/Credits"]
+margin_left = -429.0
+margin_top = -138.0
+margin_right = 314.0
+margin_bottom = 224.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 47 )
+text = "Esteemed Patreons:
+Satraj Bajaj, AJ OneSeventy, masteroga
+
+Ticctocc461, Zealous Chuck, An , Tirnemar, mstr_matthew, highland booch
+"
+
+[node name="SupportingPatreons" type="RichTextLabel" parent="Camera2D/GameMenus/Credits"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -432.0
+margin_top = -135.0
+margin_right = 410.0
+margin_bottom = 207.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 41 )
+text = "Patreon Extra Support:
+
+Aaroncito, Afeto Cloud, Aiden Hastings, Andrei Danescu, Andrei Raicu, brbd dsbs, bren, Christopher Browne, Chubs, Dala Baba, Dan Cooper, DAREBEAR120, DrDecki, Fadel Alturki, Francesco Spadola, Gabriel Alvarez, Gabriel. G, Gannicus, Gustavo Martinez, Hector Farias, Hoàng hải chuối, Htet.PhyoAung, I do playthroughs, ItzDavid, James Mackie, Jason Heal, jbrn hzazai, john, Juan Manuel Pianetti Reina, keven, LordChickenBlaster, Lucas Mesquita, Andrade, md shakil, Mrblazer, Proton Captain, Rafitalocotron Rafitalocotron, REX JUN REDOBLE, Roulette Simulator, Sigma7863, ToxicxVenom69, Weeb 2015 Prius C now identifies as a Toyota Aqua, Zach Keithley, Zafer Erdoğan
+"
+
+[node name="MusicAndSound" type="RichTextLabel" parent="Camera2D/GameMenus/Credits"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -429.0
+margin_top = -138.0
+margin_right = 314.0
+margin_bottom = 224.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 41 )
+text = "SFX and Music from: pixabay.com
+
+Songs Used:
+Neon Arcade Runner by BackgroundMusicMaster
+Ghiptune Video Game Games Music by HitsLab
+Run and Catch by Kaazoom
+Retro Arcade Game Music by MFCC
+Retro Arcade Game Music by MondaMusic
+Retro 8bit Chiptune Action High Energy by NickpanelKaiAssets
+Chiptune Video Game Games Music by TataMusic
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/GameMenus/Credits"]
+margin_left = 42.0
+margin_top = 179.0
+margin_right = 439.0
+margin_bottom = 522.0
+
+[node name="Button_Return" type="Button" parent="Camera2D/GameMenus/Credits/VBoxContainer"]
+pause_mode = 2
+margin_right = 397.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 47 )
+custom_styles/pressed = SubResource( 48 )
+custom_styles/focus = SubResource( 49 )
+custom_styles/normal = SubResource( 50 )
+text = "RETURN"
+script = ExtResource( 6 )
+bNeedsFocus = true
+level_controller_path = NodePath("../../../../..")
+disable_node_path = NodePath("../..")
+enable_node_path = NodePath("../../../MainMenu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/GameMenus/Credits"]
+anims/PlayCredits = SubResource( 54 )
+anims/RESET = SubResource( 55 )
+
 [node name="ClearStoryGameConfirm" type="Node2D" parent="Camera2D/GameMenus"]
 visible = false
 script = ExtResource( 18 )
@@ -2879,17 +3037,29 @@ custom_constants/shadow_as_outline = 8
 custom_fonts/normal_font = ExtResource( 66 )
 text = "reset story?"
 
+[node name="PanelDescription" type="RichTextLabel" parent="Camera2D/GameMenus/ClearStoryGameConfirm/Sprite"]
+margin_left = -196.0
+margin_top = -139.0
+margin_right = 180.0
+margin_bottom = 110.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 47 )
+text = "Are you sure?
+
+This will also reset your arcade features unlock progress!"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/GameMenus/ClearStoryGameConfirm/Sprite"]
 margin_left = -197.0
 margin_top = -140.0
 margin_right = 200.0
-margin_bottom = 203.0
+margin_bottom = 169.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/GameMenus/ClearStoryGameConfirm/Sprite"]
-margin_left = -206.0
-margin_top = -38.0
-margin_right = 205.0
-margin_bottom = 40.0
+margin_left = -208.0
+margin_top = 91.0
+margin_right = 203.0
+margin_bottom = 169.0
 
 [node name="Button_ClearStory" type="Button" parent="Camera2D/GameMenus/ClearStoryGameConfirm/Sprite/HBoxContainer"]
 pause_mode = 2
@@ -2918,7 +3088,7 @@ custom_fonts/font = ExtResource( 47 )
 custom_styles/pressed = SubResource( 48 )
 custom_styles/focus = SubResource( 49 )
 custom_styles/normal = SubResource( 50 )
-text = "REturn"
+text = "CANCEL"
 script = ExtResource( 6 )
 level_controller_path = NodePath("../../../../../..")
 disable_node_path = NodePath("../../..")

@@ -157,6 +157,6 @@ func _on_AnimationTimer_timeout():
 		animation_timer.start()
 		display_score_structure(score_index)
 	if (bSkipDisplay):
-		for value in range(score_index, 8):
+		for value in range(score_index, 7):
 			display_score_structure(value)
 	pass # Replace with function body.

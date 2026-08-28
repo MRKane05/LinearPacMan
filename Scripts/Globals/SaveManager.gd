@@ -41,6 +41,8 @@ var save_data = {
 	"vol_master":     100.0,
 	"vol_music":      100.0,
 	"vol_sfx":        100.0,
+		#Game settings
+	"notices":        0,
 }
 
 func _ready():
@@ -106,8 +108,26 @@ func delete_save():
 			"vol_master":     100.0,
 			"vol_music":      100.0,
 			"vol_sfx":        100.0,
+					#Game settings
+			"notices":        0,
 		}
 		print("Save deleted")
+
+func clear_story_progress():
+	
+	set_value("story_index", 0)
+	set_value("story_games", 0)
+	set_value("total_games", 0)
+	set_value("level_count", 0)
+	set_value("powerup_unlock", 0)
+	set_value("reward_reveal", -1)
+	set_value("powerup_reveal", -1)
+	set_value("pac_reveal", 0)
+	set_value("fragment_enabled", 0)
+	set_value("portals_enabled", 0)
+	set_value("speed_zones", 0)
+	print("Story reset")
+	save_game()
 
 ## GETTERS AND SETTERS
 func set_value(key: String, value) -> void:

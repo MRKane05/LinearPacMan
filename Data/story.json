@@ -587,7 +587,7 @@
       "trigger": "level_complete",
       "triggernum": 1,
       "lines": [
-        "The Games story is now complete. Thank you so much for playing and congratulations at reaching the end!",
+        "The Games story is now mostly complete. Thank you so much for playing and congratulations at reaching the end!",
         "You can reset this story from the options menu - that might reduce all the glitches, but I cannot be sure of that!|attention"
       ]
     },

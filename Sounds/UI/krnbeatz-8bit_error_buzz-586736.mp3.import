@@ -11,5 +11,5 @@ dest_files=[ "res://.import/krnbeatz-8bit_error_buzz-586736.mp3-5fcced369f1f601c
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

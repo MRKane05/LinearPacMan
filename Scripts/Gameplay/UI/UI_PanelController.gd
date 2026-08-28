@@ -15,6 +15,9 @@ var enable_node
 var menu_animator
 export var reveal_animation = ""
 
+export(NodePath) var continue_story
+export(NodePath) var continue_arcade
+
 func _ready():
 	menu_animator = get_node_or_null("AnimationPlayer")
 	
@@ -33,12 +36,19 @@ func _on_visibility_changed():
 func _on_made_visible():
 	if (menu_animator && reveal_animation.length() > 3):
 		menu_animator.play(reveal_animation)
+	
+	if (!continue_story.is_empty()):
+		get_node(continue_story).visible = level_controller.game_type == 0
+	
+	if (!continue_arcade.is_empty()):
+		get_node(continue_arcade).visible = level_controller.game_type == 1
 
 #This script works with the intention of allowing the user to close a panel with a button
 func _process(delta):
 	#Need to look for a cancell press
 	if Input.is_action_just_pressed("ui_cancel") || Input.is_action_just_pressed("ui_select"):
-		close_window()
+		if (visible):
+			close_window()
 	pass
 
 func close_window():

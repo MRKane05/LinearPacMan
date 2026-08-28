@@ -11,5 +11,5 @@ dest_files=[ "res://.import/krnbeatz-8bit_unlock_door-586728.mp3-ab5e9f067a1fdcb
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

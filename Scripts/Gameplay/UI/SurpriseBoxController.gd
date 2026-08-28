@@ -29,6 +29,7 @@ func _ready():
 
 func reset():
 	$AnimationPlayer.play("RESET")
+	fill_box.value = 0
 
 func do_score_add(thisScore: int, bDoTween: bool):
 	#Ideally this should have an animation, and a callback, but we're going to not care for the moment
@@ -44,12 +45,10 @@ func do_score_add(thisScore: int, bDoTween: bool):
 		score_label.text = "+1"
 	
 	var fill_ammount = 100.0*current_fill/max_score
-	if (current_fill > max_score):
-		reward_starting_powerup();
+	if (current_fill >= max_score):
+		reward_starting_powerup()
 		fill_ammount = 100
 		current_fill = 0 #reset this
-		#Play some extra animation or something
-		reward_starting_powerup()
 	
 	if (bDoTween):
 		if (fill_ammount > fill_box.value):	#So that we don't go from full back to partially filled again
@@ -73,7 +72,7 @@ func reward_starting_powerup():
 	# We need to know what rewards are unlocked
 	# and have a system by and which this can be passed through
 	# Then this needs to be passed onto somewhere
-	var powerup_unlock = int(SaveManager.get_value("powerup_unlock"))
+	var powerup_unlock = int(SaveManager.get_value("powerup_unlock")) + 4
 	#Make sure we don't get a powerup that's outside of scope
 	var powerup_int = int(rand_range(1.0, min(PowerupItemList.size(), powerup_unlock + 1)))
 	var powerup_item = PowerupItemList[powerup_int]

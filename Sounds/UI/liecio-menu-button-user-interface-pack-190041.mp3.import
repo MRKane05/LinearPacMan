@@ -11,5 +11,5 @@ dest_files=[ "res://.import/liecio-menu-button-user-interface-pack-190041.mp3-11
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
