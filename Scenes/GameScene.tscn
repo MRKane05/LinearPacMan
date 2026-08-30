@@ -1499,6 +1499,7 @@ game_timer_normal_color = Color( 0.980392, 1, 0.768627, 1 )
 game_timer_paused_color = Color( 0.768627, 0.976471, 1, 1 )
 portal_system_path = NodePath("PortalBase")
 support_quote_path = NodePath("Camera2D/DieScreen/PromotionalStub/DialogueContent")
+ready_quote_path = NodePath("Camera2D/ReadyScreen/PromotionalStub/DialogueContent")
 x_prompt_path = NodePath("Camera2D/ChangeDirectionsPrompt")
 effect_freeze_path = NodePath("Camera2D/PowerupOverlays/Effect_Freeze")
 
@@ -1964,6 +1965,11 @@ script = ExtResource( 64 )
 
 [node name="ReadyScreen" type="Node2D" parent="Camera2D"]
 visible = false
+script = ExtResource( 15 )
+speaker_icon_path = NodePath("PromotionalStub/CharacterIcon")
+speaker_icons = [ ExtResource( 49 ), ExtResource( 44 ) ]
+dialogue_text_path = NodePath("PromotionalStub/DialogueContent")
+speaker_name_path = NodePath("PromotionalStub/SpeakerName")
 
 [node name="Sprite" type="Sprite" parent="Camera2D/ReadyScreen"]
 material = SubResource( 40 )
@@ -1989,8 +1995,42 @@ custom_fonts/normal_font = ExtResource( 10 )
 text = "Press X
 "
 
+[node name="PromotionalStub" type="Node2D" parent="Camera2D/ReadyScreen"]
+
+[node name="CharacterIcon" type="Sprite" parent="Camera2D/ReadyScreen/PromotionalStub"]
+position = Vector2( -190, 33 )
+texture = ExtResource( 44 )
+
+[node name="Sprite" type="Sprite" parent="Camera2D/ReadyScreen/PromotionalStub"]
+position = Vector2( -2, 114 )
+texture = ExtResource( 45 )
+
+[node name="SpeakerName" type="Label" parent="Camera2D/ReadyScreen/PromotionalStub"]
+margin_left = -149.0
+margin_top = 14.0
+margin_right = 26.0
+margin_bottom = 95.0
+theme = SubResource( 27 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/font = SubResource( 24 )
+text = "Speaker
+"
+align = 3
+autowrap = true
+
+[node name="DialogueContent" type="RichTextLabel" parent="Camera2D/ReadyScreen/PromotionalStub"]
+margin_left = -212.0
+margin_top = 93.0
+margin_right = 214.0
+margin_bottom = 220.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 2
+custom_fonts/normal_font = ExtResource( 41 )
+text = "This window gives a promotional statement to the player such as \"new highscore!\" or \"nearly set a new high score\""
+
 [node name="ButtonPromptNode" parent="Camera2D/ReadyScreen" instance=ExtResource( 52 )]
-position = Vector2( 181, 183 )
+position = Vector2( 210, 204 )
 
 [node name="CountdownScreen" type="Node2D" parent="Camera2D"]
 visible = false
@@ -2709,6 +2749,16 @@ button_action_index = 4
 position = Vector2( 1, 136 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 23 )
+
+[node name="Continue" type="RichTextLabel" parent="Camera2D/GameMenus/MainMenu/Sprite"]
+margin_left = 35.0
+margin_top = 197.0
+margin_right = 411.0
+margin_bottom = 279.0
+custom_colors/font_color_shadow = Color( 0, 0.00784314, 0.301961, 1 )
+custom_constants/shadow_as_outline = 8
+custom_fonts/normal_font = ExtResource( 41 )
+text = "a game by mrkane"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/GameMenus/MainMenu"]
 anims/RESET = SubResource( 52 )

@@ -94,6 +94,10 @@ onready var portal_system = get_node(portal_system_path)
 export(NodePath) var support_quote_path
 onready var support_quote = get_node(support_quote_path)
 
+export(NodePath) var ready_quote_path
+onready var ready_quote = get_node(ready_quote_path)
+
+
 #Prompt to press X to change direction======================================
 export(NodePath) var x_prompt_path
 onready var x_prompt = get_node(x_prompt_path)
@@ -141,7 +145,7 @@ var rng = RandomNumberGenerator.new()
 
 var games_played = 0
 
-var bTestingSkip = true #Used for rushing through the story to test
+var bTestingSkip = true #PROBLEM: Used for rushing through the story to test
 
 func add_start_powerup(thisPowerup: Resource):
 	if (!start_powerups.has(thisPowerup)):
@@ -216,6 +220,9 @@ func set_game_state(gamestate):
 	#Quickly tidy up any left over effectors
 	effect_freeze.visible = false
 	
+	if (gamestate == 0): #Set our ready dialogue before the screen can show
+		select_ready_statement()
+	
 	if (Global.game_state != gamestate):
 		if (gamestate == 1 || gamestate == 3 || gamestate == 4): #PROBLEM: Could have different sounds assigned to windows
 			play_sound(window_open_sound)
@@ -234,10 +241,11 @@ func set_game_state(gamestate):
 	#Specific per-case screen things
 	if (Global.game_state == 0): #setup and display our ready screen
 		#ready_screen.display_target(target_score)
+		#select_ready_statement()
 		if (current_round == 0):
 			bHighscoreSet = false
 			aggregate_score = 0	#Reset our aggregate score as this is a game start thing (this might need another stage)
-	
+		
 	
 	#handle trigger calls
 	if (Global.game_state == 1):
@@ -384,12 +392,33 @@ var hidden_message = ["AGIªUHŠH˜H© ©HIGHM¥SCORE%Gð¦N†OæK¥HÐ �
 "©ÿ…©KEEPÂ¥ŠðG .ÉÆŠðLPÂTRYINGí--------ÿ-/24Ç ÿÇÿ¢", "ÀLM©ST…¥)Ð¥PÅQð…QæÌæÌLDÔü™9Ø… ±ä¥ÉÿÐ©Ð¥ÉÿÐ¥•¹` ",
 "00 38 e5 05 c9 20 b0 31 a5 4b 85 05 a9 05 85 06 c6 06 d0 04 a9 02 d0 1c e6 05 a5 05 29 03 a8 b1"]
 
+var ready_message = ["The red ghost is all business and doesn't get paid to take breaks!",
+				"The blue ghost is super speedy but can't turn all that quickly", "The pink ghost is easily confused (he's not that bright)",
+				"The orange ghost simply doesn't care, for him this is a bit of a chore",
+				"The Ghost names are Blinky, Pinky, Inky, and Clyde!", "The game might get buggier as you progress through the story...",
+				"No Ghosts were harmed in the making of this product", "After the countdown you never know where you'll start!", "Most important of all: Don't panic :)",
+				"Take a deep breath, and press cross!", "Walk the line!", "You will die if the timer runs out", "This game was a team effort between MRKane, his Patreons, and the amazing graphics from Standard-Republic!",
+				"If you feel a little stuck keep playing: the adventure will progress!", "Different ghosts have different flavors!"]
+
 func get_random_item(arr: Array):
 	if arr.empty():
 		return null # Return null or handle the empty array safety check
 		
 	var random_index = randi() % arr.size()
 	return arr[random_index]
+
+func select_ready_statement():
+	var pac_image = int(SaveManager.get_value("pac_reveal"))
+	var display_name = "PAC"
+	if (pac_image == 0):
+		display_name = "??"	
+		
+	ready_screen.set_speaker_icon_name(pac_image, display_name)
+	
+	if (pac_image == 0):	#Set our quote after having set our speaker details. Don't know why I did it this way
+		ready_quote.text = get_random_item(hidden_message)
+		return
+	ready_quote.text = get_random_item(ready_message)
 
 #This could really be a class within itself...
 func select_support_statement():
@@ -674,7 +703,7 @@ func do_level_setup():
 	#startpos = floor(rand_range(1, start_positions.size()))
 	ghost_node.set_speed_multiplier(speed_multiplier)
 	#ghost_node.global_position =  Vector2(enemystartpos/7.0 * line_size, 300)
-	var ghost_offset = rand_range(line_size * 0.25, line_size * 0.5)
+	var ghost_offset = rand_range(line_size * 0.4, line_size * 0.75)
 	var ghost_sign = sign(rand_range(-1, 1));
 	if (ghost_sign == 0):
 		ghost_sign = 1
@@ -802,7 +831,7 @@ func _process(delta):
 	if (!menu_pause):
 		process_game_logic(delta)
 		
-		if (Input.is_action_just_pressed("ui_start")): #Bring up our menu!
+		if (Input.is_action_just_pressed("ui_start") && !dialogue_pause): #Bring up our menu!
 			menu_pause = true
 			set_game_paused(true)
 			get_node(Game_Menu).visible = true
@@ -817,6 +846,7 @@ func process_game_logic(delta):
 			#Modulate off our change direction prompt
 			var tween = create_tween()
 			tween.tween_property(x_prompt, "modulate:a", 0.0, 1.0)
+		
 		
 		#Step forward with our screen setup
 		if (Global.game_state != 2 && Global.game_state != 1 && Global.bCanAcceptInput && bAllowInput):

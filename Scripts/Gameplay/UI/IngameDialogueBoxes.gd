@@ -14,6 +14,16 @@ func display_dialogue_powerup():
 	#This box also brings up our powerup hint for using powerups
 	dialogue_box.visible = true
 	powerup_hint.visible = true
+	var bDisplayUseHint = true
+	
+	var story_index = int(SaveManager.get_value("story_index"))
+	var line = StoryManager.get_dialogue(story_index) 
+	if (line.has("special_unlock") && line.special_unlock != null):
+		if  (line.special_unlock.length() > 0):
+			bDisplayUseHint = false #If we've got one of these we don't want to display the use hint
+	
+	powerup_hint.visible = bDisplayUseHint
+		
 	do_display_dilogue()
 	pass
 

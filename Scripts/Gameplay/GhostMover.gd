@@ -101,9 +101,9 @@ func set_move_animation():
 		set_animation("Search_Still")
 		return
 	
-	if player_height < 0:
+	if player_height < -1:
 		set_animation("Move_LookDown")
-	elif player_height > 0:
+	elif player_height > 1:
 		set_animation("Move_LookUp")
 	else:
 		set_animation("Move")
@@ -136,10 +136,12 @@ func _physics_process(delta):
 	if (!bInvisibleActive && !bGhostRespawning && !bGhost_Confused):
 			#A little helper for handling how our ghost animates with a fragmented level
 		if (level_controller.level_is_fragment > 0):
-			var pac_relative = sign(position.y - player_node.position.y)
+			var pac_relative = (position.y - player_node.position.y)
 			if (pac_relative != player_height):
 				player_height = pac_relative
 				set_move_animation() 
+		else:
+			player_height = 0
 	
 	if (btaserActive && !bBeenTased):
 		if (abs(player_node.global_position.x - position.x) < taser_distance):

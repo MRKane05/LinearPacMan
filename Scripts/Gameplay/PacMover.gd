@@ -38,6 +38,14 @@ func _ready():
 	# Get the viewport size
 	#screen_size = get_viewport_rect().size
 	set_animation("Eat")
+	precache_particles()
+
+func precache_particles():
+	taser_effect.emitting = true
+	repel_effect.emitting = true
+	yield(get_tree(), "idle_frame")
+	taser_effect.emitting = false
+	repel_effect.emitting = false
 	
 func reset_character():
 	segment_number = -1
